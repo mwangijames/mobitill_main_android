@@ -1,0 +1,35 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             tools:context="com.mobitill.mobitill_2.products.ProductsFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_products"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_products"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_network"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="No Network. Check Your Connection"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view"/>
+
+</LinearLayout>

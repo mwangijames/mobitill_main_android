@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home_navigation_menu_item"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/products_navigation_menu_item"
+        android:icon="@drawable/ic_products"
+        android:title="@string/products" />
+
+    <item
+        android:id="@+id/cashiers_navigation_menu_item"
+        android:icon="@drawable/ic_cashiers"
+        android:title="@string/cashiers" />
+
+    <item
+        android:id="@+id/clients_navigation_menu_item"
+        android:icon="@drawable/ic_clients"
+        android:title="@string/clients" />
+
+    <item
+        android:id="@+id/fleet_navigation_menu_item"
+        android:icon="@drawable/ic_fleet"
+        android:title="@string/fleet" />
+
+</menu>

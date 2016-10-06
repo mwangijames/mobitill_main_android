@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Mobitill</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="login_error">Wrong Password or Username</string>
+    <string name="empty_username">Username cannot be blank</string>
+    <string name="empty_password">Password cannot be blank</string>
+    <string name="navigation_view_header_title">Mobitill</string>
+    <string name="products">Products</string>
+    <string name="fleet">Fleet</string>
+    <string name="reports">Reports</string>
+    <string name="menu_filter">Filter</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="quantity">Quantity</string>
+    <string name="total">Total</string>
+    <string name="date_picker_title">Date of crime.</string>
+    <string name="clients">Clients</string>
+    <string name="cashiers">Cashiers</string>
+    <string name="home">Home</string>
+    <string name="no_products">No Products Loaded For Application</string>
+    <string name="no_network">No Network. Check Your Connection</string>
+    <string name="no_cashiers">No Cashiers Available or Error Occured</string>
+    <string name="no_clients">No Clients Available For Application</string>
+    <string name="no_fleet">No Fleet Retrieved For Application</string>
+    <string name="cashier_name_hint">Name</string>
+    <string name="hint_cashier_name">Name</string>
+    <string name="hint_cashier_password">Password</string>
+    <string name="hint_cashier_username">Username</string>
+    <string name="no_network_error">No Network</string>
+    <string name="check_your_connection_warning">Check Your Connection</string>
+    <string name="empty_field_message">All fields must be filled</string>
+    <string name="action_delete">Delete</string>
+</resources>

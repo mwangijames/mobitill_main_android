@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item android:id="@+id/menu_filter"-->
+          <!--android:title="@string/menu_filter"-->
+          <!--android:icon="@drawable/ic_filter_list"-->
+          <!--app:showAsAction="always"/>-->
+
+    <!--<item android:id="@+id/menu_from_date"-->
+          <!--android:title="@string/menu_from_date"-->
+          <!--app:showAsAction="never"/>-->
+
+    <!--<item android:id="@+id/menu_to_date"-->
+          <!--android:title="@string/menu_to_date"-->
+          <!--app:showAsAction="never"/>-->
+
+    <!--<item android:id="@+id/menu_cashier"-->
+          <!--android:title="@string/menu_cashier"-->
+          <!--app:showAsAction="never"/>-->
+
+    <!--<item android:id="@+id/menu_application"-->
+          <!--android:title="@string/menu_t"-->
+          <!--app:showAsAction="never"/>-->
+
+</menu>
