@@ -1,20 +1,21 @@
 package com.mobitill.mobitill_2.cashiers;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashiers;
 
 import java.util.List;
 
 /**
  * Created by james on 10/4/2016.
+ *
  */
 
 public class CashiersActionBarCallBack implements ActionMode.Callback {
@@ -47,16 +48,29 @@ public class CashiersActionBarCallBack implements ActionMode.Callback {
     }
 
     @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+    public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
         switch (item.getItemId()){
             case R.id.delete_item:
-                // delete cashier from remote and RecyclerView
-                //Fragment cashiersFragment = CashiersActivity.getFragment();
                 if(mCashiersFragment != null){
-                    ((CashiersFragment) mCashiersFragment).deleteCashiers();
-                    //((CashiersFragment) mCashiersFragment).deleteRows();// delete selected cashiers
+
+                    new AlertDialog.Builder(mContext)
+                            .setTitle("Delete Cashier")
+                            .setMessage("Are you sure you want to delete cashier(s)?")
+                            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ((CashiersFragment) mCashiersFragment).deleteCashiers();
+                                    mode.finish();
+                                }
+                            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                    mode.finish();
+                                }
+                    }).show();
                 }
-                mode.finish();
+
                 return true;
             default:
                 break;
@@ -67,7 +81,6 @@ public class CashiersActionBarCallBack implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mCashiersAdapter.removeSelection();
-//        Fragment cashiersFragment = CashiersActivity.getFragment();
         if(mCashiersFragment != null){
             ((CashiersFragment) mCashiersFragment).setNullToActionMode();
         }

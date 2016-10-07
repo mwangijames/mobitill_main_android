@@ -13,7 +13,6 @@ import dagger.Provides;
  */
 @Module
 public class AddEditCashierPresenterModule {
-    // TODO: 9/27/2016 start here
     private final AddEditCashierContract.View mView;
     private final String mAppId;
 

@@ -34,4 +34,6 @@
     <string name="check_your_connection_warning">Check Your Connection</string>
     <string name="empty_field_message">All fields must be filled</string>
     <string name="action_delete">Delete</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

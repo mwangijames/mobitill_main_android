@@ -2,11 +2,13 @@ package com.mobitill.mobitill_2.cashiers;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -278,27 +280,13 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
 
     public void deleteCashiers(){
         SparseBooleanArray selected = mCashiersAdapter.getSelectedIds();
-
         //loop all selected cashiers
         for(int i = (selected.size() -1); i>=0; i--){
             if(selected.valueAt(i)){
                 mPresenter.deleteCashier(mAppId, mCashiers.get(selected.keyAt(i)));
-//                mCashiers.remove(selected.keyAt(i));
-//                mCashiersAdapter.notifyDataSetChanged();
-//                Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();
-
             }
         }
-
         mActionMode.finish();
-
-//        if(!mCashiers.isEmpty() && mCashiers!=null){
-//            for (Cashier cashier : mCashiers) {
-//                mPresenter.deleteCashier(mAppId, cashier);
-//            }
-//            deleteRows();
-//        }
-
     }
 
 
