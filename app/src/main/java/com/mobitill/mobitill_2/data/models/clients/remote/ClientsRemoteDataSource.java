@@ -10,6 +10,8 @@ import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsFetch;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsParams;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
 
 import javax.inject.Inject;
 
@@ -51,6 +53,29 @@ public class ClientsRemoteDataSource implements ClientsDataSource {
             mClientsParams.setFetch(mClientsFetch);
             mClientsQuery.setParams(mClientsParams);
             getRemoteClients(clientsEndPoints, mClientsQuery, callBack);
+        }
+    }
+
+    @Override
+    public void createClient(ClientCreateQuery clientCreateQuery, @NonNull final CreateClientCallBack callBack) {
+        ClientsEndPoints clientsEndPoints = mRetrofit.create(ClientsEndPoints.class);
+        if(clientCreateQuery != null){
+            Call<ClientCreateResponse> call = clientsEndPoints.createClient(clientCreateQuery);
+            call.enqueue(new Callback<ClientCreateResponse>() {
+                @Override
+                public void onResponse(Call<ClientCreateResponse> call, Response<ClientCreateResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onClientCreated(response.body());
+                    } else {
+                        callBack.onClientNotCreated();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ClientCreateResponse> call, Throwable t) {
+                    callBack.onClientNotCreated();
+                }
+            });
         }
     }
 

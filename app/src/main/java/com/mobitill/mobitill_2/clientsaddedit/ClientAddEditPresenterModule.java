@@ -1,5 +1,6 @@
 package com.mobitill.mobitill_2.clientsaddedit;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 
 import dagger.Module;
@@ -25,6 +26,7 @@ public class ClientAddEditPresenterModule {
     }
 
     @Provides
+    @Nullable
     String provideAppId(){
         return mAppId;
     }

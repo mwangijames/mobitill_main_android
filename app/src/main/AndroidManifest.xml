@@ -56,7 +56,8 @@
             android:name=".cashiersaddedit.AddEditCashierActivity"
             android:parentActivityName=".cashiers.CashiersActivity">
         </activity>
-        <activity android:name=".clientsaddedit.ClientAddEditActivity">
+        <activity android:name=".clientsaddedit.ClientAddEditActivity"
+            android:parentActivityName=".clients.ClientsActivity">
         </activity>
     </application>
 

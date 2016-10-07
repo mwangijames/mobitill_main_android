@@ -64,6 +64,11 @@ public class ClientsPresenter implements ClientsContract.Presenter {
     }
 
     @Override
+    public void addNewClient(String appId) {
+        mView.showAddClient(appId);
+    }
+
+    @Override
     public void start() {
 
         if(null == mAppId || mAppId.isEmpty()){

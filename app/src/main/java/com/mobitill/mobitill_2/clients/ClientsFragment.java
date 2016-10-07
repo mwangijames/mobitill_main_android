@@ -4,6 +4,7 @@ package com.mobitill.mobitill_2.clients;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -45,6 +47,7 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_clients) TextView mNoClientsTextView;
+    FloatingActionButton mOpenClientAddEditActivity;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private ClientsAdapter mClientsAdapter;
@@ -91,6 +94,21 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        //FAB To add new Client
+        mOpenClientAddEditActivity = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_client);
+        mOpenClientAddEditActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.addNewClient(mAppId);
+            }
+        });
+
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         mUnbinder.unbind();
@@ -116,6 +134,11 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     @Override
     public void showNoNetwork(boolean show) {
         mNoNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showAddClient(String appId) {
+        startActivity(ClientAddEditActivity.newIntent(getActivity(), mAppId));
     }
 
     @Override

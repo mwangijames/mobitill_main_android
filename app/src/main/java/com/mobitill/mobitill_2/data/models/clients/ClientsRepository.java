@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
 
 import java.util.List;
 
@@ -33,6 +35,21 @@ public class ClientsRepository implements ClientsDataSource {
             @Override
             public void onClientsNotLoaded() {
                 callBack.onClientsNotLoaded();
+            }
+        });
+    }
+
+    @Override
+    public void createClient(final ClientCreateQuery clientCreateQuery, @NonNull final CreateClientCallBack callBack) {
+        mClientsRemoteDataSource.createClient(clientCreateQuery, new CreateClientCallBack() {
+            @Override
+            public void onClientCreated(ClientCreateResponse clientCreateResponse) {
+                callBack.onClientCreated(clientCreateResponse);
+            }
+
+            @Override
+            public void onClientNotCreated() {
+                callBack.onClientNotCreated();
             }
         });
     }
