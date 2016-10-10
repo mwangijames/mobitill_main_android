@@ -64,11 +64,11 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState == null){
-            mAppId = getArguments().getString(ARGS_APP_ID);
-        } else {
-            mAppId = savedInstanceState.getString(ARGS_APP_ID);
-        }
+            if(savedInstanceState == null){
+                mAppId = getArguments().getString(ARGS_APP_ID);
+            } else {
+                mAppId = savedInstanceState.getString(ARGS_APP_ID);
+            }
     }
 
     @Override

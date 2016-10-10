@@ -2,6 +2,8 @@ package com.mobitill.mobitill_2.data.endpoints;
 
 import com.mobitill.mobitill_2.data.models.fleet.models.Fleet;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
 import com.mobitill.mobitill_2.data.models.products.models.Products;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
 
@@ -15,4 +17,8 @@ import retrofit2.http.POST;
 public interface FleetEndPoints {
     @POST("fleet/fetch")
     Call<Fleet> fetchFleet(@Body FleetQuery fleetQuery);
+
+    @POST("fleet/insert")
+    Call<FleetCreateResponse> createFleetItem(@Body FleetCreateQuery fleetCreateQuery);
+
 }

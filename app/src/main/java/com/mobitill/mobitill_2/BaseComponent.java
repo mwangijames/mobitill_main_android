@@ -51,6 +51,10 @@ import com.mobitill.mobitill_2.data.models.fleet.models.FleetFetch;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetParams;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 import com.mobitill.mobitill_2.data.models.products.ProductsModule;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
@@ -171,6 +175,10 @@ public interface BaseComponent {
     FleetParams fleetParams();
     FleetQuery fleetQuery();
     FleetRepository fleetRepository();
+    FleetCreateResponse fleetCreateResponse();
+    FleetCreateResponseData fleetCreateResponseData();
+    FleetCreateQuery fleetCreateQuery();
+    FleetCreateParams fleetCreateParams();
 
 
     // ClientsModule

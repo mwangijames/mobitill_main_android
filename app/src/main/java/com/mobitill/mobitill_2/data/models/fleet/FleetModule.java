@@ -7,6 +7,10 @@ import com.mobitill.mobitill_2.data.models.fleet.models.FleetFetch;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetParams;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 
 import dagger.Module;
 import dagger.Provides;
@@ -39,6 +43,26 @@ public class FleetModule {
     @Provides
     FleetQuery provideFleetQuery(){
         return new FleetQuery();
+    }
+
+    @Provides
+    FleetCreateParams provideFleetCreateParams(){
+        return new FleetCreateParams();
+    }
+
+    @Provides
+    FleetCreateQuery provideFleetCreateQuery(){
+        return new FleetCreateQuery();
+    }
+
+    @Provides
+    FleetCreateResponse provideFleetCreateResponse(){
+        return new FleetCreateResponse();
+    }
+
+    @Provides
+    FleetCreateResponseData provideFleetCreateResponseData(){
+        return new FleetCreateResponseData();
     }
 
 }

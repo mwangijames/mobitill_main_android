@@ -11,9 +11,12 @@ import com.mobitill.mobitill_2.data.models.fleet.models.FleetFetch;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetParams;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
 
 import javax.inject.Inject;
 
+import dagger.Provides;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +54,29 @@ public class FleetRemoteDataSource implements FleetDataSource {
             mFleetParams.setFetch(mFleetFetch);
             mFleetQuery.setParams(mFleetParams);
             getRemoteFleet(fleetEndPoints, mFleetQuery, callBack);
+        }
+    }
+
+    @Override
+    public void createFleet(FleetCreateQuery fleetCreateQuery, @NonNull final CreateFleetCallBack callBack) {
+        FleetEndPoints fleetEndPoints = mRetrofit.create(FleetEndPoints.class);
+        if(fleetCreateQuery!=null){
+            Call<FleetCreateResponse> call = fleetEndPoints.createFleetItem(fleetCreateQuery);
+            call.enqueue(new Callback<FleetCreateResponse>() {
+                @Override
+                public void onResponse(Call<FleetCreateResponse> call, Response<FleetCreateResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onFleetCreated(response.body());
+                    } else {
+                        callBack.onFleetNotCreated();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FleetCreateResponse> call, Throwable t) {
+                    callBack.onFleetNotCreated();
+                }
+            });
         }
     }
 

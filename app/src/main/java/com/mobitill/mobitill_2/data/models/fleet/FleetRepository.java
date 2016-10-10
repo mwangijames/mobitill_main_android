@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
 
 import java.util.List;
 
@@ -35,6 +37,21 @@ public class FleetRepository implements FleetDataSource {
                 callBack.onFleetNotLoaded();
             }
 
+        });
+    }
+
+    @Override
+    public void createFleet(FleetCreateQuery fleetCreateQuery, @NonNull final CreateFleetCallBack callBack) {
+        mFleetRemoteDataSource.createFleet(fleetCreateQuery, new CreateFleetCallBack() {
+            @Override
+            public void onFleetCreated(FleetCreateResponse fleetCreateResponse) {
+                callBack.onFleetCreated(fleetCreateResponse);
+            }
+
+            @Override
+            public void onFleetNotCreated() {
+                callBack.onFleetNotCreated();
+            }
         });
     }
 }
