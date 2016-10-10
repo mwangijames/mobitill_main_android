@@ -39,4 +39,6 @@
     <string name="hint_client_email">Email</string>
     <string name="hint_client_name">Name</string>
     <string name="hint_client_phone">Telephone</string>
+    <string name="hint_fleet_no">Fleet Number</string>
+    <string name="hint_plate_no">Plate Number</string>
 </resources>

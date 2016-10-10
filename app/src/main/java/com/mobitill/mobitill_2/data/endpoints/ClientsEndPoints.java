@@ -6,6 +6,8 @@ import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -21,4 +23,6 @@ public interface ClientsEndPoints {
     @POST("clients/insert")
     Call<ClientCreateResponse> createClient(@Body ClientCreateQuery clientCreateQuery);
 
+    @POST("clients/delete")
+    Call<ClientDeleteResponse> deleteClient(@Body ClientDeleteQuery clientDeleteQuery);
 }

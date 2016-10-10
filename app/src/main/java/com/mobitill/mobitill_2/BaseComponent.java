@@ -39,6 +39,10 @@ import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreatePar
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteParams;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponseData;
 import com.mobitill.mobitill_2.data.models.fleet.FleetModule;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepositoryModule;
@@ -180,5 +184,9 @@ public interface BaseComponent {
     ClientCreateParams clientCreateParams();
     ClientCreateResponse clientCreateResponse();
     ClientCreateResponseData clientCreateResponseData();
+    ClientDeleteResponse clientDeleteResponse();
+    ClientDeleteResponseData clientDeleteResponseData();
+    ClientDeleteQuery clientDeleteQuery();
+    ClientDeleteParams clientDeleteParams();
 
 }

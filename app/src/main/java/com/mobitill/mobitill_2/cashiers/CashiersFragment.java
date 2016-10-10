@@ -289,11 +289,10 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
         mActionMode.finish();
     }
 
-
-
     public void setNullToActionMode(){
         if(mActionMode!=null){
             mActionMode = null;
         }
     }
+
 }

@@ -1,10 +1,14 @@
 package com.mobitill.mobitill_2.clients;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.data.models.clients.ClientsRepository;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteParams;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
 import java.util.List;
 
@@ -20,15 +24,21 @@ public class ClientsPresenter implements ClientsContract.Presenter {
 
     private final ClientsContract.View mView;
     private final ClientsRepository mClientsRepository;
+    private final ClientDeleteQuery mClientDeleteQuery;
+    private final ClientDeleteParams mClientDeleteParams;
     @Nullable String mAppId;
 
     @Inject
     ClientsPresenter(ClientsContract.View view,
                       @Nullable String appId,
-                      ClientsRepository clientsRepository){
+                      ClientsRepository clientsRepository,
+                      ClientDeleteQuery clientDeleteQuery,
+                      ClientDeleteParams clientDeleteParams){
         mView = view;
         mAppId = appId;
         mClientsRepository = clientsRepository;
+        mClientDeleteQuery = clientDeleteQuery;
+        mClientDeleteParams = clientDeleteParams;
     }
 
     /**
@@ -66,6 +76,33 @@ public class ClientsPresenter implements ClientsContract.Presenter {
     @Override
     public void addNewClient(String appId) {
         mView.showAddClient(appId);
+    }
+
+    @Override
+    public void deleteClient(String appId, final Client client) {
+        if(appId == null || appId.isEmpty()){
+            return;
+        }
+
+        if(mClientDeleteParams != null && client != null){
+            mClientDeleteParams.setAppid(appId);
+            mClientDeleteParams.setItemid(client.getId());
+
+            if(mClientDeleteQuery != null){
+                mClientDeleteQuery.setParams(mClientDeleteParams);
+                mClientsRepository.deleteClient(mClientDeleteQuery, new ClientsDataSource.DeleteClientCallBack() {
+                    @Override
+                    public void onClientDeleted(ClientDeleteResponse clientDeleteResponse) {
+                        mView.showClientDeleted(client);
+                    }
+
+                    @Override
+                    public void onClientNotDeleted() {
+                        mView.showClientDeleteFailed(client.getName());
+                    }
+                });
+            }
+        }
     }
 
     @Override

@@ -12,6 +12,8 @@ import com.mobitill.mobitill_2.data.models.clients.models.ClientsParams;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
 import javax.inject.Inject;
 
@@ -74,6 +76,29 @@ public class ClientsRemoteDataSource implements ClientsDataSource {
                 @Override
                 public void onFailure(Call<ClientCreateResponse> call, Throwable t) {
                     callBack.onClientNotCreated();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void deleteClient(ClientDeleteQuery clientDeleteQuery, @NonNull final DeleteClientCallBack callBack) {
+        ClientsEndPoints clientsEndPoints = mRetrofit.create(ClientsEndPoints.class);
+        if(clientDeleteQuery!=null){
+            Call<ClientDeleteResponse> call = clientsEndPoints.deleteClient(clientDeleteQuery);
+            call.enqueue(new Callback<ClientDeleteResponse>() {
+                @Override
+                public void onResponse(Call<ClientDeleteResponse> call, Response<ClientDeleteResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onClientDeleted(response.body());
+                    } else {
+                        callBack.onClientNotDeleted();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ClientDeleteResponse> call, Throwable t) {
+                    callBack.onClientNotDeleted();
                 }
             });
         }

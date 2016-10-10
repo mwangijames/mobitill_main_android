@@ -18,6 +18,8 @@ public interface ClientsContract {
         void showNoClients(boolean show);
         void showNoNetwork(boolean show);
         void showAddClient(String appId);
+        void showClientDeleted(Client client);
+        void showClientDeleteFailed(String name);
         void hideTitle();
         void showTitle();
         void showClients(List<Client> clients);
@@ -27,5 +29,6 @@ public interface ClientsContract {
     interface Presenter extends BasePresenter{
         void fetchClients(String appId);
         void addNewClient(String appId);
+        void deleteClient(String appId, Client client);
     }
 }

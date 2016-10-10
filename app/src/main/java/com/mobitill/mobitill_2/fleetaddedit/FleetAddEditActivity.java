@@ -1,9 +1,10 @@
-package com.mobitill.mobitill_2.clientsaddedit;
+package com.mobitill.mobitill_2.fleetaddedit;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,23 +13,24 @@ import android.support.v7.widget.Toolbar;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierActivity;
-import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
+import com.mobitill.mobitill_2.clientsaddedit.DaggerClientAddEditComponent;
+import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.Provides;
 
-public class ClientAddEditActivity extends AppCompatActivity {
+public class FleetAddEditActivity extends AppCompatActivity {
 
-        public static final String TAG = ClientAddEditActivity.class.getSimpleName();
-        public static final String EXTRA_APP_ID = "extra_app_id";
-        public static final String ARGS_APP_ID = "args_app_id";
+    public static final String TAG = FleetAddEditActivity.class.getSimpleName();
+    public static final String EXTRA_APP_ID = "extra_app_id";
+    public static final String ARGS_APP_ID = "args_app_id";
 
-
-    @Inject ClientAddEditPresenter mPresenter;
+    @Inject FleetAddEditPresenter mPresenter;
     SharedPreferences mSharedPreferences;
     Constants mConstants;
 
@@ -37,7 +39,7 @@ public class ClientAddEditActivity extends AppCompatActivity {
     String mAppId;
 
     public static Intent newIntent(Context context, String appId){
-        Intent intent = new Intent(context, ClientAddEditActivity.class);
+        Intent intent = new Intent(context, FleetAddEditActivity.class);
         intent.putExtra(EXTRA_APP_ID, appId);
         return intent;
     }
@@ -45,7 +47,7 @@ public class ClientAddEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_add_edit);
+        setContentView(R.layout.activity_fleet_add_edit);
         ButterKnife.bind(this);
 
         mConstants = new Constants();
@@ -67,26 +69,25 @@ public class ClientAddEditActivity extends AppCompatActivity {
 
         if(mSharedPreferences != null){
             String title = mSharedPreferences.getString(mConstants.APPNAME, null);
-            actionBar.setTitle(title + ": Add Client");
+            actionBar.setTitle(title + ": Add Fleet");
         } else {
-            actionBar.setTitle("Add Client");
+            actionBar.setTitle("Add Fleet");
         }
 
-        ClientAddEditFragment clientAddEditFragment = (ClientAddEditFragment) getSupportFragmentManager()
-                                                        .findFragmentById(R.id.contentFrame);
+        FleetAddEditFragment fleetAddEditFragment = (FleetAddEditFragment) getSupportFragmentManager()
+                                                            .findFragmentById(R.id.contentFrame);
 
-        if(clientAddEditFragment  == null){
-            clientAddEditFragment = ClientAddEditFragment.newInstance(mAppId);
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), clientAddEditFragment,
-                    R.id.contentFrame);
+        if(fleetAddEditFragment == null){
+            fleetAddEditFragment = FleetAddEditFragment.newInstance(mAppId);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    fleetAddEditFragment, R.id.contentFrame);
         }
 
-        DaggerClientAddEditComponent.builder()
-                .clientAddEditPresenterModule(new ClientAddEditPresenterModule(clientAddEditFragment, mAppId))
+        DaggerFleetAddEditComponent.builder()
+                .fleetAddEditPresenterModule(new FleetAddEditPresenterModule(fleetAddEditFragment, mAppId))
                 .baseComponent(((MobitillApplication) getApplication()).getBaseComponent())
                 .build()
                 .inject(this);
-
     }
 
 
@@ -95,4 +96,5 @@ public class ClientAddEditActivity extends AppCompatActivity {
         outState.putString(ARGS_APP_ID, mAppId);
         super.onSaveInstanceState(outState);
     }
+
 }

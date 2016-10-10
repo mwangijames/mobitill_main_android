@@ -4,6 +4,7 @@ package com.mobitill.mobitill_2.fleet;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
+import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import org.w3c.dom.Text;
@@ -44,6 +46,7 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_fleet) TextView mNoFleetTextView;
+    FloatingActionButton mOpenFleetAddEditActivityFab;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private FleetAdapter mFleetAdapter;
@@ -87,6 +90,20 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // FAB to open FleetAddEdit
+        mOpenFleetAddEditActivityFab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_fleet);
+        mOpenFleetAddEditActivityFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(FleetAddEditActivity.newIntent(getActivity(), mAppId));
+            }
+        });
     }
 
     @Override

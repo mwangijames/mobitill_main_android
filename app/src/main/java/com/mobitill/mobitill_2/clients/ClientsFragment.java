@@ -6,22 +6,30 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.cashiers.CashiersActionBarCallBack;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.utils.RecyclerClickListener;
+import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +47,7 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
 
     private String mAppId;
     private Unbinder mUnbinder;
-
+    private List<Client> mClients = new ArrayList<>();
 
     private ClientsContract.Presenter mPresenter;
 
@@ -51,6 +59,8 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
 
     private RecyclerView.LayoutManager mLayoutManager;
     private ClientsAdapter mClientsAdapter;
+
+    private ActionMode mActionMode;
 
     public ClientsFragment() {
         // Required empty public constructor
@@ -89,7 +99,7 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
         mUnbinder = ButterKnife.bind(this, view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        implementRecyclerViewClickListeners();
         return view;
     }
 
@@ -142,6 +152,18 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     }
 
     @Override
+    public void showClientDeleted(Client client) {
+        Toast.makeText(getActivity(), client.getName() + " deleted", Toast.LENGTH_SHORT).show();
+        mClients.remove(client);
+        mClientsAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showClientDeleteFailed(String name) {
+        Toast.makeText(getActivity(), name + " not deleted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void hideTitle() {
 
     }
@@ -155,11 +177,13 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     public void showClients(List<Client> clients) {
         if(isAdded()){
             if(mClientsAdapter == null){
-                mClientsAdapter = new ClientsAdapter(clients);
+                mClientsAdapter = new ClientsAdapter(clients, getActivity());
                 mRecyclerView.setAdapter(mClientsAdapter);
+                mClients = clients;
             } else {
                 mClientsAdapter.setClients(clients);
                 mClientsAdapter.notifyDataSetChanged();
+                mClients = clients;
             }
         }
     }
@@ -189,61 +213,59 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
         }
     }
 
-    //RecyclerView adapter and holder
+    private void implementRecyclerViewClickListeners(){
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new RecyclerClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                //if ActionMode is not null select item
+                if(mActionMode!=null){
+                    onListItemSelect(position);
+                }
+            }
 
-    class ClientsHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+            @Override
+            public void onLongClick(View view, int position) {
+                onListItemSelect(position);
+            }
+        }));
+    }
 
-        @BindView(R.id.clients) TextView mClientsTextView;
-        Client mClient;
+    private void onListItemSelect(int position){
+        mClientsAdapter.toggleSelection(position); // toggle the selection
+        boolean hasCheckedItems = mClientsAdapter.getSelectedCount() > 0; // Check if any items are already selected or not
 
-        public ClientsHolder(View itemView) {
-            super(itemView);
-            mClient = new Client();
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+        if(hasCheckedItems && mActionMode == null){
+            // there are some selected items start the action mode
+            mActionMode = ((AppCompatActivity) getActivity()).
+                    startSupportActionMode(new ClientsActionBarCallBack(getActivity(),
+                            mClientsAdapter, this));
+
+        } else if(!hasCheckedItems && mActionMode != null){
+            // there are no selected items, finish  the action mode
+            mActionMode.finish();
+
         }
 
-        public void bindClientName(Client client){
-            mClientsTextView.setText(client.getName());
-        }
-
-        @Override
-        public void onClick(View v) {
-
+        if(mActionMode != null){
+            // set the action mode title on item selection
+            mActionMode.setTitle(String.valueOf(mClientsAdapter.getSelectedCount()) + " selected");
         }
     }
 
-    private class ClientsAdapter extends RecyclerView.Adapter<ClientsHolder>{
-
-        private List<Client> mClients;
-
-        public ClientsAdapter(List<Client> clients){
-            mClients = clients;
+    public void deleteClients(){
+        SparseBooleanArray selected = mClientsAdapter.getSelectedIds();
+        //loop all selected cashiers
+        for(int i = (selected.size() -1); i>=0; i--){
+            if(selected.valueAt(i)){
+                mPresenter.deleteClient(mAppId, mClients.get(selected.keyAt(i)));
+            }
         }
-
-        @Override
-        public ClientsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.item_clients, parent, false);
-            return new ClientsHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ClientsHolder holder, int position) {
-            Client client = mClients.get(position);
-            holder.bindClientName(client);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mClients.size();
-        }
-
-        public void setClients(List<Client> clients){
-            mClients = clients;
-        }
+        mActionMode.finish();
     }
 
-
-
+    public void setNullToActionMode(){
+        if(mActionMode!=null){
+            mActionMode = null;
+        }
+    }
 }

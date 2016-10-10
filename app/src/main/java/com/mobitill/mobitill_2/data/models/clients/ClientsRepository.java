@@ -6,6 +6,8 @@ import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
 import java.util.List;
 
@@ -50,6 +52,21 @@ public class ClientsRepository implements ClientsDataSource {
             @Override
             public void onClientNotCreated() {
                 callBack.onClientNotCreated();
+            }
+        });
+    }
+
+    @Override
+    public void deleteClient(ClientDeleteQuery clientDeleteQuery, @NonNull final DeleteClientCallBack callBack) {
+        mClientsRemoteDataSource.deleteClient(clientDeleteQuery, new DeleteClientCallBack() {
+            @Override
+            public void onClientDeleted(ClientDeleteResponse clientDeleteResponse) {
+                callBack.onClientDeleted(clientDeleteResponse);
+            }
+
+            @Override
+            public void onClientNotDeleted() {
+                callBack.onClientNotDeleted();
             }
         });
     }

@@ -1,7 +1,6 @@
-package com.mobitill.mobitill_2.cashiers;
+package com.mobitill.mobitill_2.clients;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -9,34 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
+import com.mobitill.mobitill_2.data.models.clients.models.Client;
 
-import java.util.ArrayList;
 import java.util.List;
 
-class CashiersAdapter extends RecyclerView.Adapter<CashierHolder>{
+class ClientsAdapter extends RecyclerView.Adapter<ClientsHolder>{
 
-    private List<Cashier> mCashiers;
+    private List<Client> mClients;
     private Context mContext;
     private SparseBooleanArray mSelectedItemsIds;
 
-    public CashiersAdapter(List<Cashier> cashiers, Context context){
-        mCashiers = cashiers;
+    public ClientsAdapter(List<Client> clients, Context context){
+        mClients = clients;
         mContext = context;
         mSelectedItemsIds = new SparseBooleanArray();
     }
 
     @Override
-    public CashierHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClientsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View view = layoutInflater.inflate(R.layout.item_cashier, parent, false);
-        return new CashierHolder(view);
+        View view = layoutInflater.inflate(R.layout.item_clients, parent, false);
+        return new ClientsHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CashierHolder holder, int position) {
-        Cashier cashier = mCashiers.get(position);
-        holder.bindCashierName(cashier);
+    public void onBindViewHolder(ClientsHolder holder, int position) {
+        Client client = mClients.get(position);
+        holder.bindClientName(client);
 
         // set the selected items to checked
         holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
@@ -44,22 +42,20 @@ class CashiersAdapter extends RecyclerView.Adapter<CashierHolder>{
 
     @Override
     public int getItemCount() {
-        return mCashiers.size();
+        return mClients.size();
     }
 
-    public void setCashiers(List<Cashier> cashiers){
-        mCashiers = cashiers;
+    public void setClients(List<Client> clients){
+        mClients = clients;
     }
 
-
-    /*
+      /*
     *Methods required for do selections, remove selections etc
     * */
-
-    //Toggle selection methods
-    public void toggleSelection(int position){
-        selectView(position, !mSelectedItemsIds.get(position));
-    }
+      //Toggle selection methods
+      public void toggleSelection(int position){
+          selectView(position, !mSelectedItemsIds.get(position));
+      }
 
     // Remove selected selections
     public void removeSelection(){
@@ -86,4 +82,5 @@ class CashiersAdapter extends RecyclerView.Adapter<CashierHolder>{
     public SparseBooleanArray getSelectedIds(){
         return mSelectedItemsIds;
     }
+
 }

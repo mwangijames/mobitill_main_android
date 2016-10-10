@@ -9,6 +9,10 @@ import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreatePar
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteParams;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponseData;
 
 import dagger.Module;
 import dagger.Provides;
@@ -61,4 +65,25 @@ public class ClientsModule {
     ClientCreateResponseData provideClientCreateResponseData(){
         return new ClientCreateResponseData();
     }
+
+    @Provides
+    ClientDeleteParams provideClientDeleteParams(){
+        return new ClientDeleteParams();
+    }
+
+    @Provides
+    ClientDeleteQuery provideClientDeleteQuery(){
+        return new ClientDeleteQuery();
+    }
+
+    @Provides
+    ClientDeleteResponse provideClientDeleteResponse(){
+        return new ClientDeleteResponse();
+    }
+
+    @Provides
+    ClientDeleteResponseData provideClientDeleteResponseData(){
+        return new ClientDeleteResponseData();
+    }
+
 }
