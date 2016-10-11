@@ -24,14 +24,12 @@ public class  CashiersActionBarCallBack implements ActionMode.Callback {
 
     private Context mContext;
     private CashiersAdapter mCashiersAdapter;
-    private List<Cashier> mCashiers;
     private Fragment mCashiersFragment;
 
     public CashiersActionBarCallBack(Context context, CashiersAdapter cashiersAdapter,
-                                     List<Cashier> cashiers, Fragment cashiersFragment){
+                                      Fragment cashiersFragment){
         mContext = context;
         mCashiersAdapter = cashiersAdapter;
-        mCashiers = cashiers;
         mCashiersFragment = cashiersFragment;
     }
 

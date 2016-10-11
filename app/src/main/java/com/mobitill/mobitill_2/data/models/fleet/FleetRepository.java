@@ -6,6 +6,8 @@ import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
 
 import java.util.List;
 
@@ -51,6 +53,21 @@ public class FleetRepository implements FleetDataSource {
             @Override
             public void onFleetNotCreated() {
                 callBack.onFleetNotCreated();
+            }
+        });
+    }
+
+    @Override
+    public void deleteFleet(FleetDeleteQuery fleetDeleteQuery, @NonNull final DeleteFleetCallBack callBack) {
+        mFleetRemoteDataSource.deleteFleet(fleetDeleteQuery, new DeleteFleetCallBack() {
+            @Override
+            public void onFleetDeleted(FleetDeleteResponse fleetDeleteResponse) {
+                callBack.onFleetDeleted(fleetDeleteResponse);
+            }
+
+            @Override
+            public void onFleetNotDeleted() {
+                callBack.onFleetNotDeleted();
             }
         });
     }

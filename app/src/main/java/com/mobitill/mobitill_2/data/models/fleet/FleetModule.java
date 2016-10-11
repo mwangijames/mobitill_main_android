@@ -11,6 +11,10 @@ import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteParams;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponseData;
 
 import dagger.Module;
 import dagger.Provides;
@@ -63,6 +67,26 @@ public class FleetModule {
     @Provides
     FleetCreateResponseData provideFleetCreateResponseData(){
         return new FleetCreateResponseData();
+    }
+
+    @Provides
+    FleetDeleteQuery provideFleetDeleteQuery(){
+        return new FleetDeleteQuery();
+    }
+
+    @Provides
+    FleetDeleteResponse provideFleetDeleteResponse(){
+        return new FleetDeleteResponse();
+    }
+
+    @Provides
+    FleetDeleteParams provideFleetDeleteParams(){
+        return new FleetDeleteParams();
+    }
+
+    @Provides
+    FleetDeleteResponseData provideFleetDeleteResponseData(){
+        return new FleetDeleteResponseData();
     }
 
 }

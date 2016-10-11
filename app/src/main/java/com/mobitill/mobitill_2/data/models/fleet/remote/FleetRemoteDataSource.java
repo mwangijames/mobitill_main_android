@@ -13,6 +13,8 @@ import com.mobitill.mobitill_2.data.models.fleet.models.FleetParams;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
 
 import javax.inject.Inject;
 
@@ -75,6 +77,29 @@ public class FleetRemoteDataSource implements FleetDataSource {
                 @Override
                 public void onFailure(Call<FleetCreateResponse> call, Throwable t) {
                     callBack.onFleetNotCreated();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void deleteFleet(FleetDeleteQuery fleetDeleteQuery, @NonNull final DeleteFleetCallBack callBack) {
+        FleetEndPoints fleetEndPoints = mRetrofit.create(FleetEndPoints.class);
+        if(fleetDeleteQuery != null){
+            Call<FleetDeleteResponse> call = fleetEndPoints.deleteFleetItem(fleetDeleteQuery);
+            call.enqueue(new Callback<FleetDeleteResponse>() {
+                @Override
+                public void onResponse(Call<FleetDeleteResponse> call, Response<FleetDeleteResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onFleetDeleted(response.body());
+                    } else {
+                        callBack.onFleetNotDeleted();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FleetDeleteResponse> call, Throwable t) {
+                    callBack.onFleetNotDeleted();
                 }
             });
         }

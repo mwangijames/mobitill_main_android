@@ -55,6 +55,10 @@ import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteParams;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponseData;
 import com.mobitill.mobitill_2.data.models.products.ProductsModule;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
@@ -166,7 +170,7 @@ public interface BaseComponent {
     CashierDeleteResponse cashierDeleteResponse();
     CashierDeleteResponseData cashierDeleteResponseData();
     CashierDeleteQuery cashierDeleteQuery();
-    CashierDeleteParams cashierDelteParams();
+    CashierDeleteParams cashierDeleteParams();
 
     // FleetModule
     Fleet fleet();
@@ -179,6 +183,10 @@ public interface BaseComponent {
     FleetCreateResponseData fleetCreateResponseData();
     FleetCreateQuery fleetCreateQuery();
     FleetCreateParams fleetCreateParams();
+    FleetDeleteResponse fleetDeleteResponse();
+    FleetDeleteParams fleetDeleteParams();
+    FleetDeleteResponseData fleetDeleteResponseData();
+    FleetDeleteQuery fleetDeleteQuery();
 
 
     // ClientsModule

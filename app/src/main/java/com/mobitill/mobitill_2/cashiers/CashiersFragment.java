@@ -246,7 +246,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
             // there are some selected items start the action mode
             mActionMode = ((AppCompatActivity) getActivity()).
                             startSupportActionMode(new CashiersActionBarCallBack(getActivity(),
-                                    mCashiersAdapter, mCashiers, this));
+                                    mCashiersAdapter, this));
 
         } else if(!hasCheckedItems && mActionMode != null){
             // there are no selected items, finish  the action mode
@@ -261,9 +261,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     }
 
     public void deleteRows(){
-
         SparseBooleanArray selected = mCashiersAdapter.getSelectedIds();
-
         // loop all selected ids
         for(int i = (selected.size() - 1); i >= 0; i--){
             if(selected.valueAt(i)){

@@ -6,6 +6,9 @@ import android.util.Log;
 import com.mobitill.mobitill_2.data.models.fleet.FleetDataSource;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteParams;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
+import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
 
 import java.util.List;
 
@@ -21,15 +24,21 @@ public class FleetPresenter implements FleetContract.Presenter {
 
     private final FleetContract.View mView;
     private final FleetRepository mFleetRepository;
+    private FleetDeleteQuery mFleetDeleteQuery;
+    private FleetDeleteParams mFleetDeleteParams;
     @Nullable String mAppId;
 
     @Inject
     FleetPresenter(FleetContract.View view,
                    @Nullable String appId,
-                   FleetRepository fleetRepository){
+                   FleetRepository fleetRepository,
+                   FleetDeleteQuery fleetDeleteQuery,
+                   FleetDeleteParams fleetDeleteParams){
         mView = view;
         mFleetRepository = fleetRepository;
         mAppId = appId;
+        mFleetDeleteQuery = fleetDeleteQuery;
+        mFleetDeleteParams = fleetDeleteParams;
     }
 
 
@@ -54,7 +63,6 @@ public class FleetPresenter implements FleetContract.Presenter {
                     mView.showNoFleet(false);
                     mView.showFleet(fleetItemList);
                 }
-
             }
             @Override
             public void onFleetNotLoaded() {
@@ -65,8 +73,32 @@ public class FleetPresenter implements FleetContract.Presenter {
     }
 
     @Override
-    public void deleteFleetItem(String appId, FleetItem fleetItem) {
-        Log.i(TAG, "deleteFleetItem: called");
+    public void deleteFleetItem(String appId, final FleetItem fleetItem) {
+        if(appId == null || appId.equals("")){
+            mView.showFleetItemDeletedFailed(fleetItem.getFleetno());
+            return;
+        }
+
+        if(mFleetDeleteParams != null){
+            mFleetDeleteParams.setItemid(fleetItem.getId());
+            mFleetDeleteParams.setAppid(appId);
+
+            if(mFleetDeleteQuery!=null){
+                mFleetDeleteQuery.setParams(mFleetDeleteParams);
+
+                mFleetRepository.deleteFleet(mFleetDeleteQuery, new FleetDataSource.DeleteFleetCallBack() {
+                    @Override
+                    public void onFleetDeleted(FleetDeleteResponse fleetDeleteResponse) {
+                        mView.showFleetItemDeleted(fleetItem);
+                    }
+
+                    @Override
+                    public void onFleetNotDeleted() {
+                        mView.showFleetItemDeletedFailed(fleetItem.getFleetno());
+                    }
+                });
+            }
+        }
     }
 
 
