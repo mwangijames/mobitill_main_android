@@ -64,10 +64,8 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_cashiers) TextView mNoCashiersTextView;
 
-    private int mSelectedItem = 0;
 
     FloatingActionButton mOpenAddEditActivity;
-    private SparseBooleanArray mSelectedItems;
     private RecyclerView.LayoutManager mLayoutManager;
     private CashiersAdapter mCashiersAdapter;
 

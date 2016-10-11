@@ -6,19 +6,26 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.cashiers.CashiersActionBarCallBack;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.utils.RecyclerClickListener;
+import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
 
 import org.w3c.dom.Text;
 
@@ -50,6 +57,8 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
 
     private RecyclerView.LayoutManager mLayoutManager;
     private FleetAdapter mFleetAdapter;
+    private ActionMode mActionMode;
+    private List<FleetItem> mFleetItems;
 
     public FleetFragment() {
         // Required empty public constructor
@@ -88,7 +97,7 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
         mUnbinder = ButterKnife.bind(this, view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        implementRecyclerViewClickListeners();
         return view;
     }
 
@@ -137,6 +146,18 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
     }
 
     @Override
+    public void showFleetItemDeleted(FleetItem fleetItem) {
+        Toast.makeText(getActivity(), fleetItem.getFleetno() + " deleted", Toast.LENGTH_SHORT).show();
+        mFleetItems.remove(fleetItem);
+        mFleetAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showFleetItemDeletedFailed(String fleetno) {
+        Toast.makeText(getActivity(), fleetno + " not deleted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void hideTitle() {
 
     }
@@ -150,11 +171,13 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
     public void showFleet(List<FleetItem> fleetItems) {
         if(isAdded()){
             if(mFleetAdapter == null){
-                mFleetAdapter = new FleetAdapter(fleetItems);
+                mFleetAdapter = new FleetAdapter(fleetItems, getActivity());
                 mRecyclerView.setAdapter(mFleetAdapter);
+                mFleetItems = fleetItems;
             } else {
                 mFleetAdapter.setFleetItems(fleetItems);
                 mFleetAdapter.notifyDataSetChanged();
+                mFleetItems = fleetItems;
             }
         }
     }
@@ -183,56 +206,60 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
         }
     }
 
-    // RecyclerView ViewHolder and Adapter
-    class FleetHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    private void implementRecyclerViewClickListeners(){
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new RecyclerClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                //if ActionMode is not null select item
+                if(mActionMode!=null){
+                    onListItemSelect(position);
+                }
+            }
 
-        @BindView(R.id.fleet) TextView mFleetTextView;
+            @Override
+            public void onLongClick(View view, int position) {
+                onListItemSelect(position);
+            }
+        }));
+    }
 
-        public FleetHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(this);
+    private void onListItemSelect(int position){
+        mFleetAdapter.toggleSelection(position); // toggle the selection
+        boolean hasCheckedItems = mFleetAdapter.getSelectedCount() > 0; // Check if any items are already selected or not
+
+        if(hasCheckedItems && mActionMode == null){
+            // there are some selected items start the action mode
+            mActionMode = ((AppCompatActivity) getActivity()).
+                    startSupportActionMode(new FleetActionBarCallBack(getActivity(),
+                            mFleetAdapter, this));
+
+        } else if(!hasCheckedItems && mActionMode != null){
+            // there are no selected items, finish  the action mode
+            mActionMode.finish();
+
         }
 
-        public void bindFleetItem(FleetItem fleet){
-            mFleetTextView.setText(fleet.getFleetno());
-        }
-
-        @Override
-        public void onClick(View v) {
-
+        if(mActionMode != null){
+            // set the action mode title on item selection
+            mActionMode.setTitle(String.valueOf(mFleetAdapter.getSelectedCount()) + " selected");
         }
     }
 
-
-    private class FleetAdapter extends RecyclerView.Adapter<FleetHolder>{
-
-        private List<FleetItem> mFleetItems;
-
-        public FleetAdapter(List<FleetItem> fleetItems){
-            mFleetItems = fleetItems;
+    public void deleteFleetItem(){
+        SparseBooleanArray selected = mFleetAdapter.getSelectedIds();
+        //loop all selected cashiers
+        for(int i = (selected.size() -1); i>=0; i--){
+            if(selected.valueAt(i)){
+                mPresenter.deleteFleetItem(mAppId, mFleetItems.get(selected.keyAt(i)));
+            }
         }
+        mActionMode.finish();
+    }
 
-        @Override
-        public FleetHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            View view = layoutInflater.inflate(R.layout.item_fleet, parent, false);
-            return new FleetHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(FleetHolder holder, int position) {
-            FleetItem fleetItem = mFleetItems.get(position);
-            holder.bindFleetItem(fleetItem);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mFleetItems.size();
-        }
-
-        public void setFleetItems(List<FleetItem> fleetItems){
-            mFleetItems = fleetItems;
+    public void setNullToActionMode(){
+        if(mActionMode!=null){
+            mActionMode = null;
         }
     }
+
 }

@@ -17,6 +17,8 @@ public interface FleetContract {
         void showLoadingIndicator(boolean show);
         void showNoFleet(boolean show);
         void showNoNetwork(boolean show);
+        void showFleetItemDeleted(FleetItem fleetItem);
+        void showFleetItemDeletedFailed(String fleetno);
         void hideTitle();
         void showTitle();
         void showFleet(List<FleetItem> fleetItems);
@@ -25,6 +27,7 @@ public interface FleetContract {
 
     interface Presenter extends BasePresenter{
         void fetchFleet(String appId);
+        void deleteFleetItem(String appId, FleetItem fleetItem);
     }
 
 }

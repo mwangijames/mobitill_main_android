@@ -1,4 +1,4 @@
-package com.mobitill.mobitill_2.cashiers;
+package com.mobitill.mobitill_2.fleet;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,30 +9,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
+import com.mobitill.mobitill_2.data.models.fleet.models.Fleet;
+import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 
 import java.util.List;
 
 /**
- * Created by james on 10/4/2016.
- *
+ * Created by james on 10/11/2016.
  */
 
-public class  CashiersActionBarCallBack implements ActionMode.Callback {
+public class FleetActionBarCallBack implements ActionMode.Callback {
 
-    public static final String TAG  = CashiersActionBarCallBack.class.getSimpleName();
+    public static final String TAG = FleetActionBarCallBack.class.getSimpleName();
 
     private Context mContext;
-    private CashiersAdapter mCashiersAdapter;
-    private List<Cashier> mCashiers;
-    private Fragment mCashiersFragment;
+    private FleetAdapter mFleetAdapter;
+    private Fragment mFleetFragment;
 
-    public CashiersActionBarCallBack(Context context, CashiersAdapter cashiersAdapter,
-                                     List<Cashier> cashiers, Fragment cashiersFragment){
+    public FleetActionBarCallBack(Context context, FleetAdapter fleetAdapter,
+                                  Fragment fleetFragment){
         mContext = context;
-        mCashiersAdapter = cashiersAdapter;
-        mCashiers = cashiers;
-        mCashiersFragment = cashiersFragment;
+        mFleetAdapter = fleetAdapter;
+        mFleetFragment = fleetFragment;
     }
 
     @Override
@@ -51,23 +49,21 @@ public class  CashiersActionBarCallBack implements ActionMode.Callback {
     public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
         switch (item.getItemId()){
             case R.id.delete_item:
-                if(mCashiersFragment != null){
-
+                if(mFleetFragment != null){
                     new AlertDialog.Builder(mContext)
-                            .setTitle("Delete Cashier")
-                            .setMessage("Are you sure you want to delete cashier(s)?")
-                            .setPositiveButton(R.string.delete,  new DialogInterface.OnClickListener() {
+                            .setTitle("Delete Fleet")
+                            .setMessage("Are you sure you want to delete fleet?")
+                            .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    ((CashiersFragment) mCashiersFragment).deleteCashiers();
+                                    ((FleetFragment) mFleetFragment).deleteFleetItem();
                                     mode.finish();
                                 }
                             }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
-                                    mode.finish();
-                                }
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mode.finish();
+                        }
                     }).show();
                 }
                 return true;
@@ -79,10 +75,9 @@ public class  CashiersActionBarCallBack implements ActionMode.Callback {
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mCashiersAdapter.removeSelection();
-        if(mCashiersFragment != null){
-            ((CashiersFragment) mCashiersFragment).setNullToActionMode();
-
+        mFleetAdapter.removeSelection();
+        if(mFleetFragment != null){
+            ((FleetFragment) mFleetFragment).setNullToActionMode();
         }
     }
 }

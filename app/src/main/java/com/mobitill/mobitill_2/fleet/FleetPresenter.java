@@ -1,6 +1,7 @@
 package com.mobitill.mobitill_2.fleet;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.mobitill.mobitill_2.data.models.fleet.FleetDataSource;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
@@ -63,6 +64,10 @@ public class FleetPresenter implements FleetContract.Presenter {
         });
     }
 
+    @Override
+    public void deleteFleetItem(String appId, FleetItem fleetItem) {
+        Log.i(TAG, "deleteFleetItem: called");
+    }
 
 
     @Override
