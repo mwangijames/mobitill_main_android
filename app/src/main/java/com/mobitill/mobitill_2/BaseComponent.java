@@ -67,6 +67,10 @@ import com.mobitill.mobitill_2.data.models.products.models.Products;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsFetch;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateParams;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
 import com.mobitill.mobitill_2.data.models.reports.ReportsModule;
 import com.mobitill.mobitill_2.data.models.reports.ReportsRepository;
 import com.mobitill.mobitill_2.data.models.reports.ReportsRepositoryModule;
@@ -156,6 +160,10 @@ public interface BaseComponent {
     ProductsParams productsParams();
     ProductsQuery productsQuery();
     ProductsRepository productsRepository();
+    ProductCreateResponse productCreateResponse();
+    ProductCreateParams productCreateParams();
+    ProductCreateResponseData productCreateResponseData();
+    ProductCreateQuery productCreateQuery();
 
     // CashiersModule
     Cashiers cashiers();

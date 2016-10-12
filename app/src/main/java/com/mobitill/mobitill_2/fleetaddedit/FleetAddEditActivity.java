@@ -91,10 +91,12 @@ public class FleetAddEditActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(ARGS_APP_ID, mAppId);
-        super.onSaveInstanceState(outState);
-    }
+        @Override
+        protected void onSaveInstanceState(Bundle outState) {
+            outState.putString(ARGS_APP_ID, mAppId);
+            super.onSaveInstanceState(outState);
+        }
+
+
 
 }

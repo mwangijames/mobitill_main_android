@@ -5,6 +5,10 @@ import com.mobitill.mobitill_2.data.models.products.models.Products;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsFetch;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateParams;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
 
 import dagger.Module;
 import dagger.Provides;
@@ -40,4 +44,23 @@ public class ProductsModule {
         return new ProductsQuery();
     }
 
+    @Provides
+    ProductCreateParams provideProductCreateParams(){
+        return new ProductCreateParams();
+    }
+
+    @Provides
+    ProductCreateQuery provideProductCreateQuery(){
+        return new ProductCreateQuery();
+    }
+
+    @Provides
+    ProductCreateResponse provideProductCreateResponse(){
+        return new ProductCreateResponse();
+    }
+
+    @Provides
+    ProductCreateResponseData provideProductCreateResponseData(){
+        return new ProductCreateResponseData();
+    }
 }

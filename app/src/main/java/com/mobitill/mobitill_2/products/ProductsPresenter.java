@@ -51,9 +51,10 @@ public class ProductsPresenter implements ProductsContract.Presenter {
     }
 
     @Override
-    public void createProduct() {
-
+    public void createProduct(String appId) {
+      mView.showAddEditProduct();
     }
+
 
     @Override
     public void start() {

@@ -17,6 +17,7 @@ public interface ProductsContract {
         void hideTitle();
         void showTitle();
         void showProducts(List<Product> products);
+        void showAddEditProduct();
         boolean isActive();
 
 
@@ -24,6 +25,6 @@ public interface ProductsContract {
 
     interface Presenter extends BasePresenter{
         void fetchProducts(String appId);
-        void createProduct();
+        void createProduct(String appId);
     }
 }

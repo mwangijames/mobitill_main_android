@@ -4,6 +4,7 @@ package com.mobitill.mobitill_2.products;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,19 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
-import com.mobitill.mobitill_2.reports.ReportsContract;
-
-import org.w3c.dom.Text;
+import com.mobitill.mobitill_2.productsaddedit.ProductAddEditActivity;
 
 import java.util.List;
 
-import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -46,6 +43,7 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_products) TextView mNoProductsTextView;
+    FloatingActionButton mOpenProductAddEditFab;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private ProductsAdapter mProductsAdapter;
@@ -75,6 +73,18 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
         } else {
             mAppId = savedInstanceState.getString(ARGS_APP_ID);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mOpenProductAddEditFab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_product);
+        mOpenProductAddEditFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.createProduct(mAppId);
+            }
+        });
     }
 
     @Override
@@ -149,6 +159,11 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
                 mProductsAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void showAddEditProduct() {
+        startActivity(ProductAddEditActivity.newIntent(getActivity(), mAppId));
     }
 
     @Override

@@ -41,4 +41,11 @@
     <string name="hint_client_phone">Telephone</string>
     <string name="hint_fleet_no">Fleet Number</string>
     <string name="hint_plate_no">Plate Number</string>
+    <string name="hint_product_identifier">Identifier</string>
+    <string name="hint_product_categories">Categories</string>
+    <string name="hint_product_name">Name</string>
+    <string name="hint_product_description">Description</string>
+    <string name="hint_product_price">Price</string>
+    <string name="hint_product_size">Size</string>
+    <string name="hint_product_vat">VAT</string>
 </resources>
