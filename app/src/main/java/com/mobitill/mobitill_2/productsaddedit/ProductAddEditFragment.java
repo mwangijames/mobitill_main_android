@@ -23,6 +23,9 @@ import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditFragment;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.products.ProductsActivity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -60,7 +63,6 @@ public class ProductAddEditFragment extends Fragment implements ProductAddEditCo
     }
 
     public static ProductAddEditFragment newInstance(String appId) {
-
         Bundle args = new Bundle();
         args.putString(ARGS_APP_ID, appId);
         ProductAddEditFragment fragment = new ProductAddEditFragment();
@@ -101,9 +103,14 @@ public class ProductAddEditFragment extends Fragment implements ProductAddEditCo
             @Override
             public void onClick(View v) {
 
+                String name = mProductNameEditText.getText().toString();
+                String identifier = mProductIdentifierEditText.getText().toString();
+                List<String> categories = Arrays.asList(mProductCategoriesEditText.getText().toString().split("\\s*,\\s*"));
+                String price = mProductPriceEditText.getText().toString();
+                String description = mProductDescriptionEditText.getText().toString();
+                String size = mProductSizeEditText.getText().toString();
+                String vat = mProductVATEditText.getText().toString();
 
-
-                Toast.makeText(getActivity(), "Save Product", Toast.LENGTH_SHORT).show();
             }
         });
     }

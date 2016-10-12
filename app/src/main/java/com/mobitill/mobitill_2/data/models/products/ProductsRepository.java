@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
 
 import java.util.List;
 
@@ -33,6 +35,21 @@ public class ProductsRepository implements ProductsDataSource {
             @Override
             public void onDataNotAvailable() {
                 callBack.onDataNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void createProduct(ProductCreateQuery productCreateQuery, @NonNull final CreateProductCallBack callBack) {
+        mProductsRemoteDataSource.createProduct(productCreateQuery, new CreateProductCallBack() {
+            @Override
+            public void onProductCreated(ProductCreateResponse productCreateResponse) {
+                callBack.onProductCreated(productCreateResponse);
+            }
+
+            @Override
+            public void onProductNotCreated() {
+                callBack.onProductNotCreated();
             }
         });
     }

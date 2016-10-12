@@ -11,6 +11,8 @@ import com.mobitill.mobitill_2.data.models.products.models.Products;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsFetch;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
 
 import java.util.HashSet;
 
@@ -54,12 +56,35 @@ public class ProductsRemoteDataSource implements ProductsDataSource {
     @Override
     public void getProducts(String appId, @NonNull LoadProductsCallBack callBack) {
         ProductsEndPoints   productsEndPoints = mRetrofit.create(ProductsEndPoints.class);
-       String sharedAppId = mSharedPreferences.getString(mConstants.APPID, null);
+        String sharedAppId = mSharedPreferences.getString(mConstants.APPID, null);
         if(mProductsParams != null && mProductsQuery != null && mProductsFetch != null){
             mProductsFetch.setAppid(sharedAppId);
             mProductsParams.setFetch(mProductsFetch);
             mProductsQuery.setParams(mProductsParams);
             getRemoteProducts(productsEndPoints, mProductsQuery, callBack);
+        }
+    }
+
+    @Override
+    public void createProduct(ProductCreateQuery productCreateQuery, @NonNull final CreateProductCallBack callBack) {
+        ProductsEndPoints productsEndPoints = mRetrofit.create(ProductsEndPoints.class);
+        if(productCreateQuery!=null){
+            Call<ProductCreateResponse> call = productsEndPoints.createProduct(productCreateQuery);
+            call.enqueue(new Callback<ProductCreateResponse>() {
+                @Override
+                public void onResponse(Call<ProductCreateResponse> call, Response<ProductCreateResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onProductCreated(response.body());
+                    } else {
+                        callBack.onProductNotCreated();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProductCreateResponse> call, Throwable t) {
+                    callBack.onProductNotCreated();
+                }
+            });
         }
     }
 
