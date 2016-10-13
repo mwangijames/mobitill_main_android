@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.productsaddedit;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public interface ProductAddEditContract {
         void showNoNetwork(boolean show);
         void showProductList();
         void showProductCreateFailed();
+        void showProductCreated(ProductCreateResponseData productCreateResponseData);
         void showNoFields();
         boolean isActive();
     }

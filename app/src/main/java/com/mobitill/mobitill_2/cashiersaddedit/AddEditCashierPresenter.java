@@ -64,6 +64,7 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
             mCashiersRepository.createCashier(mCashierCreateQuery, new CashiersDataSource.CreateCashiersCallBack() {
                 @Override
                 public void onCashiersCreated(CashierCreateResponse cashierCreateResponse) {
+                    mView.showCashierCreated(cashierCreateResponse);
                     mView.showCashiersList();
                 }
 

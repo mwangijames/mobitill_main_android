@@ -6,6 +6,9 @@ import android.util.Log;
 import com.mobitill.mobitill_2.data.models.products.ProductsDataSource;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteParams;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
 import com.mobitill.mobitill_2.reports.ReportsContract;
 
 import java.util.List;
@@ -21,15 +24,21 @@ public class ProductsPresenter implements ProductsContract.Presenter {
 
     private final ProductsContract.View mView;
     private final ProductsRepository mProductsRepository;
+    private ProductDeleteQuery mProductDeleteQuery;
+    private ProductDeleteParams mProductDeleteParams;
     @Nullable String mAppId;
 
     @Inject
     ProductsPresenter(ProductsContract.View view,
                       @Nullable String appId,
-                      ProductsRepository productsRepository) {
+                      ProductsRepository productsRepository,
+                      ProductDeleteParams productDeleteParams,
+                      ProductDeleteQuery productDeleteQuery) {
         mView = view;
         mAppId = appId;
         mProductsRepository = productsRepository;
+        mProductDeleteParams = productDeleteParams;
+        mProductDeleteQuery = productDeleteQuery;
     }
 
     @Override
@@ -53,6 +62,34 @@ public class ProductsPresenter implements ProductsContract.Presenter {
     @Override
     public void createProduct(String appId) {
       mView.showAddEditProduct();
+    }
+
+    @Override
+    public void deleteProduct(String appId, final Product product) {
+        if(appId == null || appId.equals("")){
+            Log.i(TAG, "deleteProduct: No appId provided");
+        }
+
+        if(mProductDeleteParams != null){
+            mProductDeleteParams.setAppid(appId);
+            mProductDeleteParams.setItemid(product.getId());
+
+            if(mProductDeleteQuery!=null){
+                mProductDeleteQuery.setParams(mProductDeleteParams);
+                mProductsRepository.deleteProduct(mProductDeleteQuery, new ProductsDataSource.DeleteProductCallBack() {
+                    @Override
+                    public void onProductDeleted(ProductDeleteResponse productDeleteResponse) {
+                        mView.showProductDeleted(product);
+                    }
+
+                    @Override
+                    public void onProductNotDeleted() {
+                        mView.showProductNotDeleted(product);
+                    }
+                });
+            }
+        }
+
     }
 
 

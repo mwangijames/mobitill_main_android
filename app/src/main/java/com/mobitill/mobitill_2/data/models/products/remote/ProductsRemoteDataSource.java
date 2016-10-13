@@ -13,6 +13,8 @@ import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
 
 import java.util.HashSet;
 
@@ -83,6 +85,29 @@ public class ProductsRemoteDataSource implements ProductsDataSource {
                 @Override
                 public void onFailure(Call<ProductCreateResponse> call, Throwable t) {
                     callBack.onProductNotCreated();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void deleteProduct(ProductDeleteQuery productDeleteQuery, @NonNull final DeleteProductCallBack callBack) {
+        ProductsEndPoints productsEndPoints = mRetrofit.create(ProductsEndPoints.class);
+        if(productDeleteQuery != null){
+            Call<ProductDeleteResponse> call =productsEndPoints.deleteProduct(productDeleteQuery);
+            call.enqueue(new Callback<ProductDeleteResponse>() {
+                @Override
+                public void onResponse(Call<ProductDeleteResponse> call, Response<ProductDeleteResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onProductDeleted(response.body());
+                    } else {
+                        callBack.onProductNotDeleted();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ProductDeleteResponse> call, Throwable t) {
+                    callBack.onProductNotDeleted();
                 }
             });
         }

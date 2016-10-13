@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditContract;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditFragment;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -111,6 +112,7 @@ public class ProductAddEditFragment extends Fragment implements ProductAddEditCo
                 String size = mProductSizeEditText.getText().toString();
                 String vat = mProductVATEditText.getText().toString();
 
+                mPresenter.saveProduct(mAppId, identifier, name, categories, description, price, size, vat);
             }
         });
     }
@@ -143,6 +145,13 @@ public class ProductAddEditFragment extends Fragment implements ProductAddEditCo
     @Override
     public void showProductCreateFailed() {
         Toast.makeText(getActivity(), "Product item creation failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showProductCreated(ProductCreateResponseData productCreateResponseData) {
+        Toast.makeText(getActivity(),
+                productCreateResponseData.getName() + " Created",
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.cashiersaddedit;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.fleet.FleetContract;
 
 /**
@@ -15,6 +16,7 @@ public interface AddEditCashierContract {
         void showEmptyCashierError();
         void showCashiersList();
         void showCashierCreateFailed();
+        void showCashierCreated(CashierCreateResponse cashierCreateResponse);
         void showNoApplicationId();
         void showNoFields();
         void setName(String name);

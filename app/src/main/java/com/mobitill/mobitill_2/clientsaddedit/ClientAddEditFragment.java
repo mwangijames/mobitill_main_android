@@ -19,6 +19,7 @@ import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierContract;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierFragment;
 import com.mobitill.mobitill_2.clients.ClientsActivity;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import butterknife.BindView;
@@ -134,6 +135,11 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
     @Override
     public void showClientCreatedFailed() {
         Toast.makeText(getActivity(), "Client creation failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showClientCreated(ClientCreateResponseData clientCreateResponseData) {
+        Toast.makeText(getActivity(), clientCreateResponseData.getName() + " Created", Toast.LENGTH_SHORT).show();
     }
 
     @Override

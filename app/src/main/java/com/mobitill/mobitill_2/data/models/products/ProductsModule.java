@@ -9,6 +9,10 @@ import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateP
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteParams;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponseData;
 
 import dagger.Module;
 import dagger.Provides;
@@ -62,5 +66,25 @@ public class ProductsModule {
     @Provides
     ProductCreateResponseData provideProductCreateResponseData(){
         return new ProductCreateResponseData();
+    }
+
+    @Provides
+    ProductDeleteParams provideProductDeleteParams(){
+        return new ProductDeleteParams();
+    }
+
+    @Provides
+    ProductDeleteQuery provideProductDeleteQuery(){
+        return new ProductDeleteQuery();
+    }
+
+    @Provides
+    ProductDeleteResponse provideProductDeleteResponse(){
+        return new ProductDeleteResponse();
+    }
+
+    @Provides
+    ProductDeleteResponseData provideProductDeleteResponseData(){
+        return new ProductDeleteResponseData();
     }
 }

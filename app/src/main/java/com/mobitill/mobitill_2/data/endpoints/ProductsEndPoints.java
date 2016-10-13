@@ -5,6 +5,8 @@ import com.mobitill.mobitill_2.data.models.products.models.Products;
 import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -19,4 +21,7 @@ public interface ProductsEndPoints {
 
     @POST("products/insert")
     Call<ProductCreateResponse> createProduct(@Body ProductCreateQuery productCreateQuery);
+
+    @POST("products/delete")
+    Call<ProductDeleteResponse> deleteProduct(@Body ProductDeleteQuery productDeleteQuery);
 }

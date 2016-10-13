@@ -65,6 +65,7 @@ public class FleetAddEditPresenter implements FleetAddEditContract.Presenter {
                     mFleetRepository.createFleet(mFleetCreateQuery, new FleetDataSource.CreateFleetCallBack() {
                         @Override
                         public void onFleetCreated(FleetCreateResponse fleetCreateResponse) {
+                            mView.showFleetItemCreated(fleetCreateResponse.getData());
                             mView.showFleetList();
                         }
 

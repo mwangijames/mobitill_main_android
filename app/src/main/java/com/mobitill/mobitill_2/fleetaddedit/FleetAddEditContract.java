@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.fleetaddedit;
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditContract;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 
 /**
  * Created by james on 10/10/2016.
@@ -14,6 +15,7 @@ public interface FleetAddEditContract {
         void showTitle();
         void showFleetList();
         void showFleetCreateFailed();
+        void showFleetItemCreated(FleetCreateResponseData fleetCreateResponseData);
         void showNoFields();
         boolean isActive();
     }

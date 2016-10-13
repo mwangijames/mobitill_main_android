@@ -14,6 +14,8 @@ public interface ProductsContract {
         void setLoadingIndicator(boolean active);
         void showNoProducts(boolean show);
         void showNoNetwork(boolean show);
+        void showProductDeleted(Product product);
+        void showProductNotDeleted(Product product);
         void hideTitle();
         void showTitle();
         void showProducts(List<Product> products);
@@ -26,5 +28,6 @@ public interface ProductsContract {
     interface Presenter extends BasePresenter{
         void fetchProducts(String appId);
         void createProduct(String appId);
+        void deleteProduct(String appId, Product product);
     }
 }

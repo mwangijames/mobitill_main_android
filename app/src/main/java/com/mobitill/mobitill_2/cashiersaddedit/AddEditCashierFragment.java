@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiers.CashiersActivity;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import butterknife.BindDimen;
@@ -140,6 +141,11 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     @Override
     public void showCashierCreateFailed() {
         Toast.makeText(getActivity(), "Cashier creation failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCashierCreated(CashierCreateResponse cashierCreateResponse) {
+        Toast.makeText(getActivity(), cashierCreateResponse.getName() + " Created", Toast.LENGTH_SHORT).show();
     }
 
     @Override

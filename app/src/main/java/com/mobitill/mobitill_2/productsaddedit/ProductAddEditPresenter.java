@@ -3,9 +3,11 @@ package com.mobitill.mobitill_2.productsaddedit;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.mobitill.mobitill_2.data.models.products.ProductsDataSource;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateParams;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
+import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditPresenter;
 
 import java.util.List;
@@ -50,7 +52,38 @@ public class ProductAddEditPresenter implements ProductAddEditContract.Presenter
 
     @Override
     public void saveProduct(String appId, String identifier, String name, List<String> categories, String description, String price, String size, String vat) {
-        Log.i(TAG, "saveProduct: Called");
+        if(appId == null || appId.equals("")){
+            Log.i(TAG, "saveProduct: App appId must be available");
+            return;
+        }
+
+        if(mProductCreateParams != null){
+
+            mProductCreateParams.setAppid(appId);
+            mProductCreateParams.setIdentifier(identifier);
+            mProductCreateParams.setName(name);
+            mProductCreateParams.setCategories(categories);
+            mProductCreateParams.setDescription(description);
+            mProductCreateParams.setPrice(price);
+            mProductCreateParams.setSize(size);
+            mProductCreateParams.setVat(vat);
+
+            if(mProductCreateQuery!=null){
+                mProductCreateQuery.setParams(mProductCreateParams);
+                mProductsRepository.createProduct(mProductCreateQuery, new ProductsDataSource.CreateProductCallBack() {
+                    @Override
+                    public void onProductCreated(ProductCreateResponse productCreateResponse) {
+                        mView.showProductCreated(productCreateResponse.getData());
+                        mView.showProductList();
+                    }
+
+                    @Override
+                    public void onProductNotCreated() {
+                        mView.showProductCreateFailed();
+                    }
+                });
+            }
+        }
     }
 
     @Override

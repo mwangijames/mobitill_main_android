@@ -237,13 +237,12 @@ public class FleetFragment extends Fragment implements FleetContract.View, Conne
             // there are no selected items, finish  the action mode
             mActionMode.finish();
 
-
+        }
 
         if(mActionMode != null){
             // set the action mode title on item selection
             mActionMode.setTitle(String.valueOf(mFleetAdapter.getSelectedCount()) + " selected");
         }
-    }
     }
 
     public void deleteFleetItem(){

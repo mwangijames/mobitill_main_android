@@ -18,6 +18,7 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditContract;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditFragment;
+import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 import com.mobitill.mobitill_2.fleet.FleetActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
@@ -132,6 +133,11 @@ public class FleetAddEditFragment extends Fragment implements FleetAddEditContra
     @Override
     public void showFleetCreateFailed() {
         Toast.makeText(getActivity(), "Fleet item creation failed", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showFleetItemCreated(FleetCreateResponseData fleetCreateResponseData) {
+        Toast.makeText(getActivity(), fleetCreateResponseData.getFleetno() + " Created", Toast.LENGTH_SHORT).show();
     }
 
     @Override

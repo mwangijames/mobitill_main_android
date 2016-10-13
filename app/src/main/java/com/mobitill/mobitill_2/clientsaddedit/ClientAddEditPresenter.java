@@ -71,6 +71,7 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
                     mClientsRepository.createClient(mClientCreateQuery, new ClientsDataSource.CreateClientCallBack() {
                         @Override
                         public void onClientCreated(ClientCreateResponse clientCreateResponse) {
+                            mView.showClientCreated(clientCreateResponse.getData());
                             mView.showClientsList();
                         }
 

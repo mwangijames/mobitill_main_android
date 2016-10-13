@@ -6,6 +6,8 @@ import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
 import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
+import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
 
 import java.util.List;
 
@@ -50,6 +52,21 @@ public class ProductsRepository implements ProductsDataSource {
             @Override
             public void onProductNotCreated() {
                 callBack.onProductNotCreated();
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(ProductDeleteQuery productDeleteQuery, @NonNull final DeleteProductCallBack callBack) {
+        mProductsRemoteDataSource.deleteProduct(productDeleteQuery, new DeleteProductCallBack() {
+            @Override
+            public void onProductDeleted(ProductDeleteResponse productDeleteResponse) {
+                callBack.onProductDeleted(productDeleteResponse);
+            }
+
+            @Override
+            public void onProductNotDeleted() {
+                callBack.onProductNotDeleted();
             }
         });
     }
