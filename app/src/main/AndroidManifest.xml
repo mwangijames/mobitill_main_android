@@ -64,8 +64,12 @@
             android:name=".fleetaddedit.FleetAddEditActivity"
             android:parentActivityName=".fleet.FleetActivity">
         </activity>
-        <activity android:name=".productsaddedit.ProductAddEditActivity"
+        <activity
+            android:name=".productsaddedit.ProductAddEditActivity"
             android:parentActivityName=".products.ProductsActivity">
+        </activity>
+        <activity android:name=".cashiersdetail.CashierDetailActivity"
+            android:parentActivityName=".cashiers.CashiersActivity">
         </activity>
     </application>
 

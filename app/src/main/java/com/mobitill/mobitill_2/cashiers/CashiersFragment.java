@@ -29,6 +29,7 @@ import com.bignerdranch.android.multiselector.SingleSelector;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierActivity;
+import com.mobitill.mobitill_2.cashiersdetail.CashierDetailActivity;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
@@ -172,6 +173,11 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     }
 
     @Override
+    public void showCashierDetailUi(String cashierGson) {
+        startActivity(CashierDetailActivity.newIntent(getContext(), mAppId, cashierGson));
+    }
+
+    @Override
     public void hideTitle() {
 
     }
@@ -228,6 +234,8 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
                 //if ActionMode is not null select item
                 if(mActionMode!=null){
                     onListItemSelect(position);
+                } else {
+                    mPresenter.openCashierDetails(mCashiers.get(position));
                 }
             }
 

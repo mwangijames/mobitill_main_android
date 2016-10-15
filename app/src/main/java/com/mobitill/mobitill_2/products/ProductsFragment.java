@@ -252,7 +252,6 @@ public class ProductsFragment extends Fragment implements ProductsContract.View 
     }
 
     public void deleteProduct(){
-        // TODO: 10/12/2016 delete product
 
         SparseBooleanArray selected = mProductsAdapter.getSelectedIds();
         //loop all selected cashiers

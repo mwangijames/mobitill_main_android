@@ -22,6 +22,7 @@ public interface CashiersContract {
         void showAddCashier(String appId);
         void showCashierDeleted(Cashier cashier);
         void showCashierDeleteFailed(String name);
+        void showCashierDetailUi(String cashierGson);
         void deleteRows();
         void hideTitle();
         void showTitle();
@@ -33,5 +34,6 @@ public interface CashiersContract {
         void fetchCashiers(String appId);
         void addNewCashier(String appId);
         void deleteCashier(String appId, Cashier cashier);
+        void openCashierDetails(Cashier requestedCashier);
     }
 }

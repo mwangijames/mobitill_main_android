@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
@@ -112,6 +114,14 @@ public class CashiersPresenter implements CashiersContract.Presenter {
             });
         }
 
+    }
+
+    @Override
+    public void openCashierDetails(Cashier requestedCashier) {
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        Log.i(TAG, "openCashierDetails: " + gson.toString());
+        mView.showCashierDetailUi(gson.toJson(requestedCashier));
     }
 
     @Override
