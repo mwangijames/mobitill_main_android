@@ -128,7 +128,7 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
 
     @Override
     public void showEditCashier(String cashierGson) {
-        startActivityForResult(AddEditCashierActivity.newEditIntent(getActivity(), mAppId.getAppId(),
+        startActivityForResult(AddEditCashierActivity.newIntent(getActivity(), mAppId.getAppId(),
                 cashierGson), REQUEST_EDIT_CASHIER);
     }
 

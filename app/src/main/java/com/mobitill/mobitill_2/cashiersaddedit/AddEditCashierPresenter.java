@@ -1,11 +1,14 @@
 package com.mobitill.mobitill_2.cashiersaddedit;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mobitill.mobitill_2.cashiersdetail.AppId;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
+import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
@@ -83,12 +86,18 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
 
     @Override
     public void populateCashier() {
-
+        if(mCashierGson.getCashierGson()!=null){
+            Gson gson = new Gson();
+            Cashier cashier = gson.fromJson(mCashierGson.getCashierGson(), Cashier.class);
+            if(cashier != null) {
+                mView.populateCashier(cashier);
+            }
+        }
     }
 
     @Override
     public void start() {
-
+        populateCashier();
     }
 
 }

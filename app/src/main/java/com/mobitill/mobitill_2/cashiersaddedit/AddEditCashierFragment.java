@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiers.CashiersActivity;
 import com.mobitill.mobitill_2.cashiersdetail.AppId;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
+import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
@@ -56,6 +58,14 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
         // Required empty public constructor
     }
 
+    public static AddEditCashierFragment newInstance(AppId appId) {
+        AddEditCashierFragment fragment = new AddEditCashierFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_APP_ID, appId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static AddEditCashierFragment newInstance(AppId appId, CashierGson cashierGson) {
         AddEditCashierFragment fragment = new AddEditCashierFragment();
         Bundle args = new Bundle();
@@ -64,7 +74,6 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +164,13 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     @Override
     public void showNoApplicationId() {
 
+    }
+
+    @Override
+    public void populateCashier(Cashier cashier) {
+        mNameEditText.setText(cashier.getName());
+        mPasswordEditText.setText(cashier.getPassword());
+        mUsernameEditText.setText(cashier.getUsername());
     }
 
     @Override

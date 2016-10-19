@@ -38,7 +38,6 @@ public class AddEditCashierActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-
     AppId mAppId;
     CashierGson mCashierGson;
 
@@ -48,9 +47,10 @@ public class AddEditCashierActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent newEditIntent(Context context,String appId, String cashiersGson){
+    public static Intent newIntent(Context context,String appId, String cashiersGson){
         Intent intent = new Intent(context, AddEditCashierActivity.class);
         intent.putExtra(EXTRA_APP_ID, appId);
+        intent.putExtra(EXTRA_CASHIER_GSON, cashiersGson);
         return intent;
     }
 
@@ -65,14 +65,18 @@ public class AddEditCashierActivity extends AppCompatActivity {
         mAppId = new AppId();
         mCashierGson = new CashierGson();
 
+
         if(savedInstanceState == null){
             mAppId.setAppId(getIntent().getStringExtra(EXTRA_APP_ID));
+            mCashierGson.setCashierGson(getIntent().getStringExtra(EXTRA_CASHIER_GSON));
+
             // TODO: 10/15/2016 resume from here
             if(mAppId == null){
                 mAppId.setAppId(mSharedPreferences.getString(mConstants.APPID, null));
             }
         } else {
             mAppId.setAppId(savedInstanceState.getString(ARGS_APP_ID));
+            mCashierGson.setCashierGson(savedInstanceState.getString(EXTRA_CASHIER_GSON));
         }
 
         setSupportActionBar(mToolbar);
@@ -85,14 +89,25 @@ public class AddEditCashierActivity extends AppCompatActivity {
         if(mSharedPreferences != null){
             String title = mSharedPreferences.getString(mConstants.APPNAME, null);
             actionBar.setTitle(title + ": Add Cashier");
+            if(getIntent().hasExtra(ARGS_CASHIER_GSON)){
+                actionBar.setTitle(title + ": Edit Cashier");
+            }
         } else {
             actionBar.setTitle("Add Cashier");
+            if(getIntent().hasExtra(ARGS_CASHIER_GSON)){
+                actionBar.setTitle("Edit Cashier");
+            }
         }
 
         AddEditCashierFragment addEditCashierFragment = (AddEditCashierFragment) getSupportFragmentManager()
                                                         .findFragmentById(R.id.contentFrame);
         if(addEditCashierFragment == null){
-            addEditCashierFragment = AddEditCashierFragment.newInstance(mAppId, mCashierGson);
+            addEditCashierFragment = AddEditCashierFragment.newInstance(mAppId);
+
+            if(getIntent().hasExtra(EXTRA_CASHIER_GSON)){
+                addEditCashierFragment = AddEditCashierFragment.newInstance(mAppId, mCashierGson);
+            }
+
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     addEditCashierFragment, R.id.contentFrame);
         }
@@ -104,11 +119,10 @@ public class AddEditCashierActivity extends AppCompatActivity {
                 .inject(this);
     }
 
-
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_CASHIER_GSON, mCashierGson);
         super.onSaveInstanceState(outState);
     }
 }
