@@ -157,7 +157,8 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
 
     @Override
     public void showAddCashier(String appId) {
-        startActivity(AddEditCashierActivity.newIntent(getActivity(), appId));
+        startActivityForResult(AddEditCashierActivity.newIntent(getActivity(), appId),
+                AddEditCashierActivity.REQUEST_ADD_CASHIER);
     }
 
     @Override

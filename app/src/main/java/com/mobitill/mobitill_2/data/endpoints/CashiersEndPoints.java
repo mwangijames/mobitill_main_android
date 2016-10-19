@@ -4,10 +4,9 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.Cashiers;
 import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
-import com.mobitill.mobitill_2.data.models.products.models.Products;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

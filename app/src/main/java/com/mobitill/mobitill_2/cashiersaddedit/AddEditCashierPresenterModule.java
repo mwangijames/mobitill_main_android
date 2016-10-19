@@ -4,6 +4,10 @@ import android.support.annotation.Nullable;
 
 import com.mobitill.mobitill_2.cashiers.CashiersPresenter;
 import com.mobitill.mobitill_2.cashiers.CashiersPresenterModule;
+import com.mobitill.mobitill_2.cashiersdetail.AppId;
+import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
+import com.mobitill.mobitill_2.data.models.apps.models.App;
+import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,12 +18,16 @@ import dagger.Provides;
 @Module
 public class AddEditCashierPresenterModule {
     private final AddEditCashierContract.View mView;
-    private final String mAppId;
+    private final AppId mAppId;
+    private CashierGson mCashierGson;
 
     public AddEditCashierPresenterModule(AddEditCashierContract.View view,
-                                         @Nullable  String appId){
+                                         AppId appId,
+                                         CashierGson cashierGson
+                                         ){
         mView =view;
         mAppId = appId;
+        mCashierGson = cashierGson;
     }
 
     @Provides
@@ -28,8 +36,13 @@ public class AddEditCashierPresenterModule {
     }
 
     @Provides
-    @Nullable
-    String provideAppId(){
+    AppId provideAppId(){
         return mAppId;
+    }
+
+    @Provides
+    @Nullable
+    CashierGson provideCashierGson(){
+        return mCashierGson;
     }
 }

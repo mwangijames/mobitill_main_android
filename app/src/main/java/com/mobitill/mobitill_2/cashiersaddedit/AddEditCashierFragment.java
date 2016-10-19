@@ -1,7 +1,5 @@
 package com.mobitill.mobitill_2.cashiersaddedit;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,17 +11,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiers.CashiersActivity;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
+import com.mobitill.mobitill_2.cashiersdetail.AppId;
+import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
-import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -35,8 +32,9 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
 
     private static final String TAG = AddEditCashierFragment.class.getSimpleName();
     private static final String ARGS_APP_ID = "args_app_id";
+    private static final String ARGS_CASHIER_GSON = "args_cashier_gson";
 
-    private String mAppId;
+
     private Unbinder mUnbinder;
     private AddEditCashierContract.Presenter mPresenter;
 
@@ -50,16 +48,19 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
 
     FloatingActionButton mSaveCashierFab;
 
+    private AppId mAppId;
+    private CashierGson mCashierGson;
 
 
     public AddEditCashierFragment() {
         // Required empty public constructor
     }
 
-    public static AddEditCashierFragment newInstance(String appId) {
+    public static AddEditCashierFragment newInstance(AppId appId, CashierGson cashierGson) {
         AddEditCashierFragment fragment = new AddEditCashierFragment();
         Bundle args = new Bundle();
-        args.putString(ARGS_APP_ID, appId);
+        args.putSerializable(ARGS_APP_ID, appId);
+        args.putSerializable(ARGS_CASHIER_GSON, cashierGson);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,15 +69,18 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null){
-            mAppId = getArguments().getString(ARGS_APP_ID);
+            mAppId = (AppId)getArguments().getSerializable(ARGS_APP_ID);
+            mCashierGson = (CashierGson) getArguments().getSerializable(ARGS_CASHIER_GSON);
         } else {
-            mAppId = savedInstanceState.getString(ARGS_APP_ID);
+            mAppId = (AppId) getArguments().getSerializable(ARGS_APP_ID);
+            mCashierGson = (CashierGson) getArguments().getSerializable(ARGS_CASHIER_GSON);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_CASHIER_GSON, mCashierGson);
         super.onSaveInstanceState(outState);
     }
 
@@ -87,7 +91,7 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
         mSaveCashierFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mPresenter.saveCashier(mAppId, mNameEditText.getText().toString(),
+               mPresenter.saveCashier(mAppId.getAppId(), mNameEditText.getText().toString(),
                        mUsernameEditText.getText().toString(),
                        mPasswordEditText.getText().toString());
             }
@@ -135,7 +139,7 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
 
     @Override
     public void showCashiersList() {
-        startActivity(CashiersActivity.newIntent(getActivity(), mAppId));
+        startActivity(CashiersActivity.newIntent(getActivity(), mAppId.getAppId()));
     }
 
     @Override
@@ -144,7 +148,7 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     }
 
     @Override
-    public void showCashierCreated(CashierCreateResponse cashierCreateResponse) {
+    public void showCashierCreated(CashierCreateResponseData cashierCreateResponse) {
         Toast.makeText(getActivity(), cashierCreateResponse.getName() + " Created", Toast.LENGTH_SHORT).show();
     }
 

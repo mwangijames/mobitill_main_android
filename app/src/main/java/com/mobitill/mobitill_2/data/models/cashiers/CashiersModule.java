@@ -1,6 +1,5 @@
 package com.mobitill.mobitill_2.data.models.cashiers;
 
-import com.mobitill.mobitill_2.data.endpoints.ClientsEndPoints;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashiers;
 import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersFetch;
@@ -9,11 +8,11 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponseData;
-import com.mobitill.mobitill_2.data.models.products.models.Product;
 
 import dagger.Module;
 import dagger.Provides;
@@ -60,7 +59,12 @@ public class CashiersModule {
     }
 
     @Provides
-    CashierCreateResponse provideCashierCreateResponse(){
+    CashierCreateResponseData provideCashierCreateResponseData(){
+        return new CashierCreateResponseData();
+    }
+
+    @Provides
+    CashierCreateResponse provideCreateResponse(){
         return new CashierCreateResponse();
     }
 

@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.cashiersdetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierActivity;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierFragment;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -28,11 +30,14 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
     private static final String TAG = CashierDetailFragment.class.getSimpleName();
     private static final String ARGS_APP_ID = "args_app_id";
     private static final String ARGS_CASHIER_GSON = "args_cashier_gson";
+    public static final int REQUEST_EDIT_CASHIER = 1;
 
     private AppId mAppId;
     private CashierGson mCashierGson;
     private CashierDetailContract.Presenter mPresenter;
     Unbinder mUnbinder;
+
+    FloatingActionButton mEditCashierFAB;
 
     public CashierDetailFragment() {
         // Required empty public constructor
@@ -70,7 +75,13 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: 10/14/2016 FAB edit button comes here
+        mEditCashierFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_cashier);
+        mEditCashierFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.editCashier();
+            }
+        });
     }
 
     @Override
@@ -107,17 +118,18 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
 
     @Override
     public void showMissingCashier() {
-
+        Toast.makeText(getActivity(), "Error displaying cashier", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showCashier(Cashier cashier) {
-
+        Toast.makeText(getActivity(), cashier.getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showEditCashier(String cashierGson) {
-
+        startActivityForResult(AddEditCashierActivity.newEditIntent(getActivity(), mAppId.getAppId(),
+                cashierGson), REQUEST_EDIT_CASHIER);
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.mobitill.mobitill_2.cashiersdetail;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierPresenter;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
+import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 
 import javax.inject.Inject;
 
@@ -42,12 +45,24 @@ public class CashierDetailPresenter implements CashierDetailContract.Presenter{
 
     @Override
     public void convertJson(String cashierGsonString) {
-
+        Gson gson = new Gson();
+        Cashier cashier = gson.fromJson(cashierGsonString, Cashier.class);
+        if(cashier != null) {
+            mView.showCashier(cashier);
+        }
     }
 
     @Override
     public void editCashier() {
-
+        if(mCashierGson!=null){
+            if(!mCashierGson.getCashierGson().isEmpty()){
+                mView.showEditCashier(mCashierGson.getCashierGson());
+            } else {
+                mView.showMissingCashier();
+            }
+        } else {
+            mView.showMissingCashier();
+        }
     }
 
     @Override
@@ -57,6 +72,13 @@ public class CashierDetailPresenter implements CashierDetailContract.Presenter{
 
     @Override
     public void start() {
-
+        if(mAppId == null){
+            return;
+        }
+        if(mCashierGson != null){
+            convertJson(mCashierGson.getCashierGson());
+        } else {
+            mView.showMissingCashier();
+        }
     }
 }

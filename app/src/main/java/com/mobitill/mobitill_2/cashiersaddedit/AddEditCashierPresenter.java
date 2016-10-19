@@ -2,12 +2,14 @@ package com.mobitill.mobitill_2.cashiersaddedit;
 
 import android.support.annotation.Nullable;
 
+import com.mobitill.mobitill_2.cashiersdetail.AppId;
+import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 
 import javax.inject.Inject;
 
@@ -22,12 +24,14 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
     private final CashiersRepository mCashiersRepository;
     private CashierCreateQuery mCashierCreateQuery;
     private CashierCreateParams mCashierCreateParams;
-    @Nullable String mAppId;
+    AppId mAppId;
+    @Nullable CashierGson mCashierGson;
 
     @Inject
     AddEditCashierPresenter(AddEditCashierContract.View view,
                             CashiersRepository cashiersRepository,
-                            @Nullable String appId,
+                            AppId appId,
+                            @Nullable CashierGson cashierGson,
                             CashierCreateQuery cashierCreateQuery,
                             CashierCreateParams cashierCreateParams){
         mView = view;
@@ -35,6 +39,7 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
         mCashiersRepository = cashiersRepository;
         mCashierCreateQuery = cashierCreateQuery;
         mCashierCreateParams = cashierCreateParams;
+        mCashierGson = cashierGson;
     }
 
     /**
@@ -64,7 +69,7 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
             mCashiersRepository.createCashier(mCashierCreateQuery, new CashiersDataSource.CreateCashiersCallBack() {
                 @Override
                 public void onCashiersCreated(CashierCreateResponse cashierCreateResponse) {
-                    mView.showCashierCreated(cashierCreateResponse);
+                    mView.showCashierCreated(cashierCreateResponse.getData());
                     mView.showCashiersList();
                 }
 

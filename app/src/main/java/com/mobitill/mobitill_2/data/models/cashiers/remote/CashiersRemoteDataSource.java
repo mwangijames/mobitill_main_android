@@ -2,7 +2,6 @@ package com.mobitill.mobitill_2.data.models.cashiers.remote;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.data.endpoints.CashiersEndPoints;
@@ -13,12 +12,9 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
-import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteParams;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsFetch;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
 
 import javax.inject.Inject;
 
