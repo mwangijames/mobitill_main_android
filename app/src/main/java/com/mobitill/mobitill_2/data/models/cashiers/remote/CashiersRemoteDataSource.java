@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.data.endpoints.CashiersEndPoints;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
+import com.mobitill.mobitill_2.data.models.cashiers.CashiersModule_ProvideCashierEditParamsFactory;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashiers;
 import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersFetch;
 import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersParams;
@@ -13,6 +14,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
 
@@ -99,6 +101,29 @@ public class CashiersRemoteDataSource implements CashiersDataSource {
                 @Override
                 public void onFailure(Call<CashierDeleteResponse> call, Throwable t) {
                     callBack.onCashierNotDeleted();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void editCashier(CashierEditQuery cashierEditQuery, @NonNull final EditCashierCallBack callBack) {
+        CashiersEndPoints cashiersEndPoints = mRetrofit.create(CashiersEndPoints.class);
+        if(cashierEditQuery!=null){
+            Call<CashierCreateResponse> call = cashiersEndPoints.updateCashier(cashierEditQuery);
+            call.enqueue(new Callback<CashierCreateResponse>() {
+                @Override
+                public void onResponse(Call<CashierCreateResponse> call, Response<CashierCreateResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onCashierEdited(response.body());
+                    } else {
+                        callBack.onCashierNotEdited();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CashierCreateResponse> call, Throwable t) {
+                    callBack.onCashierNotEdited();
                 }
             });
         }

@@ -24,6 +24,8 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateP
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditParams;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteParams;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
@@ -189,6 +191,8 @@ public interface BaseComponent {
     CashierDeleteResponseData cashierDeleteResponseData();
     CashierDeleteQuery cashierDeleteQuery();
     CashierDeleteParams cashierDeleteParams();
+    CashierEditParams cashierEditParams();
+    CashierEditQuery cashierEditQuery();
 
     // FleetModule
     Fleet fleet();

@@ -20,6 +20,7 @@ import com.mobitill.mobitill_2.cashiers.CashiersActivity;
 import com.mobitill.mobitill_2.cashiersdetail.AppId;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
@@ -100,9 +101,16 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
         mSaveCashierFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mPresenter.saveCashier(mAppId.getAppId(), mNameEditText.getText().toString(),
-                       mUsernameEditText.getText().toString(),
-                       mPasswordEditText.getText().toString());
+                if(mCashierGson == null){
+                    mPresenter.saveCashier(mAppId.getAppId(), mNameEditText.getText().toString(),
+                            mUsernameEditText.getText().toString(),
+                            mPasswordEditText.getText().toString());
+                } else {
+                    mPresenter.editCashier(mAppId.getAppId(), mNameEditText.getText().toString(),
+                            mUsernameEditText.getText().toString(),
+                            mPasswordEditText.getText().toString());
+                }
+
             }
         });
     }
@@ -159,6 +167,16 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     @Override
     public void showCashierCreated(CashierCreateResponseData cashierCreateResponse) {
         Toast.makeText(getActivity(), cashierCreateResponse.getName() + " Created", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCashierEdited(CashierCreateResponse cashierCreateResponse) {
+        Toast.makeText(getActivity(), cashierCreateResponse.getData().getName() + " Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showCashierEditFailed() {
+        Toast.makeText(getActivity(), "Update Failed", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
 
@@ -30,9 +31,16 @@ public interface CashiersDataSource {
         void onCashierNotDeleted();
     }
 
+    interface EditCashierCallBack{
+        void onCashierEdited(CashierCreateResponse cashierCreateResponse);
+        void onCashierNotEdited();
+    }
+
     void getCashiers(String appId, @NonNull LoadCashiersCallback callback);
 
     void createCashier(CashierCreateQuery cashierCreateQuery, @NonNull CreateCashiersCallBack callBack);
 
     void deleteCashier(CashierDeleteQuery cashierDeleteQuery, @NonNull DeleteCashierCallBack callBack);
+
+    void editCashier(CashierEditQuery cashierEditQuery, @NonNull EditCashierCallBack callBack);
 }

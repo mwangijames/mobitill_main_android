@@ -5,6 +5,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
 
@@ -24,4 +25,7 @@ public interface CashiersEndPoints {
 
     @POST("cashiers/delete")
     Call<CashierDeleteResponse> deleteCashier(@Body CashierDeleteQuery cashierDeleteQuery);
+
+    @POST("cashiers/update")
+    Call<CashierCreateResponse> updateCashier(@Body CashierEditQuery cashierEditQuery);
 }

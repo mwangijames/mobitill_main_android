@@ -4,6 +4,7 @@ import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
 
 /**
@@ -18,6 +19,8 @@ public interface AddEditCashierContract {
         void showCashiersList();
         void showCashierCreateFailed();
         void showCashierCreated(CashierCreateResponseData cashierCreateResponse);
+        void showCashierEdited(CashierCreateResponse cashierCreateResponse);
+        void showCashierEditFailed();
         void showNoApplicationId();
         void populateCashier(Cashier cashier);
         void showNoFields();
@@ -30,5 +33,6 @@ public interface AddEditCashierContract {
     interface Presenter extends BasePresenter{
         void saveCashier(String appId, String name, String username, String password);
         void populateCashier();
+        void editCashier(String appId, String name, String username, String password);
     }
 }

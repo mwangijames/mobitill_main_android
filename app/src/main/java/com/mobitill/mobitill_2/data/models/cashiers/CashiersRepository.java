@@ -7,6 +7,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
 
@@ -69,6 +70,21 @@ public class CashiersRepository implements CashiersDataSource {
                     callBack.onCashierNotDeleted();
                 }
             });
+    }
+
+    @Override
+    public void editCashier(CashierEditQuery cashierEditQuery, @NonNull final EditCashierCallBack callBack) {
+        mCashiersRemoteDataSource.editCashier(cashierEditQuery, new EditCashierCallBack() {
+            @Override
+            public void onCashierEdited(CashierCreateResponse cashierCreateResponse) {
+                callBack.onCashierEdited(cashierCreateResponse);
+            }
+
+            @Override
+            public void onCashierNotEdited() {
+                callBack.onCashierNotEdited();
+            }
+        });
     }
 
 

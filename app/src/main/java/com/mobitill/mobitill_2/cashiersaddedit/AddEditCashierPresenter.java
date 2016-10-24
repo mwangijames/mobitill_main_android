@@ -13,6 +13,8 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateP
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditParams;
+import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
 
 import javax.inject.Inject;
 
@@ -27,6 +29,8 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
     private final CashiersRepository mCashiersRepository;
     private CashierCreateQuery mCashierCreateQuery;
     private CashierCreateParams mCashierCreateParams;
+    private CashierEditParams mCashierEditParams;
+    private CashierEditQuery mCashierEditQuery;
     AppId mAppId;
     @Nullable CashierGson mCashierGson;
 
@@ -36,13 +40,17 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
                             AppId appId,
                             @Nullable CashierGson cashierGson,
                             CashierCreateQuery cashierCreateQuery,
-                            CashierCreateParams cashierCreateParams){
+                            CashierCreateParams cashierCreateParams,
+                            CashierEditParams cashierEditParams,
+                            CashierEditQuery cashierEditQuery){
         mView = view;
         mAppId = appId;
         mCashiersRepository = cashiersRepository;
         mCashierCreateQuery = cashierCreateQuery;
         mCashierCreateParams = cashierCreateParams;
         mCashierGson = cashierGson;
+        mCashierEditQuery = cashierEditQuery;
+        mCashierEditParams = cashierEditParams;
     }
 
     /**
@@ -93,6 +101,49 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
                 mView.populateCashier(cashier);
             }
         }
+    }
+
+    @Override
+    public void editCashier(String appId, String name, String username, String password) {
+        if(getCashierFromJson() != null){
+            mCashierEditParams.setAppid(appId);
+            mCashierEditParams.setName(name);
+            mCashierEditParams.setId(getCashierFromJson().getId());
+            mCashierEditParams.setPassword(password);
+            mCashierEditParams.setUsername(username);
+
+            if(mCashierEditParams.isEmpty()){
+                mView.showNoFields();
+            } else {
+                if(mCashierEditQuery!=null){
+                    mCashierEditQuery.setParams(mCashierEditParams);
+                    mCashiersRepository.editCashier(mCashierEditQuery, new CashiersDataSource.EditCashierCallBack() {
+                        @Override
+                        public void onCashierEdited(CashierCreateResponse cashierCreateResponse) {
+                            mView.showCashierEdited(cashierCreateResponse);
+                        }
+
+                        @Override
+                        public void onCashierNotEdited() {
+                            mView.showCashierEditFailed();
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    Cashier getCashierFromJson(){
+
+       if(mCashierGson.getCashierGson()!=null){
+           Gson gson = new Gson();
+           Cashier cashier = gson.fromJson(mCashierGson.getCashierGson(), Cashier.class);
+           if(cashier != null){
+               return cashier;
+           }
+       }
+
+       return null;
     }
 
     @Override

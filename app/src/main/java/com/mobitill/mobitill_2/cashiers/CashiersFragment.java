@@ -4,6 +4,7 @@ package com.mobitill.mobitill_2.cashiers;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -52,6 +53,7 @@ import butterknife.Unbinder;
 public class CashiersFragment extends Fragment implements CashiersContract.View, ConnectivityReceiver.ConnectivityReceiverListener{
 
     public static final String ARGS_APP_ID = "args_app_id";
+    public static final String ARGS_CASHIERS_LIST="args_cashiers_list";
     public static final String TAG = CashiersFragment.class.getSimpleName();
     private String mAppId;
     private Unbinder mUnbinder;
@@ -59,12 +61,10 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     private CashiersContract.Presenter mPresenter;
     static List<Cashier>  mCashiers = new ArrayList<>();
 
-
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_cashiers) TextView mNoCashiersTextView;
-
 
     FloatingActionButton mOpenAddEditActivity;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -89,6 +89,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null){
             mAppId = getArguments().getString(ARGS_APP_ID);
+            mCashiers =  getArguments().getParcelableArrayList(ARGS_CASHIERS_LIST);
         } else {
             mAppId = savedInstanceState.getString(ARGS_APP_ID);
         }
@@ -97,6 +98,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(ARGS_APP_ID, mAppId);
+        outState.putParcelableArrayList(ARGS_CASHIERS_LIST, new ArrayList<>(mCashiers));
         super.onSaveInstanceState(outState);
     }
 
@@ -137,8 +139,6 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
         MobitillApplication.getInstance().setConnectivityListener(this);
         mPresenter.start();
     }
-
-
 
     @Override
     public void showLoadingIndicator(boolean show) {
@@ -205,7 +205,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
 
     @Override
     public boolean isActive() {
-        return false;
+        return isAdded();
     }
 
     @Override
