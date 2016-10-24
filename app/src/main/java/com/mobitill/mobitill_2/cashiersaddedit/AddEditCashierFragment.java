@@ -18,6 +18,7 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiers.CashiersActivity;
 import com.mobitill.mobitill_2.cashiersdetail.AppId;
+import com.mobitill.mobitill_2.cashiersdetail.CashierDetailActivity;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
@@ -178,6 +179,12 @@ public class AddEditCashierFragment extends Fragment implements AddEditCashierCo
     public void showCashierEditFailed() {
         Toast.makeText(getActivity(), "Update Failed", Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showCashierDetail(CashierGson cashierGson) {
+        startActivity(CashierDetailActivity.newIntent(getActivity(), mAppId.getAppId(), cashierGson.getCashierGson()));
+    }
+
 
     @Override
     public void showNoApplicationId() {

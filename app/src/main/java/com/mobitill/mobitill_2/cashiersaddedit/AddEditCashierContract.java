@@ -21,6 +21,7 @@ public interface AddEditCashierContract {
         void showCashierCreated(CashierCreateResponseData cashierCreateResponse);
         void showCashierEdited(CashierCreateResponse cashierCreateResponse);
         void showCashierEditFailed();
+        void showCashierDetail(CashierGson cashierGson);
         void showNoApplicationId();
         void populateCashier(Cashier cashier);
         void showNoFields();
@@ -34,5 +35,6 @@ public interface AddEditCashierContract {
         void saveCashier(String appId, String name, String username, String password);
         void populateCashier();
         void editCashier(String appId, String name, String username, String password);
+        void openCashierDetail(CashierGson cashierGson);
     }
 }

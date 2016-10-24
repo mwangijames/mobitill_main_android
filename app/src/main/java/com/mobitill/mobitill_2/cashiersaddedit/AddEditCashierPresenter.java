@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mobitill.mobitill_2.cashiersdetail.AppId;
 import com.mobitill.mobitill_2.cashiersdetail.CashierGson;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
@@ -112,6 +113,11 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
             mCashierEditParams.setPassword(password);
             mCashierEditParams.setUsername(username);
 
+            final Cashier cashier = getCashierFromJson();
+            cashier.setUsername(username);
+            cashier.setPassword(password);
+            cashier.setName(name);
+
             if(mCashierEditParams.isEmpty()){
                 mView.showNoFields();
             } else {
@@ -121,6 +127,11 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
                         @Override
                         public void onCashierEdited(CashierCreateResponse cashierCreateResponse) {
                             mView.showCashierEdited(cashierCreateResponse);
+                            if(getCashierGson(cashier) != null) {
+                                mView.showCashierDetail(getCashierGson(cashier));
+                            } else {
+                                mView.showCashiersList();
+                            }
                         }
 
                         @Override
@@ -131,6 +142,11 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
                 }
             }
         }
+    }
+
+    @Override
+    public void openCashierDetail(CashierGson cashierGson) {
+
     }
 
     Cashier getCashierFromJson(){
@@ -144,6 +160,17 @@ public class AddEditCashierPresenter implements AddEditCashierContract.Presenter
        }
 
        return null;
+    }
+
+    CashierGson getCashierGson(Cashier cashier){
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        //mView.showCashierDetailUi(gson.toJson(requestedCashier));
+        CashierGson cashierGson = new CashierGson();
+        if(cashier != null){
+            cashierGson.setCashierGson(gson.toJson(cashier));
+        }
+        return cashierGson;
     }
 
     @Override
