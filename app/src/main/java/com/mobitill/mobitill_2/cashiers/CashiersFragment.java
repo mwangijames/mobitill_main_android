@@ -59,7 +59,7 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
     private Unbinder mUnbinder;
 
     private CashiersContract.Presenter mPresenter;
-    static List<Cashier>  mCashiers = new ArrayList<>();
+    static List<Cashier>  mCashiers;
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
@@ -89,9 +89,10 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null){
             mAppId = getArguments().getString(ARGS_APP_ID);
-            mCashiers =  getArguments().getParcelableArrayList(ARGS_CASHIERS_LIST);
+            mCashiers = new ArrayList<>();
         } else {
             mAppId = savedInstanceState.getString(ARGS_APP_ID);
+            mCashiers =  savedInstanceState.getParcelableArrayList(ARGS_CASHIERS_LIST);
         }
     }
 
@@ -194,11 +195,15 @@ public class CashiersFragment extends Fragment implements CashiersContract.View,
             if (mCashiersAdapter == null) {
                 mCashiersAdapter = new CashiersAdapter(cashiers, getActivity());
                 mRecyclerView.setAdapter(mCashiersAdapter);
-                mCashiers = cashiers;
+                if(cashiers!=null){
+                    mCashiers = cashiers;
+                }
             } else {
                 mCashiersAdapter.setCashiers(cashiers);
                 mCashiersAdapter.notifyDataSetChanged();
-                mCashiers = cashiers;
+                if(cashiers != null){
+                    mCashiers = cashiers;
+                }
             }
         }
     }

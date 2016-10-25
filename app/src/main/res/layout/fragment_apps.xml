@@ -3,6 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical"
+             android:background="@drawable/background_gradient_2"
              tools:context="com.mobitill.mobitill_2.apps.AppsFragment">
 
 
@@ -30,7 +31,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recycler_view"/>
 
 

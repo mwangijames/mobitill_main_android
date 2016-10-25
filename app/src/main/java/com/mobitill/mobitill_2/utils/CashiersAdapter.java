@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 
 import org.w3c.dom.Text;
@@ -49,7 +50,7 @@ public class CashiersAdapter extends ArrayAdapter<Cashier> {
         // create a dynamic text view
         TextView label = new TextView(mContext);
         label.setPadding(30, 30, 30 ,30);
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(mContext.getResources().getColor(R.color.colorTextLight));
         label.setText(mCashiers[position].getName());
         return label;
     }

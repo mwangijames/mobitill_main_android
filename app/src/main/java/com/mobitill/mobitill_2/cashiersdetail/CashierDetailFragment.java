@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.TextViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
@@ -17,6 +20,7 @@ import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierFragment;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -36,6 +40,12 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
     private CashierGson mCashierGson;
     private CashierDetailContract.Presenter mPresenter;
     Unbinder mUnbinder;
+
+    @BindView(R.id.no_network) LinearLayout mNoNetworkLayout;
+    @BindView(R.id.content) LinearLayout mContentLayout;
+    @BindView(R.id.name) TextView mNameTextView;
+    @BindView(R.id.username) TextView mUsernameTextView;
+    @BindView(R.id.password) TextView mPasswordTextView;
 
     FloatingActionButton mEditCashierFAB;
 
@@ -108,7 +118,7 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
 
     @Override
     public void showLoadingIndicator(boolean show) {
-
+        mNoNetworkLayout.setVisibility(show ? View.VISIBLE: View.GONE);
     }
 
     @Override
@@ -123,7 +133,9 @@ public class CashierDetailFragment extends Fragment implements CashierDetailCont
 
     @Override
     public void showCashier(Cashier cashier) {
-        Toast.makeText(getActivity(), cashier.getName(), Toast.LENGTH_SHORT).show();
+        mNameTextView.setText(cashier.getName());
+        mUsernameTextView.setText(cashier.getUsername());
+        mPasswordTextView.setText(cashier.getPassword());
     }
 
     @Override

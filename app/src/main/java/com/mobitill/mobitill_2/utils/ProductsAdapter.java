@@ -48,7 +48,7 @@ public class ProductsAdapter extends ArrayAdapter<Product> {
         // create a dynamic textview
         TextView label = new TextView(mContext);
         label.setPadding(30, 30, 30 ,30);
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(mContext.getResources().getColor(R.color.colorTextLight));
         label.setText(mProducts[position].getName());
         return label;
     }

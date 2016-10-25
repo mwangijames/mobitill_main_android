@@ -66,7 +66,7 @@ public class CashiersPresenter implements CashiersContract.Presenter {
                     mView.showNoCashiers(true);
                 }
                 for (Cashier cashier: cashierList) {
-                    Log.i(TAG, "onCashiersLoaded: " + cashier.getId());
+                   // Log.i(TAG, "onCashiersLoaded: " + cashier.getId());
                 }
             }
 
@@ -74,7 +74,7 @@ public class CashiersPresenter implements CashiersContract.Presenter {
             public void onDataNotAvailable() {
                 mView.showNoCashiers(true);
                 mView.showLoadingIndicator(false);
-                Log.i(TAG, "onDataNotAvailable: " + "Data not available");
+                // Log.i(TAG, "onDataNotAvailable: " + "Data not available");
             }
         });
     }
