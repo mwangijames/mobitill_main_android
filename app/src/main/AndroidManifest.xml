@@ -68,8 +68,11 @@
             android:name=".productsaddedit.ProductAddEditActivity"
             android:parentActivityName=".products.ProductsActivity">
         </activity>
-        <activity android:name=".cashiersdetail.CashierDetailActivity"
+        <activity
+            android:name=".cashiersdetail.CashierDetailActivity"
             android:parentActivityName=".cashiers.CashiersActivity">
+        </activity>
+        <activity android:name=".clientsdetail.ClientsDetailActivity">
         </activity>
     </application>
 
