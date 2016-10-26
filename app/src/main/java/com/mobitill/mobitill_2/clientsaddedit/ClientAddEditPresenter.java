@@ -4,6 +4,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierPresenter;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.data.models.clients.ClientsRepository;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
@@ -24,17 +26,22 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
     private final ClientsRepository mClientsRepository;
     private ClientCreateQuery mClientCreateQuery;
     private ClientCreateParams mClientCreateParams;
-    @Nullable String mAppId;
+    @Nullable
+    ClientsAppId mAppId;
+    @Nullable
+    ClientsJson mClientsJson;
     
     @Inject
     ClientAddEditPresenter(ClientAddEditContract.View view,
                            ClientsRepository clientsRepository,
-                           @Nullable String appId,
+                           @Nullable ClientsAppId appId,
+                           @Nullable ClientsJson clientsJson,
                            ClientCreateQuery clientCreateQuery,
                            ClientCreateParams clientCreateParams){
         mView = view;
         mClientsRepository = clientsRepository;
         mAppId = appId;
+        mClientsJson = clientsJson;
         mClientCreateQuery = clientCreateQuery;
         mClientCreateParams = clientCreateParams;
     }
@@ -50,7 +57,7 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
     
     
     @Override
-    public void saveClient(String appId, String email, String name, String phone) {
+    public void saveClient(ClientsAppId appId, String email, String name, String phone) {
         if(appId == null){
             Log.i(TAG, "saveClient: appId is null");
             return;
@@ -58,7 +65,7 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
 
         if(mClientCreateParams != null){
 
-            mClientCreateParams.setAppid(appId);
+            mClientCreateParams.setAppid(appId.getAppId());
             mClientCreateParams.setEmail(email);
             mClientCreateParams.setName(name);
             mClientCreateParams.setPhone(phone);
@@ -82,14 +89,13 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
                     });
                 }
             }
-
-
-
         }
     }
 
     @Override
     public void start() {
-
+        if(mClientsJson!=null){
+            Log.i(TAG, "start: " + mClientsJson.getJson());
+        }
     }
 }

@@ -19,6 +19,9 @@ import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierContract;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierFragment;
 import com.mobitill.mobitill_2.clients.ClientsActivity;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
+import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
@@ -35,8 +38,10 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
 
     private static final String TAG = ClientAddEditFragment.class.getSimpleName();
     private static final String ARGS_APP_ID = "args_app_id";
+    private static final String ARGS_CLIENT_JSON = "args_client_json";
 
-    private String mAppId;
+    private ClientsAppId mAppId;
+    private ClientsJson mClientsJson;
     private Unbinder mUnbinder;
     private ClientAddEditContract.Presenter mPresenter;
 
@@ -53,10 +58,20 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
         // Required empty public constructor
     }
 
-    public static ClientAddEditFragment newInstance(String appId) {
+    public static ClientAddEditFragment newInstance(ClientsAppId appId) {
 
         Bundle args = new Bundle();
-        args.putString(ARGS_APP_ID, appId);
+        args.putSerializable(ARGS_APP_ID, appId);
+        ClientAddEditFragment fragment = new ClientAddEditFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ClientAddEditFragment newInstance(ClientsAppId appId, ClientsJson clientsJson) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_APP_ID, appId);
+        args.putSerializable(ARGS_CLIENT_JSON, clientsJson);
         ClientAddEditFragment fragment = new ClientAddEditFragment();
         fragment.setArguments(args);
         return fragment;
@@ -66,15 +81,18 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
             if(savedInstanceState == null){
-                mAppId = getArguments().getString(ARGS_APP_ID);
+                mAppId = (ClientsAppId) getArguments().getSerializable(ARGS_APP_ID);
+                mClientsJson = (ClientsJson) getArguments().getSerializable(ARGS_CLIENT_JSON);
             } else {
-                mAppId = savedInstanceState.getString(ARGS_APP_ID);
+                mAppId = (ClientsAppId) savedInstanceState.getSerializable(ARGS_APP_ID);
+                mClientsJson = (ClientsJson) savedInstanceState.getSerializable(ARGS_CLIENT_JSON);
             }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putString(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_CLIENT_JSON, mClientsJson);
         super.onSaveInstanceState(outState);
     }
 
@@ -129,7 +147,7 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
 
     @Override
     public void showClientsList() {
-        startActivity(ClientsActivity.newIntent(getActivity(), mAppId));
+        startActivity(ClientsActivity.newIntent(getActivity(), mAppId.getAppId()));
     }
 
     @Override

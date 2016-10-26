@@ -13,6 +13,8 @@ import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierActivity;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
@@ -25,6 +27,8 @@ public class ClientAddEditActivity extends AppCompatActivity {
 
         public static final String TAG = ClientAddEditActivity.class.getSimpleName();
         public static final String EXTRA_APP_ID = "extra_app_id";
+        public static final String EXTRA_CLIENTS_JSON = "extra_clients_json";
+        public static final String ARGS_CLIENTS_JSON = "args_clients_json";
         public static final String ARGS_APP_ID = "args_app_id";
 
 
@@ -34,11 +38,19 @@ public class ClientAddEditActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    String mAppId;
+    ClientsAppId mAppId;
+    ClientsJson mClientsJson;
 
-    public static Intent newIntent(Context context, String appId){
+    public static Intent newIntent(Context context, ClientsAppId appId){
         Intent intent = new Intent(context, ClientAddEditActivity.class);
         intent.putExtra(EXTRA_APP_ID, appId);
+        return intent;
+    }
+
+    public static Intent newIntent(Context context, ClientsAppId appId, ClientsJson clientsJson){
+        Intent intent = new Intent(context, ClientAddEditActivity.class);
+        intent.putExtra(EXTRA_APP_ID, appId);
+        intent.putExtra(EXTRA_CLIENTS_JSON, clientsJson);
         return intent;
     }
 
@@ -52,12 +64,15 @@ public class ClientAddEditActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if(savedInstanceState == null){
-            mAppId = getIntent().getStringExtra(EXTRA_APP_ID);
+            mAppId = (ClientsAppId) getIntent().getSerializableExtra(EXTRA_APP_ID);
+            mClientsJson = (ClientsJson) getIntent().getSerializableExtra(EXTRA_CLIENTS_JSON);
             if(mAppId == null){
-                mAppId = mSharedPreferences.getString(mConstants.APPID, null);
+                mAppId = new ClientsAppId();
+                mAppId.setAppId(mSharedPreferences.getString(mConstants.APPID, null));
             }
         } else {
-            mAppId = savedInstanceState.getString(ARGS_APP_ID);
+            mAppId = (ClientsAppId) savedInstanceState.getSerializable(ARGS_APP_ID);
+            mClientsJson = (ClientsJson) savedInstanceState.getSerializable(ARGS_CLIENTS_JSON);
         }
 
         setSupportActionBar(mToolbar);
@@ -82,7 +97,7 @@ public class ClientAddEditActivity extends AppCompatActivity {
         }
 
         DaggerClientAddEditComponent.builder()
-                .clientAddEditPresenterModule(new ClientAddEditPresenterModule(clientAddEditFragment, mAppId))
+                .clientAddEditPresenterModule(new ClientAddEditPresenterModule(clientAddEditFragment, mAppId, mClientsJson))
                 .baseComponent(((MobitillApplication) getApplication()).getBaseComponent())
                 .build()
                 .inject(this);
@@ -92,7 +107,8 @@ public class ClientAddEditActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putString(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_APP_ID, mAppId);
+        outState.putSerializable(ARGS_CLIENTS_JSON, mClientsJson);
         super.onSaveInstanceState(outState);
     }
 }

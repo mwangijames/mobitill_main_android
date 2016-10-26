@@ -3,6 +3,9 @@ package com.mobitill.mobitill_2.clientsaddedit;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -12,12 +15,16 @@ import dagger.Provides;
 @Module
 public class ClientAddEditPresenterModule {
     private final ClientAddEditContract.View mView;
-    private final String mAppId;
+    private final ClientsAppId mAppId;
+    private final ClientsJson mClientsJson;
 
     public ClientAddEditPresenterModule(ClientAddEditContract.View view,
-                                        String appId){
+                                        ClientsAppId appId,
+                                        ClientsJson clientsJson){
+
         mView = view;
         mAppId = appId;
+        mClientsJson = clientsJson;
     }
 
     @Provides
@@ -27,7 +34,13 @@ public class ClientAddEditPresenterModule {
 
     @Provides
     @Nullable
-    String provideAppId(){
+    ClientsAppId provideAppId(){
         return mAppId;
+    }
+
+    @Provides
+    @Nullable
+    ClientsJson provideClientsJson(){
+        return mClientsJson;
     }
 }

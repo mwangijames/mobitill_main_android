@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.clientsaddedit;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
 
 /**
@@ -25,7 +26,7 @@ public interface ClientAddEditContract {
     }
 
     interface Presenter extends BasePresenter{
-        void saveClient(String appId, String email, String name, String phone);
+        void saveClient(ClientsAppId appId, String email, String name, String phone);
     }
 
 }

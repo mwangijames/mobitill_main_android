@@ -23,6 +23,9 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.cashiers.CashiersActionBarCallBack;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsDetailActivity;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -147,8 +150,8 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     }
 
     @Override
-    public void showAddClient(String appId) {
-        startActivity(ClientAddEditActivity.newIntent(getActivity(), mAppId));
+    public void showAddClient(ClientsAppId appId) {
+        startActivity(ClientAddEditActivity.newIntent(getActivity(), appId));
     }
 
     @Override
@@ -161,6 +164,11 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
     @Override
     public void showClientDeleteFailed(String name) {
         Toast.makeText(getActivity(), name + " not deleted", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showClientDetailView(ClientsAppId appId, ClientsJson clientsJson) {
+        startActivity(ClientsDetailActivity.newIntent(getActivity(), appId, clientsJson));
     }
 
     @Override
@@ -220,6 +228,8 @@ public class ClientsFragment extends Fragment implements ClientsContract.View, C
                 //if ActionMode is not null select item
                 if(mActionMode!=null){
                     onListItemSelect(position);
+                } else {
+                    mPresenter.showClientDetailView(mClients.get(position));
                 }
             }
 

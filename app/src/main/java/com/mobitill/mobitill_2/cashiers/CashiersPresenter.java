@@ -120,7 +120,7 @@ public class CashiersPresenter implements CashiersContract.Presenter {
     public void openCashierDetails(Cashier requestedCashier) {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        Log.i(TAG, "openCashierDetails: " + gson.toString());
+        //Log.i(TAG, "openCashierDetails: " + gson.toString());
         mView.showCashierDetailUi(gson.toJson(requestedCashier));
     }
 

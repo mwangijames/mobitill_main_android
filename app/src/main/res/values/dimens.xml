@@ -13,4 +13,7 @@
     <dimen name="elevation_3dp">3dp</dimen>
     <dimen name="elevation_4dp">4dp</dimen>
     <dimen name="corner_4dp">4dp</dimen>
+    <dimen name="elevation_40dp">40dp</dimen>
+    <dimen name="elevation_32dp">32dp</dimen>
+    <dimen name="elevation_16dp">16dp</dimen>
 </resources>

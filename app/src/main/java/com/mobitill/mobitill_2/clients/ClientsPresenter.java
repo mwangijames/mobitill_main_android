@@ -3,6 +3,10 @@ package com.mobitill.mobitill_2.clients;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.data.models.clients.ClientsRepository;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
@@ -75,7 +79,9 @@ public class ClientsPresenter implements ClientsContract.Presenter {
 
     @Override
     public void addNewClient(String appId) {
-        mView.showAddClient(appId);
+        ClientsAppId clientsAppId = new ClientsAppId();
+        clientsAppId.setAppId(appId);
+        mView.showAddClient(clientsAppId);
     }
 
     @Override
@@ -103,6 +109,25 @@ public class ClientsPresenter implements ClientsContract.Presenter {
                 });
             }
         }
+    }
+
+    @Override
+    public void showClientDetailView(Client requestedClient) {
+        if(null == mAppId || mAppId.isEmpty()){
+            return;
+        }
+
+        ClientsAppId clientsAppId = new ClientsAppId();
+        clientsAppId.setAppId(mAppId);
+
+        ClientsJson clientsJson = new ClientsJson();
+        if(requestedClient!=null){
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Gson gson = gsonBuilder.create();
+            clientsJson.setJson(gson.toJson(requestedClient));
+            mView.showClientDetailView(clientsAppId, clientsJson);
+        }
+
     }
 
     @Override
