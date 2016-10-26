@@ -113,4 +113,11 @@ public class ClientCreateResponseData {
         this.id = id;
     }
 
+    public boolean isEmpty(){
+        return (appid == null || "".equals(appid)) ||
+                (email == null || "".equals(email)) ||
+                (name == null || "".equals(name)) ||
+                (phone == null || "".equals(phone)) ||
+                (id == null) || "".equals(id);
+    }
 }

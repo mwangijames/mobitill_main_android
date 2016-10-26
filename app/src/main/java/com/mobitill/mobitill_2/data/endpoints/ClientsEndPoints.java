@@ -25,6 +25,6 @@ public interface ClientsEndPoints {
     @POST("clients/delete")
     Call<ClientDeleteResponse> deleteClient(@Body ClientDeleteQuery clientDeleteQuery);
 
-    @POST("clients/edit")
+    @POST("clients/update")
     Call<ClientCreateResponse> editClient(@Body ClientEditQuery clientEditQuery);
 }

@@ -58,7 +58,9 @@ public class ClientsDetailPresenter implements ClientsDetailContract.Presenter {
 
     @Override
     public void editClient() {
-        mView.showEditClient(mClientsJson);
+        if(mClientsJson != null){
+            mView.showEditClient(mClientsJson);
+        }
     }
 
     @Override

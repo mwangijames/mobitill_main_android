@@ -91,7 +91,12 @@ public class ClientAddEditActivity extends AppCompatActivity {
                                                         .findFragmentById(R.id.contentFrame);
 
         if(clientAddEditFragment  == null){
-            clientAddEditFragment = ClientAddEditFragment.newInstance(mAppId);
+            if(mClientsJson == null){
+                clientAddEditFragment = ClientAddEditFragment.newInstance(mAppId);
+            } else {
+                clientAddEditFragment = ClientAddEditFragment.newInstance(mAppId, mClientsJson);
+            }
+
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), clientAddEditFragment,
                     R.id.contentFrame);
         }

@@ -13,6 +13,8 @@ import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateParams;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
 
 import javax.inject.Inject;
 
@@ -27,10 +29,10 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
     private final ClientsRepository mClientsRepository;
     private ClientCreateQuery mClientCreateQuery;
     private ClientCreateParams mClientCreateParams;
-    @Nullable
-    ClientsAppId mAppId;
-    @Nullable
-    ClientsJson mClientsJson;
+    private ClientEditQuery mClientEditQuery;
+    private ClientCreateResponseData mClientEditParams;
+    @Nullable ClientsAppId mAppId;
+    @Nullable ClientsJson mClientsJson;
     
     @Inject
     ClientAddEditPresenter(ClientAddEditContract.View view,
@@ -38,13 +40,17 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
                            @Nullable ClientsAppId appId,
                            @Nullable ClientsJson clientsJson,
                            ClientCreateQuery clientCreateQuery,
-                           ClientCreateParams clientCreateParams){
+                           ClientCreateParams clientCreateParams,
+                           ClientEditQuery clientEditQuery,
+                           ClientCreateResponseData clientEditParams){
         mView = view;
         mClientsRepository = clientsRepository;
         mAppId = appId;
         mClientsJson = clientsJson;
         mClientCreateQuery = clientCreateQuery;
         mClientCreateParams = clientCreateParams;
+        mClientEditQuery = clientEditQuery;
+        mClientEditParams = clientEditParams;
     }
 
     /**
@@ -88,6 +94,42 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
                             mView.showClientCreatedFailed();
                         }
                     });
+                }
+            }
+        }
+    }
+
+    @Override
+    public void editClient(String name, String email, String phone) {
+        if(mAppId!=null){
+            if(mClientsJson != null){
+                if(mClientEditParams != null){
+                    mClientEditParams.setAppid(mAppId.getAppId());
+                    mClientEditParams.setId(getClientFromJson().getId());
+                    mClientEditParams.setName(name);
+                    mClientEditParams.setPhone(phone);
+                    mClientEditParams.setEmail(email);
+
+                    if(mClientEditParams.isEmpty()) {
+                        mView.showNoFields();
+                    } else {
+                        if(mClientEditQuery!=null){
+                            mClientEditQuery.setParams(mClientEditParams);
+
+                            mClientsRepository.editClient(mClientEditQuery, new ClientsDataSource.EditClientCallBack() {
+                                @Override
+                                public void onClientEdited(ClientCreateResponse clientCreateResponse) {
+                                    mView.showClientEdited(getClientFromJson());
+                                    mView.showClientsList();
+                                }
+
+                                @Override
+                                public void onClientNotEdited() {
+                                    mView.showClientEditFailed(getClientFromJson());
+                                }
+                            });
+                        }
+                    }
                 }
             }
         }

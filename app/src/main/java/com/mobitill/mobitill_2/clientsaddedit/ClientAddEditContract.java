@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.clientsaddedit;
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
+import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
 
 /**
@@ -22,11 +23,14 @@ public interface ClientAddEditContract {
         void setEmail(String email);
         void setName(String name);
         void setPhone(String phone);
+        void showClientEdited(Client client);
+        void showClientEditFailed(Client client);
         boolean isActive();
     }
 
     interface Presenter extends BasePresenter{
         void saveClient(ClientsAppId appId, String email, String name, String phone);
+        void editClient(String name, String email, String phone);
     }
 
 }

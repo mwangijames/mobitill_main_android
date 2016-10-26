@@ -104,9 +104,18 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
         mSaveClientFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.saveClient(mAppId, mEmailEditText.getText().toString(),
-                        mNameEditText.getText().toString(),
-                        mPhoneEditText.getText().toString());
+                if(mClientsJson == null){
+                    mPresenter.saveClient(mAppId, mEmailEditText.getText().toString(),
+                            mNameEditText.getText().toString(),
+                            mPhoneEditText.getText().toString());
+                } else {
+                    mPresenter.editClient(
+                            mNameEditText.getText().toString(),
+                            mEmailEditText.getText().toString(),
+                            mPhoneEditText.getText().toString()
+                    );
+                }
+
             }
         });
     }
@@ -183,6 +192,16 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
     @Override
     public void setPhone(String phone) {
         mPhoneEditText.setText(phone);
+    }
+
+    @Override
+    public void showClientEdited(Client client) {
+        Toast.makeText(getActivity(), client.getName() + " edited", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showClientEditFailed(Client client) {
+        Toast.makeText(getActivity(), client.getName() + " edit faile", Toast.LENGTH_SHORT).show();
     }
 
     @Override

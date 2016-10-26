@@ -124,7 +124,7 @@ public class ClientsRemoteDataSource implements ClientsDataSource {
                 public void onFailure(Call<ClientCreateResponse> call, Throwable t) {
                     callBack.onClientNotEdited();
                 }
-                
+
             });
         }
     }
