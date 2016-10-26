@@ -9,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreatePar
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteParams;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
@@ -84,6 +85,11 @@ public class ClientsModule {
     @Provides
     ClientDeleteResponseData provideClientDeleteResponseData(){
         return new ClientDeleteResponseData();
+    }
+
+    @Provides
+    ClientEditQuery provideClientEditQuery(){
+        return new ClientEditQuery();
     }
 
 }

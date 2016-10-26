@@ -12,6 +12,7 @@ import com.mobitill.mobitill_2.data.models.clients.models.ClientsParams;
 import com.mobitill.mobitill_2.data.models.clients.models.ClientsQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
@@ -100,6 +101,30 @@ public class ClientsRemoteDataSource implements ClientsDataSource {
                 public void onFailure(Call<ClientDeleteResponse> call, Throwable t) {
                     callBack.onClientNotDeleted();
                 }
+            });
+        }
+    }
+
+    @Override
+    public void editClient(ClientEditQuery clientEditQuery, @NonNull final EditClientCallBack callBack) {
+        ClientsEndPoints clientsEndPoints = mRetrofit.create(ClientsEndPoints.class);
+        if(clientEditQuery != null){
+            Call<ClientCreateResponse> call = clientsEndPoints.editClient(clientEditQuery);
+            call.enqueue(new Callback<ClientCreateResponse>() {
+                @Override
+                public void onResponse(Call<ClientCreateResponse> call, Response<ClientCreateResponse> response) {
+                    if(response.isSuccessful()){
+                        callBack.onClientEdited(response.body());
+                    } else {
+                        callBack.onClientNotEdited();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ClientCreateResponse> call, Throwable t) {
+                    callBack.onClientNotEdited();
+                }
+                
             });
         }
     }

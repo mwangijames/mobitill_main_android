@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
@@ -24,6 +25,11 @@ public interface ClientsDataSource {
         void onClientNotCreated();
     }
 
+    interface EditClientCallBack{
+        void onClientEdited(ClientCreateResponse clientCreateResponse);
+        void onClientNotEdited();
+    }
+
     interface DeleteClientCallBack{
         void onClientDeleted(ClientDeleteResponse clientDeleteResponse);
         void onClientNotDeleted();
@@ -35,4 +41,5 @@ public interface ClientsDataSource {
 
     void deleteClient(ClientDeleteQuery clientDeleteQuery, @NonNull DeleteClientCallBack callBack);
 
+    void editClient(ClientEditQuery clientEditQuery, @NonNull EditClientCallBack callBack);
 }

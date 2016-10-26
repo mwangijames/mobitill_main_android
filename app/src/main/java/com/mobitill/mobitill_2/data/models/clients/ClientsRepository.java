@@ -6,6 +6,7 @@ import com.mobitill.mobitill_2.data.Remote;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
+import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
 import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
 
@@ -17,7 +18,6 @@ import javax.inject.Inject;
  * Created by james on 9/19/2016.
  */
 public class ClientsRepository implements ClientsDataSource {
-
 
     private final ClientsDataSource mClientsRemoteDataSource;
 
@@ -67,6 +67,21 @@ public class ClientsRepository implements ClientsDataSource {
             @Override
             public void onClientNotDeleted() {
                 callBack.onClientNotDeleted();
+            }
+        });
+    }
+
+    @Override
+    public void editClient(ClientEditQuery clientEditQuery, @NonNull final EditClientCallBack callBack) {
+        mClientsRemoteDataSource.editClient(clientEditQuery, new EditClientCallBack() {
+            @Override
+            public void onClientEdited(ClientCreateResponse clientCreateResponse) {
+                callBack.onClientEdited(clientCreateResponse);
+            }
+
+            @Override
+            public void onClientNotEdited() {
+                callBack.onClientNotEdited();
             }
         });
     }
