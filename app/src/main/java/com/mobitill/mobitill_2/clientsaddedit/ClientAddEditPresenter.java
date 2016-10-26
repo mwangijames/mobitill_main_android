@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.clientsaddedit;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierPresenter;
 import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
 import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
@@ -95,7 +96,22 @@ public class ClientAddEditPresenter implements ClientAddEditContract.Presenter {
     @Override
     public void start() {
         if(mClientsJson!=null){
-            Log.i(TAG, "start: " + mClientsJson.getJson());
+            if(getClientFromJson() != null){
+                mView.setName(getClientFromJson().getName());
+                mView.setEmail(getClientFromJson().getEmail());
+                mView.setPhone(getClientFromJson().getPhone());
+            }
         }
+    }
+
+    Client getClientFromJson(){
+
+        if(mClientsJson != null){
+            Gson gson = new Gson();
+            Client client = gson.fromJson(mClientsJson.getJson(), Client.class);
+            return client;
+        }
+
+        return null;
     }
 }

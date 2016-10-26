@@ -172,17 +172,17 @@ public class ClientAddEditFragment extends Fragment implements ClientAddEditCont
 
     @Override
     public void setEmail(String email) {
-
+        mEmailEditText.setText(email);
     }
 
     @Override
     public void setName(String name) {
-
+        mNameEditText.setText(name);
     }
 
     @Override
     public void setPhone(String phone) {
-
+        mPhoneEditText.setText(phone);
     }
 
     @Override
