@@ -9,4 +9,5 @@ public class Constants {
       public final String LOGINTIME= "LOGINTIME";
       public final String APPID = "APPID";
       public final String APPNAME = "APP_NAME";
+      public final String APPSETTINGS = "APP_SETTINGS";
 }

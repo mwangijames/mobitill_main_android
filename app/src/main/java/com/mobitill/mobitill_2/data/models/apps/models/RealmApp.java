@@ -11,6 +11,7 @@ public class RealmApp extends RealmObject {
     private String appid;
     private String name;
     private String orgid;
+    private String settings;
 
     public String getName() {
         return name;
@@ -34,5 +35,13 @@ public class RealmApp extends RealmObject {
 
     public void setAppid(String appid) {
         this.appid = appid;
+    }
+
+    public String getSettings() {
+        return settings;
+    }
+
+    public void setSettings(String settings) {
+        this.settings = settings;
     }
 }

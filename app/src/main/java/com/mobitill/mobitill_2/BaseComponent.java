@@ -96,6 +96,8 @@ import com.mobitill.mobitill_2.data.models.users.UserParams;
 import com.mobitill.mobitill_2.data.models.users.UserResponse;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.net.NetModule;
+import com.mobitill.mobitill_2.utils.SettingsHelper;
+import com.mobitill.mobitill_2.utils.UtilsModule;
 
 
 import javax.inject.Singleton;
@@ -114,7 +116,7 @@ import retrofit2.Retrofit;
         AppsModule.class, RealmModule.class, AppsRepositoryModule.class, JobsModule.class,
         ReportsModule.class, ReportsRepositoryModule.class, ProductsModule.class, ProductsRepositoryModule.class,
         CashiersRepositoryModule.class, CashiersModule.class, FleetModule.class, FleetRepositoryModule.class,
-        ClientsModule.class, ClientsRepositoryModule.class})
+        ClientsModule.class, ClientsRepositoryModule.class, UtilsModule.class})
 public interface BaseComponent {
     // Application Module
     Context context();
@@ -228,4 +230,7 @@ public interface BaseComponent {
     ClientDeleteQuery clientDeleteQuery();
     ClientDeleteParams clientDeleteParams();
     ClientEditQuery clientEditQuery();
+
+    // Utils
+    SettingsHelper settingsHelper();
 }

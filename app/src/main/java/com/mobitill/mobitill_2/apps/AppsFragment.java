@@ -23,6 +23,8 @@ import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.data.models.apps.models.Apps;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
+import com.mobitill.mobitill_2.menu.MenuActivity;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.reports.ReportsActivity;
 
@@ -162,8 +164,8 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
 
     @Override
-    public void showAppDetails(String appId) {
-        startActivity(ReportsActivity.newIntent(getActivity(), appId));
+    public void showAppDetails(String appId, MenuAppSettings menuAppSettings) {
+        startActivity(MenuActivity.newIntent(getActivity(), appId, menuAppSettings));
     }
 
     @Override

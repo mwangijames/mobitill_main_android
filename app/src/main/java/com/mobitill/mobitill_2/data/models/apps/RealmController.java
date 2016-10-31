@@ -65,6 +65,7 @@ public class RealmController {
                 realmApp.setAppid(app.getAppid());
                 realmApp.setName(app.getApp().getName());
                 realmApp.setOrgid(app.getApp().getOrgid());
+                realmApp.setSettings(app.getApp().getSettings());
 
             }
         }, new Realm.Transaction.OnSuccess() {

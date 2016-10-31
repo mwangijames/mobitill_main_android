@@ -13,6 +13,9 @@ public class App {
     @SerializedName("orgid")
     @Expose
     private String orgid;
+    @SerializedName("settings")
+    @Expose
+    private String settings;
 
     /**
      *
@@ -48,6 +51,24 @@ public class App {
      */
     public void setOrgid(String orgid) {
         this.orgid = orgid;
+    }
+
+    /**
+     *
+     * @return
+     * The settings
+     */
+    public String getSettings() {
+        return settings;
+    }
+
+    /**
+     *
+     * @param settings
+     * The settings
+     */
+    public void setSettings(String settings) {
+        this.settings = settings;
     }
 
 }

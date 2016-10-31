@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.Constants;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.sync.ScheduleAppSync;
 import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
@@ -52,8 +53,11 @@ public final class AppsPresenter implements AppsContract.Presenter{
         mSharedPreferences.edit()
                 .putString(mConstants.APPID, requestedApp.getAppid())
                 .putString(mConstants.APPNAME, requestedApp.getApp().getName())
+                .putString(mConstants.APPSETTINGS, requestedApp.getApp().getSettings())
                 .apply();
-        mAppsView.showAppDetails(requestedApp.getAppid());
+        MenuAppSettings menuAppSettings = new MenuAppSettings();
+        menuAppSettings.setSettings(requestedApp.getApp().getSettings());
+        mAppsView.showAppDetails(requestedApp.getAppid(), menuAppSettings);
     }
 
     @Override
@@ -61,8 +65,11 @@ public final class AppsPresenter implements AppsContract.Presenter{
         mSharedPreferences.edit()
                 .putString(mConstants.APPID, requestedApp.getAppid())
                 .putString(mConstants.APPNAME, requestedApp.getName())
+                .putString(mConstants.APPSETTINGS, requestedApp.getSettings())
                 .apply();
-        mAppsView.showAppDetails(requestedApp.getAppid());
+        MenuAppSettings menuAppSettings = new MenuAppSettings();
+        menuAppSettings.setSettings(requestedApp.getSettings());
+        mAppsView.showAppDetails(requestedApp.getAppid(), menuAppSettings);
     }
 
     @Inject
@@ -84,7 +91,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
 
     @Override
     public void performSync() {
-        mScheduleAppSync.run();
+        //mScheduleAppSync.run();
     }
 
     private void loadApps(boolean forceUpdate, final boolean showLoadingUI){

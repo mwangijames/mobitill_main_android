@@ -14,7 +14,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import java.util.ArrayList;
 import java.util.List;
 
-class CashiersAdapter extends RecyclerView.Adapter<CashierHolder>{
+class   CashiersAdapter extends RecyclerView.Adapter<CashierHolder>{
 
     private List<Cashier> mCashiers;
     private Context mContext;

@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
@@ -19,6 +21,7 @@ import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -38,6 +41,11 @@ public class ClientsDetailFragment extends Fragment implements ClientsDetailCont
     Unbinder mUnbinder;
 
     FloatingActionButton mEditClientFAB;
+    @BindView(R.id.no_network) LinearLayout mNoNetworkLayout;
+    @BindView(R.id.content) LinearLayout mContentLayout;
+    @BindView(R.id.name) TextView mNameTextView;
+    @BindView(R.id.email) TextView mEmailTextView;
+    @BindView(R.id.phone) TextView mPhoneTextView;
 
     public ClientsDetailFragment() {
         // Required empty public constructor
@@ -124,7 +132,9 @@ public class ClientsDetailFragment extends Fragment implements ClientsDetailCont
 
     @Override
     public void showClient(Client client) {
-        Toast.makeText(getActivity(), client.getName(), Toast.LENGTH_SHORT).show();
+        mNameTextView.setText(client.getName());
+        mEmailTextView.setText(client.getEmail());
+        mPhoneTextView.setText(client.getPhone());
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ public class AppsContract {
         void setLoadingIndicator(boolean active);
         void showRemoteApps(List<Datum> apps);
         void showLocalApps(List<RealmApp> apps);
-        void showAppDetails(String appId);
+        void showAppDetails(String appId, MenuAppSettings menuAppSettings);
         void showLoadingAppsError();
         void showNoApps(boolean show);
         void showNoNetwork(boolean show);
