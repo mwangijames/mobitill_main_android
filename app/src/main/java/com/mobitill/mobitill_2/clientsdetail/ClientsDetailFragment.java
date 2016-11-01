@@ -155,4 +155,5 @@ public class ClientsDetailFragment extends Fragment implements ClientsDetailCont
             showNoNetwork(true);
         }
     }
+
 }

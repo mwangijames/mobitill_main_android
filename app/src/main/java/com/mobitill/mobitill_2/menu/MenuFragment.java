@@ -9,9 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.components.ShowAllUtils;
+import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditFragment;
+import com.mobitill.mobitill_2.utils.RecyclerClickListener;
+import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
 
 import java.util.List;
 
@@ -35,6 +40,7 @@ public class MenuFragment extends Fragment implements MenuContract.View{
     private Unbinder mUnbinder;
     private String mAppId;
     private MenuAppSettings mMenuAppSettings;
+    private List<String> mModels;
 
     @BindView(R.id.recycler_view)RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -83,6 +89,7 @@ public class MenuFragment extends Fragment implements MenuContract.View{
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        implementRecyclerViewClickListeners();
         return view;
     }
 
@@ -108,11 +115,37 @@ public class MenuFragment extends Fragment implements MenuContract.View{
         if(isAdded()){
             if(mMenuAdapter == null){
                 mMenuAdapter = new MenuAdapter(models, getActivity());
+                mModels = models;
                 mRecyclerView.setAdapter(mMenuAdapter);
             } else {
                 mMenuAdapter.setModels(models);
+                mModels = models;
                 mMenuAdapter.notifyDataSetChanged();
             }
         }
     }
+
+    @Override
+    public void showAllActivity(ShowAllUtils showAllUtils) {
+        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils));
+    }
+
+    private void implementRecyclerViewClickListeners(){
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new RecyclerClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                if(mModels != null && !mModels.isEmpty()){
+                    Toast.makeText(getActivity(), "openShowAll", Toast.LENGTH_SHORT).show();
+                    mPresenter.openShowAll(mModels.get(position));
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+    }
+
+
 }

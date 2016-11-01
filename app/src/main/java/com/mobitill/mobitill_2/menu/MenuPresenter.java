@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.menu;
 import android.util.Log;
 import android.view.Menu;
 
+import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.ArrayList;
@@ -68,6 +69,30 @@ public class MenuPresenter implements MenuContract.Presenter {
 
         } else {
             Log.i(TAG, "start: mMenuAppSettings is null");
+        }
+    }
+
+    @Override
+    public void openShowAll(String model) {
+        if(mAppId != null){
+            if(mMenuAppSettings!=null && mMenuAppSettings.getSettings() != null){
+                ShowAllUtils showAllUtils = new ShowAllUtils();
+                showAllUtils.setAppId(mAppId);
+                showAllUtils.setSettings(mMenuAppSettings.getSettings());
+                showAllUtils.setModel(model);
+                if(showAllUtils.isEmpty()){
+                    Log.i(TAG, "openShowAll: show showAllUtils fields are null or empty");
+                    Log.i(TAG, "openShowAll: appId: " + mAppId);
+                    Log.i(TAG, "openShowAll: menuAppSettings: " + mMenuAppSettings.getSettings());
+                    Log.i(TAG, "openShowAll: model: " + model);
+                } else {
+                    mView.showAllActivity(showAllUtils);
+                }
+            } else {
+                Log.i(TAG, "openShowAll: " + "mMenuAppSettings has issues");
+            }
+        } else {
+            Log.i(TAG, "openShowAll: " + "appId is null");
         }
     }
 
