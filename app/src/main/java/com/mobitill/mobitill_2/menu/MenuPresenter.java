@@ -61,6 +61,7 @@ public class MenuPresenter implements MenuContract.Presenter {
                 for (String model: models) {
                     Log.i(TAG, "getMenuList: " + model);
                 }
+                mView.showMenuItems(models);
             } else {
                 mSettingHelper.getModels("{}");
             }
