@@ -9,6 +9,9 @@ import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -72,7 +75,10 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                         mGenericRepository.getData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
-                                Log.i(TAG, "onDataLoaded: " + data);
+                                List<HashMap<String, String>> items = mSettingsHelper.getList(data);
+                                for (HashMap<String, String> item: items) {
+                                    Log.i(TAG, "onDataLoaded: " + item.toString());
+                                }
                             }
 
                             @Override
