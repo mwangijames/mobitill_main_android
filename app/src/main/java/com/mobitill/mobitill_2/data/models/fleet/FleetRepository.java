@@ -25,7 +25,6 @@ public class FleetRepository implements FleetDataSource {
         mFleetRemoteDataSource = fleetRemoteDataSource;
     }
 
-
     @Override
     public void getFleet(String appId, @NonNull final LoadFleetCallBack callBack) {
         mFleetRemoteDataSource.getFleet(appId, new LoadFleetCallBack() {

@@ -34,4 +34,20 @@ public class SettingsHelper {
         return modelsList;
     }
 
+    public String getPayload(String action, String appid){
+        String payload = null;
+        try {
+            JSONObject params = new JSONObject();
+            JSONObject actionObject = new JSONObject();
+            actionObject.put("appid", appid);
+            params.put(action, actionObject);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("params", params);
+            payload = jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return payload;
+    }
+
 }

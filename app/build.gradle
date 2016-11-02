@@ -48,4 +48,5 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.4'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
 }

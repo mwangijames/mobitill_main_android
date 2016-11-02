@@ -14,7 +14,7 @@ public interface ShowAllContract {
     }
 
     public interface Presenter extends BasePresenter{
-
+        void fetch();
     }
 
 }

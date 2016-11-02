@@ -8,12 +8,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.clientsdetail.ClientsDetailActivity;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
+import com.mobitill.mobitill_2.menu.MenuActivity;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
@@ -99,5 +103,26 @@ public class ShowAllActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_SHOW_ALL_UTILS, mShowAllUtils);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                goBack();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void goBack(){
+        if(mShowAllUtils!=null){
+            MenuAppSettings menuAppSettings = new MenuAppSettings();
+            menuAppSettings.setSettings(mShowAllUtils.getSettings());
+            startActivity(MenuActivity.newIntent(this, mShowAllUtils.getAppId(), menuAppSettings));
+        } else {
+            finish();
+        }
     }
 }

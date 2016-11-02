@@ -114,8 +114,7 @@
             android:exported="false"
             android:syncable="true"/>
 
-        <activity android:name=".components.showall.ShowAllActivity"
-            android:parentActivityName=".menu.MenuActivity">
+        <activity android:name=".components.showall.ShowAllActivity">
         </activity>
     </application>
 

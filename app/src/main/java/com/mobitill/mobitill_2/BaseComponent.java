@@ -63,6 +63,12 @@ import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteParams
 import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
 import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
 import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponseData;
+import com.mobitill.mobitill_2.data.models.generic.Actions;
+import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
+import com.mobitill.mobitill_2.data.models.generic.GenericModule;
+import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
+import com.mobitill.mobitill_2.data.models.generic.GenericRepositoryModule;
+import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.data.models.products.ProductsModule;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
@@ -116,7 +122,8 @@ import retrofit2.Retrofit;
         AppsModule.class, RealmModule.class, AppsRepositoryModule.class, JobsModule.class,
         ReportsModule.class, ReportsRepositoryModule.class, ProductsModule.class, ProductsRepositoryModule.class,
         CashiersRepositoryModule.class, CashiersModule.class, FleetModule.class, FleetRepositoryModule.class,
-        ClientsModule.class, ClientsRepositoryModule.class, UtilsModule.class})
+        ClientsModule.class, ClientsRepositoryModule.class, UtilsModule.class, GenericRepositoryModule.class,
+        GenericModule.class})
 public interface BaseComponent {
     // Application Module
     Context context();
@@ -233,4 +240,10 @@ public interface BaseComponent {
 
     // Utils
     SettingsHelper settingsHelper();
+
+    //GenericModule
+    Payload payLoad();
+    GenericRepository genericRepository();
+    Actions actions();
+
 }
