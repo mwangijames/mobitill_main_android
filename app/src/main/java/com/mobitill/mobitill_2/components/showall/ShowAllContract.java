@@ -9,11 +9,11 @@ import com.mobitill.mobitill_2.BaseView;
 
 public interface ShowAllContract {
 
-    public interface View extends BaseView<Presenter>{
-
+    interface View extends BaseView<Presenter>{
+        void show();
     }
 
-    public interface Presenter extends BasePresenter{
+    interface Presenter extends BasePresenter{
         void fetch();
     }
 

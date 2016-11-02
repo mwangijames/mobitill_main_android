@@ -60,16 +60,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                Toast.makeText(getActivity(), "go back", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -114,5 +104,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     }
 
+
+    @Override
+    public void show() {
+
+    }
 
 }
