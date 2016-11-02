@@ -76,9 +76,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                             @Override
                             public void onDataLoaded(String data) {
                                 List<HashMap<String, String>> items = mSettingsHelper.getList(data);
-                                for (HashMap<String, String> item: items) {
-                                    Log.i(TAG, "onDataLoaded: " + item.toString());
-                                }
+                                mView.show(items);
                             }
 
                             @Override

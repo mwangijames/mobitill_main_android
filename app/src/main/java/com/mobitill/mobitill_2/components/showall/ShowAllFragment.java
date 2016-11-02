@@ -4,6 +4,8 @@ package com.mobitill.mobitill_2.components.showall;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +18,12 @@ import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -35,6 +41,12 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     private ShowAllUtils mShowAllUtils;
     private Unbinder mUnbinder;
+
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+
+    private List<HashMap<String, String>> mItems;
+    private ShowAllAdapter mShowAllAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public ShowAllFragment() {
         // Required empty public constructor
@@ -78,6 +90,8 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_show_all, container, false);
         mUnbinder = ButterKnife.bind(this, view);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
         return view;
     }
 
@@ -106,8 +120,16 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
 
     @Override
-    public void show() {
-
+    public void show(List<HashMap<String, String>> items) {
+        if(isAdded()){
+            if(mShowAllAdapter == null){
+                mShowAllAdapter = new ShowAllAdapter(items, getActivity());
+                mRecyclerView.setAdapter(mShowAllAdapter);
+            } else {
+                mShowAllAdapter.setItems(items);
+                mShowAllAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
 }
