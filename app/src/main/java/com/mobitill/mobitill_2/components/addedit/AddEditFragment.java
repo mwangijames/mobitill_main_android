@@ -86,7 +86,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         });
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -117,6 +116,38 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
+        if(isConnected){
+            showNetworkError(false);
+            showDataError(false);
+            mPresenter.start();
+        } else {
+            showNetworkError(true);
+        }
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showEmpty(boolean show) {
+        mEmptyTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showForm() {
 
     }
+
+    @Override
+    public void showNetworkError(boolean show) {
+        mNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showDataError(boolean show) {
+        mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
 }

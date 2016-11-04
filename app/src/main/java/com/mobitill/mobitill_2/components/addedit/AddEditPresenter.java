@@ -39,4 +39,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     }
 
 
+    @Override
+    public void add() {
+
+    }
 }
