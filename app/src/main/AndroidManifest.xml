@@ -116,6 +116,8 @@
 
         <activity android:name=".components.showall.ShowAllActivity">
         </activity>
+        <activity android:name=".components.addedit.AddEditActivity">
+        </activity>
     </application>
 
 </manifest>

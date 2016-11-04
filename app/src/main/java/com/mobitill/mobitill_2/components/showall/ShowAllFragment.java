@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
@@ -43,6 +45,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     private Unbinder mUnbinder;
 
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.no_products) TextView mEmptyTextView;
+    @BindView(R.id.error) TextView mErrorTextView;
+    @BindView(R.id.no_network) TextView mNetworkTextView;
 
     private List<HashMap<String, String>> mItems;
     private ShowAllAdapter mShowAllAdapter;
@@ -115,7 +121,23 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
+        if(isConnected){
+            showNetworkError(false);
+            showDataError(false);
+            mPresenter.start();
+        } else {
+            showNetworkError(true);
+        }
+    }
 
+    @Override
+    public void showLoading(boolean show) {
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showEmpty(boolean show) {
+        mEmptyTextView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -130,6 +152,16 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 mShowAllAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    @Override
+    public void showNetworkError(boolean show) {
+        mNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showDataError(boolean show) {
+        mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
 }

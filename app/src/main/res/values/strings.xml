@@ -21,7 +21,7 @@
     <string name="clients">Clients</string>
     <string name="cashiers">Cashiers</string>
     <string name="home">Home</string>
-    <string name="no_products">No Products Loaded For Application</string>
+    <string name="no_products">No Items For This Category</string>
     <string name="no_network">No Network. Check Your Connection</string>
     <string name="no_cashiers">No Cashiers Available or Error Occured</string>
     <string name="no_clients">No Clients Available For Application</string>
@@ -48,4 +48,5 @@
     <string name="hint_product_price">Price</string>
     <string name="hint_product_size">Size</string>
     <string name="hint_product_vat">VAT</string>
+    <string name="error">Oops.An error occurred while retrieving data</string>
 </resources>

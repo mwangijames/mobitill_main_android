@@ -55,6 +55,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
 
     @Override
     public void start() {
+        mView.showLoading(true);
         fetch();
     }
 
@@ -76,11 +77,20 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                             @Override
                             public void onDataLoaded(String data) {
                                 List<HashMap<String, String>> items = mSettingsHelper.getList(data);
-                                mView.show(items);
+                                mView.showLoading(false);
+
+                                if(items.isEmpty()){
+                                   mView.showEmpty(true);
+                                } else {
+                                    mView.show(items);
+                                }
+                                mView.showDataError(false);
                             }
 
                             @Override
                             public void onDataNotLoaded() {
+                                mView.showLoading(false);
+                                mView.showDataError(true);
                                 Log.i(TAG, "onDataNotLoaded: No data");
                             }
                         });

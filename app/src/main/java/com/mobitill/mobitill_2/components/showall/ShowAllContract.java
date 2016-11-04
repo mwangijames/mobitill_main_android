@@ -13,7 +13,11 @@ import java.util.List;
 public interface ShowAllContract {
 
     interface View extends BaseView<Presenter>{
+        void showLoading(boolean show);
+        void showEmpty(boolean show);
         void show(List<HashMap<String, String>> items);
+        void showNetworkError(boolean show);
+        void showDataError(boolean show);
     }
 
     interface Presenter extends BasePresenter{
