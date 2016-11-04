@@ -10,7 +10,7 @@ import dagger.Component;
  */
 @FragmentScoped
 @Component(dependencies = {BaseComponent.class},
-    modules = {AddEditPresenter.class})
+    modules = {AddEditPresenterModule.class})
 public interface AddEditComponent {
     void inject(AddEditActivity addEditActivity);
 }

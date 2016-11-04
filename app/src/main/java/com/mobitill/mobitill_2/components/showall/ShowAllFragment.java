@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.components.showall;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
+import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import java.util.HashMap;
@@ -49,10 +51,13 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @BindView(R.id.no_products) TextView mEmptyTextView;
     @BindView(R.id.error) TextView mErrorTextView;
     @BindView(R.id.no_network) TextView mNetworkTextView;
+    FloatingActionButton addFAB;
 
     private List<HashMap<String, String>> mItems;
     private ShowAllAdapter mShowAllAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+
 
     public ShowAllFragment() {
         // Required empty public constructor
@@ -88,6 +93,13 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        addFAB = (FloatingActionButton) getActivity().findViewById(R.id.fab_add);
+        addFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(AddEditActivity.newIntent(getActivity(), mShowAllUtils));
+            }
+        });
     }
 
     @Override

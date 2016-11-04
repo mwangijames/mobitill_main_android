@@ -2,12 +2,49 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.mobitill.mobitill_2.components.addedit.AddEditFragment">
+             android:paddingTop="@dimen/activity_vertical_margin"
 
-    <!-- TODO: Update blank fragment layout -->
+             tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/no_products"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="@string/no_products"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/no_network"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/no_network"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/error"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:text="@string/error"/>
+    </LinearLayout>
 
 </FrameLayout>

@@ -29,9 +29,9 @@ public class ShowAllActivity extends AppCompatActivity {
 
     @Inject ShowAllPresenter mShowAllPresenter;
 
-    public static final String TAG = ShowAllActivity.class.getSimpleName();
-    public static final String EXTRA_SHOW_ALL_UTILS = "extra_show_all_utils";
-    public static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
+    private static final String TAG = ShowAllActivity.class.getSimpleName();
+    private static final String EXTRA_SHOW_ALL_UTILS = "extra_show_all_utils";
+    private static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
 
     public static Intent newIntent(Context context, ShowAllUtils showAllUtils){
         Intent intent = new Intent(context, ShowAllActivity.class);
