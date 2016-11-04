@@ -85,4 +85,38 @@ public class SettingsHelper {
         return list;
     }
 
+    public HashMap<String, String[]> getSchema(String settings, String model){
+        HashMap<String, String[]> schema = new HashMap<>();
+
+        try{
+
+            JSONObject settingsObject = new JSONObject(settings);
+            JSONObject modelsObject = settingsObject.getJSONObject("models");
+            JSONObject modelObject = modelsObject.getJSONObject(model);
+            JSONObject schemaObject = modelObject.getJSONObject("schema");
+
+            Iterator<String> iterator = schemaObject.keys();
+
+            while (iterator.hasNext()){
+                String key = iterator.next();
+
+                JSONArray jsonArray = schemaObject.getJSONArray(key);
+                String[] values = new String[jsonArray.length()];
+
+                for(int i = 0; i < values.length; i++){
+                    values[i] = jsonArray.getString(i);
+                }
+
+                schema.put(key, values);
+
+            }
+
+
+        } catch (JSONException e){
+            e.printStackTrace();
+       }
+
+        return schema;
+    }
+
 }

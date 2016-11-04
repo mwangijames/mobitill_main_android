@@ -22,6 +22,7 @@ public interface AddEditContract {
 
     interface Presenter extends BasePresenter{
         void add();
+        void generateUI();
     }
 
 }
