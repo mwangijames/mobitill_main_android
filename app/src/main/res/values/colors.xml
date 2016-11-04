@@ -7,6 +7,8 @@
     <color name="colorBackground">#BDBDBD</color>
     <color name="colorDefaultBackground">#FAFAFA</color>
     <color name="colorTextLight">#FAFAFA</color>
+    <color name="colorTextBlack">#212121</color>
+    <color name="colorTextDark">#424242</color>
 
     <drawable name="completedTaskBackground">#CCCCCC</drawable>
 

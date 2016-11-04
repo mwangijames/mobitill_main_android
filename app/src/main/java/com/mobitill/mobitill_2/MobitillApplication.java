@@ -8,7 +8,6 @@ import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryComponent;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryModule;
 import com.mobitill.mobitill_2.data.models.apps.DaggerAppsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.apps.remote.AppsRemoteDataSource;
 import com.mobitill.mobitill_2.data.models.products.DaggerProductsRepositoryComponent;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryComponent;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
@@ -36,6 +35,9 @@ public class MobitillApplication extends Application {
         super.onCreate();
 
         mInstance = this;
+
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Roboto-Condensed.ttf");
+
 
         mBaseComponent = DaggerBaseComponent.builder()
                 .applicationModule(new ApplicationModule(getApplicationContext()))

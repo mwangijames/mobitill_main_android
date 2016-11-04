@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:paddingBottom="@dimen/activity_horizontal_margin"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/root"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"/>
+        />
 
     <View
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/padding_8dp"
+        android:layout_marginBottom="@dimen/padding_8dp"
         android:layout_height="1dp"
-        android:background="@color/colorPrimaryLight"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+        android:background="@color/colorBackground"/>
 
 </LinearLayout>
 

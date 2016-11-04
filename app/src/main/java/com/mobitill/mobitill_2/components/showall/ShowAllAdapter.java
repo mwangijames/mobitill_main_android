@@ -1,11 +1,15 @@
 package com.mobitill.mobitill_2.components.showall;
 
 import android.content.Context;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.mobitill.mobitill_2.R;
@@ -67,14 +71,18 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
             TextView keyTextView = new TextView(mContext);
             keyTextView.invalidate();
-            keyTextView.setText(entry.getKey());
-            keyTextView.setLayoutParams(layoutParams);
+            keyTextView.setText(entry.getKey() + " | ");
+            keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
+            keyTextView.setGravity(Gravity.LEFT);
+            keyTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2f));
             linearLayout.addView(keyTextView);
 
             TextView valueTextView = new TextView(mContext);
             valueTextView.invalidate();
             valueTextView.setText(entry.getValue());
-            valueTextView.setLayoutParams(layoutParams);
+            keyTextView.setGravity(Gravity.RIGHT);
+            valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
+            valueTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 3f));
             linearLayout.addView(valueTextView);
 
             rootLayout.addView(linearLayout);

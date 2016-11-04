@@ -2,11 +2,14 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:paddingTop="@dimen/activity_vertical_margin"
+
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:visibility="gone"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
