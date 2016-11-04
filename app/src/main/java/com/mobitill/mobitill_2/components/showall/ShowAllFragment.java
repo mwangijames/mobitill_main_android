@@ -118,14 +118,14 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     }
 
-
     @Override
     public void show(List<HashMap<String, String>> items) {
         if(isAdded()){
             if(mShowAllAdapter == null){
                 mShowAllAdapter = new ShowAllAdapter(items, getActivity());
                 mRecyclerView.setAdapter(mShowAllAdapter);
-            } else {
+            }
+            else {
                 mShowAllAdapter.setItems(items);
                 mShowAllAdapter.notifyDataSetChanged();
             }
