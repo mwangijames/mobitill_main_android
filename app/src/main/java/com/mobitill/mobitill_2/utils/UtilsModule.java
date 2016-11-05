@@ -8,8 +8,16 @@ import dagger.Provides;
  */
 @Module
 public class UtilsModule {
+
     @Provides
     SettingsHelper provideSettingsHelper(){
         return new SettingsHelper();
     }
+
+    @Provides
+    UIHelper provideUIHelper(){
+        return new UIHelper();
+    }
+
+
 }

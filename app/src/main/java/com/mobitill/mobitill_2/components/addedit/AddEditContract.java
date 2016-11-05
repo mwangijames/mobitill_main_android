@@ -15,13 +15,13 @@ public interface AddEditContract {
     interface View extends BaseView<Presenter>{
         void showLoading(boolean show);
         void showEmpty(boolean show);
-        void showForm();
+        void showUI(HashMap<String, String[]> schema);
         void showNetworkError(boolean show);
         void showDataError(boolean show);
     }
 
     interface Presenter extends BasePresenter{
-        void add();
+        void add(HashMap<String, String> data);
         void generateUI();
     }
 

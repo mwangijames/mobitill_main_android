@@ -6,4 +6,7 @@ package com.mobitill.mobitill_2.data.models.generic;
 
 public class Actions {
     public final String FETCH = "fetch";
+    public final String INSERT = "insert";
+    public final String DELETE = "delete";
+    public final String UPDATE = "update";
 }

@@ -3,7 +3,8 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:paddingTop="@dimen/activity_vertical_margin"
-
+             android:paddingLeft="@dimen/margin_8dp"
+             android:paddingRight="@dimen/margin_8dp"
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
     <ProgressBar
@@ -45,6 +46,14 @@
             android:layout_gravity="center"
             android:visibility="gone"
             android:text="@string/error"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear_layout"
+        android:orientation="vertical">
+
     </LinearLayout>
 
 </FrameLayout>

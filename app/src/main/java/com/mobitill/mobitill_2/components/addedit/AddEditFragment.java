@@ -5,18 +5,31 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.components.SchemaTypes;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.showall.ShowAllFragment;
+import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +55,7 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
     @BindView(R.id.no_products) TextView mEmptyTextView;
     @BindView(R.id.error) TextView mErrorTextView;
     @BindView(R.id.no_network) TextView mNetworkTextView;
+    @BindView(R.id.linear_layout) LinearLayout mLinearLayout;
 
     FloatingActionButton mAddDoneFAB;
 
@@ -82,6 +96,16 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
+                HashMap<String, String> data = new HashMap<>();
+                for(int index = 0; index<mLinearLayout.getChildCount(); index++){
+                    EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
+                    data.put((String)nextChild.getTag(), nextChild.getText().toString());
+//                    Log.i(TAG, "onClick: " + "Index: " + Integer.toString(index) +
+//                        " Id: " + Integer.toString(nextChild.getId()) + " Value: " + nextChild.getText().toString() + " Tag: " +
+//                        nextChild.getTag());
+                }
+
+                mPresenter.add(data);
             }
         });
     }
@@ -135,10 +159,75 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         mEmptyTextView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void showForm() {
-
+    public String toHex(String arg) {
+        return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
     }
+
+    @Override
+    public void showUI(HashMap<String, String[]> schema) {
+        mLinearLayout.removeAllViews();
+        int index = 0;
+        for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
+            Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
+            EditText editText;
+            switch (entry.getValue()[0]){
+                case SchemaTypes.TEXT:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.NUMBER:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.DATE:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_DATETIME);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.TEXTAREA:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    editText.setSingleLine(false);
+                    editText.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    mLinearLayout.addView(editText);
+                    break;
+                default:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+            }
+            if(editText!=null){
+                editText.setTag(entry.getKey());
+                editText.setId(index);
+            }
+            Log.i(TAG, "showUI: " + Integer.toString(index));
+            index++;
+
+        }
+    }
+
 
     @Override
     public void showNetworkError(boolean show) {

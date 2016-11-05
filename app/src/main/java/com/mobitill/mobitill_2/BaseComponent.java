@@ -103,6 +103,7 @@ import com.mobitill.mobitill_2.data.models.users.UserResponse;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.net.NetModule;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
+import com.mobitill.mobitill_2.utils.UIHelper;
 import com.mobitill.mobitill_2.utils.UtilsModule;
 
 
@@ -240,6 +241,7 @@ public interface BaseComponent {
 
     // Utils
     SettingsHelper settingsHelper();
+    UIHelper uiHelper();
 
     //GenericModule
     Payload payLoad();

@@ -70,7 +70,6 @@ public class AddEditCashierActivity extends AppCompatActivity {
             mAppId.setAppId(getIntent().getStringExtra(EXTRA_APP_ID));
             mCashierGson.setCashierGson(getIntent().getStringExtra(EXTRA_CASHIER_GSON));
 
-            // TODO: 10/15/2016 resume from here
             if(mAppId == null){
                 mAppId.setAppId(mSharedPreferences.getString(mConstants.APPID, null));
             }

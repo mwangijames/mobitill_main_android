@@ -19,6 +19,8 @@ import java.util.List;
 
 public class SettingsHelper {
 
+    private static final String TAG = SettingsHelper.class.getSimpleName();
+
     public ArrayList<String> getModels(String settings){
         ArrayList<String> modelsList = new ArrayList<>();
         try {
@@ -50,6 +52,17 @@ public class SettingsHelper {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return payload;
+    }
+
+    public String getInsertPayLoad(HashMap<String, String> params, String appId, String action){
+        String payload = null;
+
+
+        for(HashMap.Entry<String, String> entry : params.entrySet()) {
+            Log.i(TAG, "getInsertPayLoad: " + entry.getKey() + " : " + entry.getValue());
+        }
+
         return payload;
     }
 

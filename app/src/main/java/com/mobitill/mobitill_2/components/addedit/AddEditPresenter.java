@@ -61,9 +61,14 @@ public class AddEditPresenter implements AddEditContract.Presenter {
         generateUI();
     }
 
-
     @Override
-    public void add() {
+    public void add(HashMap<String, String> data) {
+
+        if(mSettingsHelper != null){
+            if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
+                mSettingsHelper.getInsertPayLoad(data, mShowAllUtils.getAppId(), mActions.INSERT);
+            }
+        }
 
     }
 
@@ -75,9 +80,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             } else {
                 HashMap<String, String[]> schema =
                         mSettingsHelper.getSchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
-                for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
-                    Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
-                }
+                mView.showUI(schema);
+
             }
         } else {
             Log.i(TAG, "generateUI: mShowAllUtils is null");
