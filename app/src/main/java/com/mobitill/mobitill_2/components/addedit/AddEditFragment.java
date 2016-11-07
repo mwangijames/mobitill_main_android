@@ -28,6 +28,8 @@ import com.mobitill.mobitill_2.components.showall.ShowAllFragment;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
+import org.w3c.dom.Text;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -115,9 +117,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     for(int index = 0; index<mLinearLayout.getChildCount(); index++){
                         EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
                         data.put((String)nextChild.getTag(), nextChild.getText().toString());
-//                    Log.i(TAG, "onClick: " + "Index: " + Integer.toString(index) +
-//                        " Id: " + Integer.toString(nextChild.getId()) + " Value: " + nextChild.getText().toString() + " Tag: " +
-//                        nextChild.getTag());
                     }
 
                     mPresenter.add(data);
@@ -204,6 +203,11 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
             EditText editText;
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setText(entry.getKey());
+            //mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
                     editText = new EditText(getActivity());
@@ -269,6 +273,11 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
             EditText editText;
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setText(entry.getKey());
+            mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
                     editText = new EditText(getActivity());
