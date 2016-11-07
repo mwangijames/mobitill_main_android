@@ -100,4 +100,47 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
             }
         }
     }
+
+    @Override
+    public void delete(final HashMap<String, String> item) {
+        if(mShowAllUtils != null){
+            if(mShowAllUtils.isEmpty()){
+                Log.i(TAG, "delete: show ShowAllUtils fields are empty or null");
+            } else {
+                if(mSettingsHelper != null){
+                   String payloadString = mSettingsHelper.getDeletePayload(item, mShowAllUtils.getAppId());
+
+                    if(payloadString != null){
+                        if(mPayload != null){
+                            mPayload.setModel(mShowAllUtils.getModel());
+                            mPayload.setPayload(payloadString);
+                            mPayload.setAction(mActions.DELETE);
+
+                            if(mPayload.isEmpty()){
+                                Log.i(TAG, "delete: some Payload fields are Empty or Null");
+                            } else {
+                                mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                                    @Override
+                                    public void onDataLoaded(String data) {
+                                        mView.showItemDeleted(item);
+                                    }
+
+                                    @Override
+                                    public void onDataNotLoaded() {
+                                        mView.showItemDeleteFailed();
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
+
+
+
 }

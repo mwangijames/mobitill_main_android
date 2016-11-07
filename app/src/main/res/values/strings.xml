@@ -49,4 +49,6 @@
     <string name="hint_product_size">Size</string>
     <string name="hint_product_vat">VAT</string>
     <string name="error">Oops.An error occurred while retrieving data</string>
+    <string name="delete_success">Item deleted</string>
+    <string name="delete_fail">Item delete failed</string>
 </resources>

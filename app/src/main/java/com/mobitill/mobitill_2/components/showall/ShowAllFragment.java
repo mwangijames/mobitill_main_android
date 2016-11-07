@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -164,9 +165,11 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             if(mShowAllAdapter == null){
                 mShowAllAdapter = new ShowAllAdapter(items, getActivity());
                 mRecyclerView.setAdapter(mShowAllAdapter);
+                mItems = items;
             }
             else {
                 mShowAllAdapter.setItems(items);
+                mItems = items;
                 mShowAllAdapter.notifyDataSetChanged();
             }
         }
@@ -185,13 +188,15 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
 
     @Override
-    public void showItemDeleted() {
-
+    public void showItemDeleted(HashMap<String, String> item) {
+        Toast.makeText(getActivity(), R.string.delete_success, Toast.LENGTH_SHORT).show();
+        mItems.remove(item);
+        mShowAllAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void showItemDeleteFailed() {
-
+        Toast.makeText(getActivity(), R.string.delete_fail, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -242,7 +247,16 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void delete() {
+        SparseBooleanArray selected = mShowAllAdapter.getSelectedIds();
 
+        // loop all selected items
+        for(int i = (selected.size() -1); i>=0; i--){
+            if(selected.valueAt(i)){
+                mPresenter.delete(mItems.get(selected.keyAt(i)));
+            }
+        }
+
+        mActionMode.finish();
     }
 
     public void setNullToActionMode(){

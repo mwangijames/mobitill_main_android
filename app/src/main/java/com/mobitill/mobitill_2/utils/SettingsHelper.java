@@ -73,6 +73,26 @@ public class SettingsHelper {
         return payload;
     }
 
+    public String getDeletePayload(HashMap<String, String> params, String appId){
+        String payload = null;
+
+        JSONObject paramsObject = new JSONObject();
+        try {
+            paramsObject.put("appid", appId);
+            paramsObject.put("itemid", params.get("id"));
+
+            JSONObject parentObject = new JSONObject();
+            parentObject.put("params", paramsObject);
+
+            payload = parentObject.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return payload;
+    }
+
     public List<HashMap<String, String>> getList(String data){
 
         List<HashMap<String, String>> list = new ArrayList<>();
@@ -136,5 +156,7 @@ public class SettingsHelper {
 
         return schema;
     }
+
+
 
 }

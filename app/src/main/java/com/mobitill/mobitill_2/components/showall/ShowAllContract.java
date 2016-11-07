@@ -20,13 +20,14 @@ public interface ShowAllContract {
         void showNetworkError(boolean show);
         void showDataError(boolean show);
         void delete();
-        void showItemDeleted();
+        void showItemDeleted(HashMap<String, String> item);
         void showItemDeleteFailed();
         void showEdit(ShowAllUtils showAllUtils);
     }
 
     interface Presenter extends BasePresenter{
         void fetch();
+        void delete(HashMap<String, String> item);
     }
 
 }
