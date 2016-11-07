@@ -20,8 +20,8 @@ public class GenericRepository implements GenericDataSource {
     }
 
     @Override
-    public void getData(Payload payload, @NonNull final LoadDataCallBack callBack) {
-        mGenericDataRemoteDataSource.getData(payload, new LoadDataCallBack() {
+    public void postData(Payload payload, @NonNull final LoadDataCallBack callBack) {
+        mGenericDataRemoteDataSource.postData(payload, new LoadDataCallBack() {
             @Override
             public void onDataLoaded(String data) {
                 callBack.onDataLoaded(data);

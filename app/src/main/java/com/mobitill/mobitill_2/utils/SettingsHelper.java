@@ -55,13 +55,20 @@ public class SettingsHelper {
         return payload;
     }
 
-    public String getInsertPayLoad(HashMap<String, String> params, String appId, String action){
+    public String getInsertPayLoad(HashMap<String, String> params, String appId) throws JSONException {
         String payload = null;
 
-
+        JSONObject fieldsObject = new JSONObject();
         for(HashMap.Entry<String, String> entry : params.entrySet()) {
             Log.i(TAG, "getInsertPayLoad: " + entry.getKey() + " : " + entry.getValue());
+            fieldsObject.put(entry.getKey(), entry.getValue());
         }
+
+        fieldsObject.put("appid", appId);
+        JSONObject paramsObject = new JSONObject();
+        paramsObject.put("params", fieldsObject);
+        payload = paramsObject.toString();
+        Log.i(TAG, "getInsertPayLoad: " + payload);
 
         return payload;
     }
@@ -87,9 +94,7 @@ public class SettingsHelper {
                    String val = item.getString(key);
                     itemMap.put(key, val);
                 }
-
                 list.add(itemMap);
-
             }
         } catch (JSONException e) {
             e.printStackTrace();

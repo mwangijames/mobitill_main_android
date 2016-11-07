@@ -12,6 +12,6 @@ public interface GenericDataSource {
         void onDataNotLoaded();
     }
 
-    void getData(Payload payload, @NonNull LoadDataCallBack callBack);
+    void postData(Payload payload, @NonNull LoadDataCallBack callBack);
 
 }

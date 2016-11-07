@@ -74,7 +74,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                         Log.i(TAG, "fetch: " + "Payload has some issues");
                     } else {
                         Log.i(TAG, "fetch: " + mSettingsHelper.getPayload(mActions.FETCH, mShowAllUtils.getAppId()));
-                        mGenericRepository.getData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                        mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
                                 List<HashMap<String, String>> items = mSettingsHelper.getList(data);

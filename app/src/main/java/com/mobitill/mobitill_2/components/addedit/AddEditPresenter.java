@@ -4,9 +4,12 @@ import android.util.Log;
 
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
+import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
+
+import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,7 +69,40 @@ public class AddEditPresenter implements AddEditContract.Presenter {
 
         if(mSettingsHelper != null){
             if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
-                mSettingsHelper.getInsertPayLoad(data, mShowAllUtils.getAppId(), mActions.INSERT);
+                try {
+                   String payload = mSettingsHelper.getInsertPayLoad(data, mShowAllUtils.getAppId());
+
+                    if(payload != null && mPayload != null){
+                        mPayload.setPayload(payload);
+                        mPayload.setModel(mShowAllUtils.getModel());
+                        mPayload.setAction(mActions.INSERT);
+
+                        if(mPayload.isEmpty()){
+                            Log.i(TAG, "add: " + "Some Payload fields are empty or null");
+                        } else {
+                            if(mGenericRepository != null){
+                                mView.showLoading(true);
+                                mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                                    @Override
+                                    public void onDataLoaded(String data) {
+                                        mView.showSuccess(true);
+                                        mView.showLoading(false);
+                                        openShowAll();
+                                    }
+
+                                    @Override
+                                    public void onDataNotLoaded() {
+                                        mView.showFail(true);
+                                        mView.showLoading(false);
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -85,6 +121,13 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             }
         } else {
             Log.i(TAG, "generateUI: mShowAllUtils is null");
+        }
+    }
+
+    @Override
+    public void openShowAll() {
+        if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
+            mView.showAll(mShowAllUtils);
         }
     }
 }

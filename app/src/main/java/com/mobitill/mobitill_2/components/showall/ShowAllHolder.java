@@ -32,6 +32,8 @@ public class ShowAllHolder extends RecyclerView.ViewHolder {
         super(itemView);
         mContext = context;
         mRootLayout = (LinearLayout) itemView.findViewById(R.id.root);
+        itemView.setClickable(true);
+        itemView.setFocusable(true);
     }
 
     void bindItem(HashMap<String, String> item, LinearLayout rootLayout){

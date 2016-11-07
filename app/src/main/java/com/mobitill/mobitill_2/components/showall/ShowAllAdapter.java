@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.components.showall;
 import android.content.Context;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,13 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
     private List<HashMap<String, String>> mItems;
     private Context mContext;
+    private SparseBooleanArray mSelectedItemsIds;
 
     ShowAllAdapter(List<HashMap<String, String>> items,
                    Context context){
         mItems = items;
         mContext = context;
+        mSelectedItemsIds = new SparseBooleanArray();
     }
 
     @Override
@@ -92,6 +95,9 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
         holder.mRootLayout.addView(rootLayout);
 
+
+        // set the selected items to checked
+        holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
     }
 
     @Override
@@ -103,4 +109,40 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
         mItems = items;
         notifyDataSetChanged();
     }
+
+    /*
+    *Methods required for do selections, remove selections etc
+    * */
+
+    //Toggle selection methods
+    public void toggleSelection(int position){
+        selectView(position, !mSelectedItemsIds.get(position));
+    }
+
+    // Remove selected selections
+    public void removeSelection(){
+        mSelectedItemsIds = new SparseBooleanArray();
+        notifyDataSetChanged();
+    }
+
+    // Put or delete selected position into SparseBooleanArray
+    public void selectView(int position, boolean value){
+        if(value){
+            mSelectedItemsIds.put(position, value);
+        } else {
+            mSelectedItemsIds.delete(position);
+        }
+        notifyDataSetChanged();
+    }
+
+    // Get total selected count
+    public int getSelectedCount(){
+        return mSelectedItemsIds.size();
+    }
+
+    // Return all selected ids
+    public SparseBooleanArray getSelectedIds(){
+        return mSelectedItemsIds;
+    }
+
 }

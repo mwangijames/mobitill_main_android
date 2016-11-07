@@ -36,7 +36,7 @@ public class GenericDataRemoteDataSource implements GenericDataSource{
     }
 
     @Override
-    public void getData(Payload payload, @NonNull final LoadDataCallBack callBack) {
+    public void postData(Payload payload, @NonNull final LoadDataCallBack callBack) {
         GenericEndPoints genericEndPoints = mRetrofit.create(GenericEndPoints.class);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), payload.getPayload());
         Call<ResponseBody> call = genericEndPoints.fetch(payload.getModel(), payload.getAction(), body);

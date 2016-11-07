@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.components.addedit;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
+import com.mobitill.mobitill_2.components.ShowAllUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,14 +16,19 @@ public interface AddEditContract {
     interface View extends BaseView<Presenter>{
         void showLoading(boolean show);
         void showEmpty(boolean show);
+        void showSuccess(boolean show);
+        void showFail(boolean fail);
         void showUI(HashMap<String, String[]> schema);
         void showNetworkError(boolean show);
         void showDataError(boolean show);
+        void showAll(ShowAllUtils showAllUtils);
+
     }
 
     interface Presenter extends BasePresenter{
         void add(HashMap<String, String> data);
         void generateUI();
+        void openShowAll();
     }
 
 }

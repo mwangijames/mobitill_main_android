@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.components.showall;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
+import com.mobitill.mobitill_2.components.ShowAllUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,10 @@ public interface ShowAllContract {
         void show(List<HashMap<String, String>> items);
         void showNetworkError(boolean show);
         void showDataError(boolean show);
+        void delete();
+        void showItemDeleted();
+        void showItemDeleteFailed();
+        void showEdit(ShowAllUtils showAllUtils);
     }
 
     interface Presenter extends BasePresenter{

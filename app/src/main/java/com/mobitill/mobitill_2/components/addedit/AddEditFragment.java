@@ -23,6 +23,7 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.components.SchemaTypes;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
+import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
 import com.mobitill.mobitill_2.components.showall.ShowAllFragment;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -159,6 +160,16 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         mEmptyTextView.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void showSuccess(boolean show) {
+        Toast.makeText(getActivity(), "Operation Successful", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showFail(boolean fail) {
+        Toast.makeText(getActivity(), "Operation Failed", Toast.LENGTH_SHORT).show();
+    }
+
     public String toHex(String arg) {
         return String.format("%040x", new BigInteger(1, arg.getBytes(/*YOUR_CHARSET?*/)));
     }
@@ -237,6 +248,11 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
     @Override
     public void showDataError(boolean show) {
         mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showAll(ShowAllUtils showAllUtils) {
+        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils));
     }
 
 }

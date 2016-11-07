@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,10 +19,13 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.clients.ClientsActionBarCallBack;
 import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.utils.RecyclerClickListener;
+import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
 
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +61,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     private List<HashMap<String, String>> mItems;
     private ShowAllAdapter mShowAllAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private ActionMode mActionMode;
 
 
     public ShowAllFragment() {
@@ -110,6 +115,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         mUnbinder = ButterKnife.bind(this, view);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
+        implementRecyclerViewClickListeners();
         return view;
     }
 
@@ -174,6 +180,75 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @Override
     public void showDataError(boolean show) {
         mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+
+
+    @Override
+    public void showItemDeleted() {
+
+    }
+
+    @Override
+    public void showItemDeleteFailed() {
+
+    }
+
+    @Override
+    public void showEdit(ShowAllUtils showAllUtils) {
+
+    }
+
+    private void implementRecyclerViewClickListeners(){
+        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), mRecyclerView, new RecyclerClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                //if ActionMode is not null select item
+                if(mActionMode!=null){
+                    onListItemSelect(position);
+                } else {
+                    //mPresenter.showClientDetailView(mClients.get(position));
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                onListItemSelect(position);
+            }
+        }));
+    }
+
+    private void onListItemSelect(int position){
+        mShowAllAdapter.toggleSelection(position); // toggle the selection
+        boolean hasCheckedItems = mShowAllAdapter.getSelectedCount() > 0; // Check if any items are already selected or not
+
+        if(hasCheckedItems && mActionMode == null){
+            // there are some selected items start the action mode
+            mActionMode = ((AppCompatActivity) getActivity()).
+                    startSupportActionMode(new AddEditActionBarCallBack(getActivity(),
+                            mShowAllAdapter, this));
+
+        } else if(!hasCheckedItems && mActionMode != null){
+            // there are no selected items, finish  the action mode
+            mActionMode.finish();
+
+        }
+
+        if(mActionMode != null){
+            // set the action mode title on item selection
+            mActionMode.setTitle(String.valueOf(mShowAllAdapter.getSelectedCount()) + " selected");
+        }
+    }
+
+    @Override
+    public void delete() {
+
+    }
+
+    public void setNullToActionMode(){
+        if(mActionMode!=null){
+            mActionMode = null;
+        }
     }
 
 }
