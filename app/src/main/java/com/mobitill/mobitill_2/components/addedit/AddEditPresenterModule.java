@@ -1,6 +1,10 @@
 package com.mobitill.mobitill_2.components.addedit;
 
+import android.support.annotation.Nullable;
+
 import com.mobitill.mobitill_2.components.ShowAllUtils;
+
+import java.util.HashMap;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,13 +17,16 @@ public class AddEditPresenterModule {
 
     private final AddEditContract.View mView;
     private final ShowAllUtils mShowAllUtils;
+    private final HashMap<String, String> mItem;
 
     public AddEditPresenterModule(
             AddEditContract.View view,
-            ShowAllUtils showAllUtils
+            ShowAllUtils showAllUtils,
+            @Nullable HashMap<String, String> item
     ){
         mView = view;
         mShowAllUtils = showAllUtils;
+        mItem = item;
     }
 
     @Provides
@@ -30,6 +37,12 @@ public class AddEditPresenterModule {
     @Provides
     ShowAllUtils provideShowAllUtils(){
         return mShowAllUtils;
+    }
+
+    @Provides
+    @Nullable
+    HashMap<String, String> provideItem(){
+        return mItem;
     }
 
 }

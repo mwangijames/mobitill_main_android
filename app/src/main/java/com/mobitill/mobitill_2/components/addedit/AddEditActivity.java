@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.components.addedit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ProviderInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import com.mobitill.mobitill_2.menu.MenuActivity;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -28,21 +31,34 @@ public class AddEditActivity extends AppCompatActivity {
 
     @Inject AddEditPresenter mAddEditPresenter;
 
-    public static final String TAG = AddEditActivity.class.getSimpleName();
+    private static final String TAG = AddEditActivity.class.getSimpleName();
     private static final String EXTRA_SHOW_ALL_UTILS = "extra_show_all_utils";
     private static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
+    private static final String EXTRA_ITEM = "extra_item";
+    private static final String ARGS_ITEM = "args_item";
 
-    public static Intent newIntent(Context context, ShowAllUtils showAllUtils){
+    private SharedPreferences mSharedPreferences;
+    private Constants mConstants;
+    private ShowAllUtils mShowAllUtils;
+    private HashMap<String, String> mItem;
+
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+
+    public static Intent newIntent(Context context,
+                                   ShowAllUtils showAllUtils){
         Intent intent = new Intent(context, AddEditActivity.class);
         intent.putExtra(EXTRA_SHOW_ALL_UTILS, showAllUtils);
         return intent;
     }
 
-    private SharedPreferences mSharedPreferences;
-    private Constants mConstants;
-    private ShowAllUtils mShowAllUtils;
-
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    public static Intent newIntent(Context context,
+                                   ShowAllUtils showAllUtils,
+                                   HashMap<String, String> item){
+        Intent intent = new Intent(context, AddEditActivity.class);
+        intent.putExtra(EXTRA_SHOW_ALL_UTILS, showAllUtils);
+        intent.putExtra(EXTRA_ITEM, item);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +72,10 @@ public class AddEditActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getIntent().getSerializableExtra(EXTRA_SHOW_ALL_UTILS);
+            mItem = (HashMap<String, String>) getIntent().getSerializableExtra(EXTRA_ITEM);
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
+            mItem = (HashMap<String, String>) savedInstanceState.getSerializable(ARGS_ITEM);
         }
 
         setSupportActionBar(mToolbar);
@@ -90,7 +108,7 @@ public class AddEditActivity extends AppCompatActivity {
         }
 
         DaggerAddEditComponent.builder()
-                .addEditPresenterModule(new AddEditPresenterModule(addEditFragment, mShowAllUtils))
+                .addEditPresenterModule(new AddEditPresenterModule(addEditFragment, mShowAllUtils, mItem))
                 .baseComponent(((MobitillApplication) getApplication()).getBaseComponent())
                 .build()
                 .inject(this);
@@ -99,6 +117,7 @@ public class AddEditActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_SHOW_ALL_UTILS, mShowAllUtils);
+        outState.putSerializable(ARGS_ITEM, mItem);
         super.onSaveInstanceState(outState);
     }
 

@@ -203,7 +203,8 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item) {
-
+        startActivity(AddEditActivity.newIntent(getActivity(),
+                showAllUtils, item));
     }
 
     private void implementRecyclerViewClickListeners(){
@@ -222,8 +223,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             @Override
             public void onLongClick(View view, int position) {
                 onListItemSelect(position);
-
-
                 showEditActionItem();
 
             }

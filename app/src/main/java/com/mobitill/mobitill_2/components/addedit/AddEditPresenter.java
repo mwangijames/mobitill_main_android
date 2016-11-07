@@ -1,5 +1,6 @@
 package com.mobitill.mobitill_2.components.addedit;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.components.ShowAllUtils;
@@ -30,6 +31,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     private final Payload mPayload;
     private final SettingsHelper mSettingsHelper;
     private final Actions mActions;
+    @Nullable private final HashMap<String, String> mItem;
 
     @Inject
     public AddEditPresenter(
@@ -38,7 +40,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             GenericRepository genericRepository,
             Payload payload,
             SettingsHelper settingsHelper,
-            Actions actions
+            Actions actions,
+            @Nullable HashMap<String, String> item
     ){
         mView = view;
         mShowAllUtils = showAllUtils;
@@ -46,6 +49,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
         mPayload = payload;
         mSettingsHelper = settingsHelper;
         mActions = actions;
+        mItem = item;
     }
 
 
