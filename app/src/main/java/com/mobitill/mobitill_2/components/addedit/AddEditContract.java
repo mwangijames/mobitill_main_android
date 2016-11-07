@@ -19,6 +19,7 @@ public interface AddEditContract {
         void showSuccess(boolean show);
         void showFail(boolean fail);
         void showUI(HashMap<String, String[]> schema);
+        void showAndPopulateUI(HashMap<String, String[]> schema, HashMap<String, String> item);
         void showNetworkError(boolean show);
         void showDataError(boolean show);
         void showAll(ShowAllUtils showAllUtils);
@@ -27,7 +28,9 @@ public interface AddEditContract {
 
     interface Presenter extends BasePresenter{
         void add(HashMap<String, String> data);
+        void edit(HashMap<String, String> data);
         void generateUI();
+        void generateAndPopulateUI(HashMap<String, String> item);
         void openShowAll();
     }
 

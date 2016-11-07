@@ -65,7 +65,13 @@ public class AddEditPresenter implements AddEditContract.Presenter {
 
     @Override
     public void start() {
-        generateUI();
+
+        if(mItem == null){
+            generateUI();
+        } else {
+            generateAndPopulateUI(mItem);
+            Log.i(TAG, "start: " + mItem);
+        }
     }
 
     @Override
@@ -113,6 +119,49 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     }
 
     @Override
+    public void edit(HashMap<String, String> data) {
+        if(mSettingsHelper != null){
+            if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
+                try {
+                    String payload = mSettingsHelper.getUpdatePayLoad(data, mShowAllUtils.getAppId(), mItem.get("id"));
+                    Log.i(TAG, "edit: " + payload);
+                    if(payload != null && mPayload != null){
+                        mPayload.setPayload(payload);
+                        mPayload.setModel(mShowAllUtils.getModel());
+                        mPayload.setAction(mActions.UPDATE);
+
+                        if(mPayload.isEmpty()){
+                            Log.i(TAG, "edit: " + "Some Payload fields are empty or null");
+                        } else {
+                            if(mGenericRepository != null){
+                                mView.showLoading(true);
+                                mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                                    @Override
+                                    public void onDataLoaded(String data) {
+                                        mView.showSuccess(true);
+                                        mView.showLoading(false);
+                                        openShowAll();
+                                    }
+
+                                    @Override
+                                    public void onDataNotLoaded() {
+                                        mView.showFail(true);
+                                        mView.showLoading(false);
+                                    }
+                                });
+                                Log.i(TAG, "edit: " + payload);
+                            }
+                        }
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
     public void generateUI() {
         if(mShowAllUtils!=null){
             if(mShowAllUtils.isEmpty()){
@@ -121,6 +170,22 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                 HashMap<String, String[]> schema =
                         mSettingsHelper.getSchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
                 mView.showUI(schema);
+
+            }
+        } else {
+            Log.i(TAG, "generateUI: mShowAllUtils is null");
+        }
+    }
+
+    @Override
+    public void generateAndPopulateUI(HashMap<String, String> item) {
+        if(mShowAllUtils!=null){
+            if(mShowAllUtils.isEmpty()){
+                Log.i(TAG, "generateUI: mShowAllUtils missing some fields");
+            } else {
+                HashMap<String, String[]> schema =
+                        mSettingsHelper.getSchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
+                mView.showAndPopulateUI(schema, item);
 
             }
         } else {

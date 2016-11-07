@@ -48,8 +48,10 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
 
     private static final String TAG = AddEditFragment.class.getSimpleName();
     private static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
+    private static final String ARGS_ITEM = "args_item";
 
     private ShowAllUtils mShowAllUtils;
+    private HashMap<String, String> mItem;
     private Unbinder mUnbinder;
 
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
@@ -72,20 +74,32 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         fragment.setArguments(args);
         return fragment;
     }
+    public static AddEditFragment newInstance(ShowAllUtils showAllUtils, HashMap<String, String> item) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_SHOW_ALL_UTILS, showAllUtils);
+        args.putSerializable(ARGS_ITEM, item);
+        AddEditFragment fragment = new AddEditFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getArguments().getSerializable(ARGS_SHOW_ALL_UTILS);
+            mItem = (HashMap<String, String>) getArguments().getSerializable(ARGS_ITEM);
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
+            mItem = (HashMap<String, String>) savedInstanceState.getSerializable(ARGS_ITEM);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_SHOW_ALL_UTILS, mShowAllUtils);
+        outState.putSerializable(ARGS_ITEM, mItem);
         super.onSaveInstanceState(outState);
     }
 
@@ -96,17 +110,26 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         mAddDoneFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Add", Toast.LENGTH_SHORT).show();
-                HashMap<String, String> data = new HashMap<>();
-                for(int index = 0; index<mLinearLayout.getChildCount(); index++){
-                    EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
-                    data.put((String)nextChild.getTag(), nextChild.getText().toString());
+                if(mItem == null){
+                    HashMap<String, String> data = new HashMap<>();
+                    for(int index = 0; index<mLinearLayout.getChildCount(); index++){
+                        EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
+                        data.put((String)nextChild.getTag(), nextChild.getText().toString());
 //                    Log.i(TAG, "onClick: " + "Index: " + Integer.toString(index) +
 //                        " Id: " + Integer.toString(nextChild.getId()) + " Value: " + nextChild.getText().toString() + " Tag: " +
 //                        nextChild.getTag());
+                    }
+
+                    mPresenter.add(data);
+                } else {
+                    HashMap<String, String> data = new HashMap<>();
+                    for(int index = 0; index<mLinearLayout.getChildCount(); index++){
+                        EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
+                        data.put((String)nextChild.getTag(), nextChild.getText().toString());
+                    }
+                    mPresenter.edit(data);
                 }
 
-                mPresenter.add(data);
             }
         });
     }
@@ -225,6 +248,71 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+            }
+            if(editText!=null){
+                editText.setTag(entry.getKey());
+                editText.setId(index);
+            }
+            Log.i(TAG, "showUI: " + Integer.toString(index));
+            index++;
+
+        }
+    }
+
+    @Override
+    public void showAndPopulateUI(HashMap<String, String[]> schema, HashMap<String, String> item) {
+        mLinearLayout.removeAllViews();
+        int index = 0;
+        for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
+            Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
+            EditText editText;
+            switch (entry.getValue()[0]){
+                case SchemaTypes.TEXT:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setText(item.get(entry.getKey()));
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.NUMBER:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setText(item.get(entry.getKey()));
+                    editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.DATE:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setText(item.get(entry.getKey()));
+                    editText.setInputType(InputType.TYPE_CLASS_DATETIME);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    mLinearLayout.addView(editText);
+                    break;
+                case SchemaTypes.TEXTAREA:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setText(item.get(entry.getKey()));
+                    editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    editText.setSingleLine(false);
+                    editText.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+                    mLinearLayout.addView(editText);
+                    break;
+                default:
+                    editText = new EditText(getActivity());
+                    editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    editText.setText(item.get(entry.getKey()));
                     editText.setInputType(InputType.TYPE_CLASS_TEXT);
                     //editText.setId(Integer.parseInt(entry.getKey()));
                     mLinearLayout.addView(editText);

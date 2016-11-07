@@ -153,7 +153,9 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void showLoading(boolean show) {
-        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        if(mProgressBar!=null){
+            mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

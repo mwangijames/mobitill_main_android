@@ -99,7 +99,12 @@ public class AddEditActivity extends AppCompatActivity {
                 getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if(addEditFragment == null){
-            addEditFragment = AddEditFragment.newInstance(mShowAllUtils);
+            if(mItem == null){
+                addEditFragment = AddEditFragment.newInstance(mShowAllUtils);
+            } else {
+                addEditFragment = AddEditFragment.newInstance(mShowAllUtils, mItem);
+            }
+
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     addEditFragment,
