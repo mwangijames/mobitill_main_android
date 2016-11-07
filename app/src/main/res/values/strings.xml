@@ -51,4 +51,5 @@
     <string name="error">Oops.An error occurred while retrieving data</string>
     <string name="delete_success">Item deleted</string>
     <string name="delete_fail">Item delete failed</string>
+    <string name="action_update">Update</string>
 </resources>

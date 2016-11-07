@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.R;
 
@@ -38,6 +39,9 @@ public class AddEditActionBarCallBack implements ActionMode.Callback {
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         menu.findItem(R.id.delete_item).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.findItem(R.id.update_item).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
         return true;
     }
 
@@ -63,6 +67,10 @@ public class AddEditActionBarCallBack implements ActionMode.Callback {
                     }).show();
                 }
                 return true;
+            case R.id.update_item:
+                if(mShowAllFragment != null){
+                    ((ShowAllFragment) mShowAllFragment).openEdit();
+                }
             default:
                 break;
         }
@@ -77,4 +85,6 @@ public class AddEditActionBarCallBack implements ActionMode.Callback {
             ((ShowAllFragment) mShowAllFragment).setNullToActionMode();
         }
     }
+
+
 }

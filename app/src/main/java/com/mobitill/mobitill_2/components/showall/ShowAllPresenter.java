@@ -139,8 +139,12 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
         }
     }
 
-
-
+    @Override
+    public void openEdit(HashMap<String ,String> item) {
+        if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
+            mView.showEdit(mShowAllUtils, item);
+        }
+    }
 
 
 }

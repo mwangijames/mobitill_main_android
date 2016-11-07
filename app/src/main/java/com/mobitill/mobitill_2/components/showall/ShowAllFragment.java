@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -200,7 +202,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     }
 
     @Override
-    public void showEdit(ShowAllUtils showAllUtils) {
+    public void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item) {
 
     }
 
@@ -211,6 +213,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 //if ActionMode is not null select item
                 if(mActionMode!=null){
                     onListItemSelect(position);
+                    showEditActionItem();
                 } else {
                     //mPresenter.showClientDetailView(mClients.get(position));
                 }
@@ -219,8 +222,26 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             @Override
             public void onLongClick(View view, int position) {
                 onListItemSelect(position);
+
+
+                showEditActionItem();
+
             }
         }));
+    }
+
+    private void showEditActionItem() {
+        if(mActionMode != null){
+            SparseBooleanArray selected = mShowAllAdapter.getSelectedIds();
+            Menu menu = mActionMode.getMenu();
+            MenuItem updateItem = (MenuItem) menu.findItem(R.id.update_item);
+            if(selected.size()> 1){
+                updateItem.setVisible(false);
+            } else {
+                updateItem.setVisible(true);
+            }
+
+        }
     }
 
     private void onListItemSelect(int position){
@@ -265,4 +286,14 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         }
     }
 
+    public void openEdit(){
+        SparseBooleanArray selected = mShowAllAdapter.getSelectedIds();
+        // loop all selected items
+        for(int i = (selected.size() -1); i>=0; i--){
+            if(selected.valueAt(i)){
+                mPresenter.openEdit(mItems.get(selected.keyAt(i)));
+            }
+        }
+
+    }
 }

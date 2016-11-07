@@ -22,12 +22,13 @@ public interface ShowAllContract {
         void delete();
         void showItemDeleted(HashMap<String, String> item);
         void showItemDeleteFailed();
-        void showEdit(ShowAllUtils showAllUtils);
+        void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item);
     }
 
     interface Presenter extends BasePresenter{
         void fetch();
         void delete(HashMap<String, String> item);
+        void openEdit(HashMap<String ,String> item);
     }
 
 }
