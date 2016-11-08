@@ -1,9 +1,11 @@
 package com.mobitill.mobitill_2.components.showall;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.utils.DpPixelsConversion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -50,11 +53,11 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
         //LinearLayout mLinearLayout = new LinearLayout(mContext);
 
         LinearLayout.LayoutParams linLayoutParams = new LinearLayout
-                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         LinearLayout rootLayout = new LinearLayout(mContext);
-        rootLayout.setOrientation(LinearLayout.VERTICAL);
+        rootLayout.setOrientation(LinearLayout.HORIZONTAL);
         rootLayout.setLayoutParams(linLayoutParams);
 
         holder.mRootLayout.removeAllViews();
@@ -63,34 +66,40 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            LinearLayout linearLayout = new LinearLayout(mContext);
-            linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout.setLayoutParams(linLayoutParams);
 
-            linearLayout.removeAllViews();
+            int padding = mContext.getResources().getDimensionPixelOffset(R.dimen.padding_16dp);
 
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(700),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
-            TextView keyTextView = new TextView(mContext);
-            keyTextView.invalidate();
-            keyTextView.setText(entry.getKey() + " | ");
-            keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
-            keyTextView.setGravity(Gravity.LEFT);
-            keyTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2f));
-            linearLayout.addView(keyTextView);
+            LinearLayout linearLayout = new LinearLayout(mContext);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            linearLayout.setLayoutParams(layoutParams);
+            linearLayout.setPadding(0, 0, padding, 0);
+            //linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+            linearLayout.removeAllViews();
+
+
+
+
+//            TextView keyTextView = new TextView(mContext);
+//            keyTextView.setText(entry.getKey());
+//            keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
+//            keyTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//            linearLayout.addView(keyTextView);
 
             TextView valueTextView = new TextView(mContext);
-            valueTextView.invalidate();
             valueTextView.setText(entry.getValue());
-            keyTextView.setGravity(Gravity.RIGHT);
             valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
-            valueTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 3f));
+            valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
             linearLayout.addView(valueTextView);
 
             rootLayout.addView(linearLayout);
 
         }
+
+
 
 
         holder.mRootLayout.addView(rootLayout);
@@ -99,6 +108,8 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
         // set the selected items to checked
         holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
     }
+
+
 
     @Override
     public int getItemCount() {

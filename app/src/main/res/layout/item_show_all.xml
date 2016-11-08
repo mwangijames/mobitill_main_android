@@ -3,9 +3,9 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:background="@drawable/background_selector">
+              android:background="@drawable/background_selector"
+                >
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -17,7 +17,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/padding_8dp"
-        android:layout_marginBottom="@dimen/padding_8dp"
         android:layout_height="1dp"
         android:background="@color/colorBackground"/>
 

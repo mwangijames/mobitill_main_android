@@ -83,9 +83,12 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                                 if(items.isEmpty()){
                                    mView.showEmpty(true);
                                 } else {
+                                    mView.showHeader(items.get(0));
                                     mView.show(items);
+
                                 }
                                 mView.showDataError(false);
+                                mView.showNetworkError(false);
                             }
 
                             @Override

@@ -23,4 +23,5 @@
     <dimen name="margin_64dp">64dp</dimen>
     <dimen name="corner_8dp">8dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
 </resources>

@@ -3,7 +3,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:paddingTop="@dimen/activity_vertical_margin"
-
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
     <ProgressBar
@@ -47,12 +46,42 @@
             android:text="@string/error"/>
     </LinearLayout>
 
-
-    <android.support.v7.widget.RecyclerView
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recycler_view"
-        android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical"/>
+        android:layout_height="match_parent"
+        >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                android:gravity="center_horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/header_layout"
+                    android:orientation="horizontal"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorTextDark"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/recycler_view"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"/>
+            </LinearLayout>
+
+
+    </HorizontalScrollView>
+
+
 
 </FrameLayout>

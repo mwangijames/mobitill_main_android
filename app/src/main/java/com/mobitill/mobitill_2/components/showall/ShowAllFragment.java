@@ -1,6 +1,7 @@
 package com.mobitill.mobitill_2.components.showall;
 
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,12 +12,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +32,11 @@ import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.utils.DpPixelsConversion;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
 import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +67,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @BindView(R.id.no_products) TextView mEmptyTextView;
     @BindView(R.id.error) TextView mErrorTextView;
     @BindView(R.id.no_network) TextView mNetworkTextView;
+    @BindView(R.id.header_layout) LinearLayout mHeaderLayout;
     FloatingActionButton addFAB;
 
     private List<HashMap<String, String>> mItems;
@@ -177,16 +186,23 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 mShowAllAdapter.notifyDataSetChanged();
             }
         }
+
     }
 
     @Override
     public void showNetworkError(boolean show) {
-        mNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+        if(mNetworkTextView!=null){
+            mNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+
     }
 
     @Override
     public void showDataError(boolean show) {
-        mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+        if(mErrorTextView!=null){
+            mErrorTextView.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+
     }
 
 
@@ -207,6 +223,33 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     public void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item) {
         startActivity(AddEditActivity.newIntent(getActivity(),
                 showAllUtils, item));
+    }
+
+    @Override
+    public void showHeader(HashMap<String, String> item) {
+
+        ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        int padding = getActivity().getResources().getDimensionPixelOffset(R.dimen.padding_8dp);
+
+
+        mHeaderLayout.setLayoutParams(layoutParams);
+        mHeaderLayout.setPadding(0, 0, padding, 0);
+        mHeaderLayout.removeAllViews();
+
+        for(HashMap.Entry<String, String> entry : item.entrySet()){
+            TextView keyTextView = new TextView(getActivity());
+            keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
+           // keyTextView.setPadding(padding, 0, 0, 0);
+            keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
+            keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(700), ViewGroup.LayoutParams.WRAP_CONTENT));
+            keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+            keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            mHeaderLayout.addView(keyTextView);
+        }
+
+
     }
 
     private void implementRecyclerViewClickListeners(){
@@ -295,6 +338,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 mPresenter.openEdit(mItems.get(selected.keyAt(i)));
             }
         }
-
     }
+
+
 }
