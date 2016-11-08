@@ -69,7 +69,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
             int padding = mContext.getResources().getDimensionPixelOffset(R.dimen.padding_16dp);
 
-            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(700),
+            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(900),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
             LinearLayout linearLayout = new LinearLayout(mContext);
