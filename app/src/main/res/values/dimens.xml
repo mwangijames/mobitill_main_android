@@ -24,4 +24,5 @@
     <dimen name="corner_8dp">8dp</dimen>
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="text_detail_medium">20sp</dimen>
 </resources>

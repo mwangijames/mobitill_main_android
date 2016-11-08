@@ -110,9 +110,9 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         mUnbinder = ButterKnife.bind(this, view);
         mAppsPresenter.fetchApps(false);
 
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        helper.attachToRecyclerView(mRecyclerView);
+        //helper.attachToRecyclerView(mRecyclerView);
         mAppsPresenter.start();
         mAppsPresenter.performSync();
         return view;

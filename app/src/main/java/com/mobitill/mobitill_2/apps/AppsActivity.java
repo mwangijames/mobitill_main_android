@@ -52,7 +52,7 @@ public class AppsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
-        ab.hide();
+        //ab.hide();
 //      ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 //      ab.setDisplayHomeAsUpEnabled(true);
 
