@@ -48,7 +48,7 @@ public class AppsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-         SyncUtils.CreateSyncAccount(this);
+        SyncUtils.CreateSyncAccount(this);
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();

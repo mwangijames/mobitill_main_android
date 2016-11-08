@@ -112,7 +112,8 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //helper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setNestedScrollingEnabled(false);
+        helper.attachToRecyclerView(mRecyclerView);
         mAppsPresenter.start();
         mAppsPresenter.performSync();
         return view;
