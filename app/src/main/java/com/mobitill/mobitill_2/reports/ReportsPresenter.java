@@ -24,12 +24,15 @@ import com.mobitill.mobitill_2.data.models.reports.ReportsDataSource;
 import com.mobitill.mobitill_2.data.models.reports.ReportsRepository;
 import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
 import com.mobitill.mobitill_2.data.models.reports.models.ReportsLocal;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
+import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.logging.MemoryHandler;
 
 import javax.inject.Inject;
 
@@ -45,22 +48,46 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private  CashiersRepository mCashiersRepository;
     private  ReportsContract.View mView;
     @Nullable String mAppId;
+    private MenuAppSettings mMenuAppSettings;
+    private SettingsHelper mSettingsHelper;
 
     @Inject
     public ReportsPresenter(ReportsContract.View view, ReportsRepository reportsRepository,
                             ProductsRepository productsRepository, CashiersRepository cashiersRepository,
-                            @Nullable String appId){
+                            @Nullable String appId, MenuAppSettings menuAppSettings,
+                            SettingsHelper settingsHelper){
 
         mView = view;
         mReportsRepository = reportsRepository;
         mProductsRepository = productsRepository;
         mCashiersRepository = cashiersRepository;
         mAppId = appId;
+        mMenuAppSettings = menuAppSettings;
+        mSettingsHelper = settingsHelper;
     }
 
     @Override
     public void sendQuery() {
 
+    }
+
+    @Override
+    public void getMenuList() {
+        if(mMenuAppSettings != null){
+            if(mMenuAppSettings.getSettings() != null){
+                Log.i(TAG, "start: " + mMenuAppSettings.getSettings());
+                ArrayList<String> models = mSettingsHelper.getModels(mMenuAppSettings.getSettings());
+                for (String model: models) {
+                    Log.i(TAG, "getMenuList: " + model);
+                }
+                mView.showMenuItems(models);
+            } else {
+                mSettingsHelper.getModels("{}");
+            }
+
+        } else {
+            Log.i(TAG, "start: mMenuAppSettings is null");
+        }
     }
 
     @Override

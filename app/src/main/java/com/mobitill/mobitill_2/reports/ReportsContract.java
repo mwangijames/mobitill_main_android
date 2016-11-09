@@ -27,6 +27,7 @@ public interface ReportsContract {
         void showCashiers(List<Cashier> cashiers);
         boolean isActive();
         void showQuantity(int quantity);
+        void showMenuItems(List<String> models);
     }
 
     interface Presenter extends BasePresenter{
@@ -42,5 +43,6 @@ public interface ReportsContract {
         Product[] getProductsArray(List<Product> products);
         Cashier[] getCashiersArray(List<Cashier> cashiers);
         Calendar getMidnight();
+         void getMenuList();
     }
 }

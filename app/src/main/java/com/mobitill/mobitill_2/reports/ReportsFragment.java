@@ -8,7 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +33,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
 import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
 import com.mobitill.mobitill_2.data.models.products.models.Products;
+import com.mobitill.mobitill_2.menu.MenuAdapter;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.CashiersAdapter;
 import com.mobitill.mobitill_2.utils.DatePickerFragment;
@@ -82,6 +87,12 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
+    private List<String> mModels;
+    private DrawerAdapter mDrawerAdapter;
+
+    private RecyclerView mDrawerRecyclerView;
+
+
     private Unbinder unbinder;
 
     public ReportsFragment() {
@@ -99,6 +110,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mAppId = getArguments().getString(ARG_APPID);
 
         if(savedInstanceState == null){
@@ -140,6 +152,13 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDrawerRecyclerView = (RecyclerView) getActivity().findViewById(R.id.drawer_recycler_view);
+        mDrawerRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(PRODUCT_ID, mProductId);
         outState.putString(CASHIER_ID, mCashierId);
@@ -173,6 +192,18 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         dialog.show(manager, DIALOG_DATE);
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                // Open the navigation drawer when the home icon is selected from the toolbar.
+//               // mDrawerLayout.openDrawer(GravityCompat.START);
+//                Toast.makeText(getActivity(), "open drawer", Toast.LENGTH_SHORT).show();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -204,7 +235,24 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     @Override
     public void setLoadingIndicator(boolean active) {
-        mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        if(mProgressBar!=null){
+            mProgressBar.setVisibility(active ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void showMenuItems(List<String> models) {
+        if(isAdded()){
+            if(mDrawerAdapter == null){
+                mDrawerAdapter = new DrawerAdapter(models);
+                mModels = models;
+                mDrawerRecyclerView.setAdapter(mDrawerAdapter);
+            } else {
+                mDrawerAdapter.setModels(models);
+                mModels = models;
+                mDrawerAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
     @Override
@@ -299,7 +347,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     @Override
     public void showQuantity(int quantity) {
-        mQuantityTextView.setText(Integer.toString(quantity));
+        if(mQuantityTextView!=null){
+            mQuantityTextView.setText(Integer.toString(quantity));
+        }
     }
 
     @Override

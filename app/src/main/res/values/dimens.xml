@@ -25,4 +25,15 @@
     <dimen name="margin_8dp">8dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
     <dimen name="text_detail_medium">20sp</dimen>
+
+    <!-- drawer -->
+    <dimen name="drawer_width">@dimen/match_parent</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+
+    <dimen name="z_drawer">16dp</dimen>
+    <dimen name="z_dialog">24dp</dimen>
+
+    <!-- per https://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html#MATCH_PARENT -->
+    <item name="match_parent" format="integer" type="dimen">-1</item>
+
 </resources>

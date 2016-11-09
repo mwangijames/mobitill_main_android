@@ -2,6 +2,8 @@ package com.mobitill.mobitill_2.reports;
 
 import android.support.annotation.Nullable;
 
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -13,12 +15,15 @@ public class ReportsPresenterModule {
 
     private final ReportsContract.View mView;
     private final String mAppId;
+    private final MenuAppSettings mMenuAppSettings;
 
     public ReportsPresenterModule(ReportsContract.View view,
-                                  @Nullable String appId)
+                                  @Nullable String appId,
+                                  MenuAppSettings menuAppSettings)
     {
         mView = view;
         mAppId = appId;
+        mMenuAppSettings = menuAppSettings;
     }
 
     @Provides
@@ -30,5 +35,10 @@ public class ReportsPresenterModule {
     @Nullable
     String provideAppId(){
         return mAppId;
+    }
+
+    @Provides
+    MenuAppSettings provideMenuAppSettings(){
+        return mMenuAppSettings;
     }
 }

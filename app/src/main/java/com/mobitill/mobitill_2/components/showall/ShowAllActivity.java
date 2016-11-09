@@ -18,6 +18,7 @@ import com.mobitill.mobitill_2.clientsdetail.ClientsDetailActivity;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.menu.MenuActivity;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
+import com.mobitill.mobitill_2.reports.ReportsActivity;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
@@ -120,7 +121,7 @@ public class ShowAllActivity extends AppCompatActivity {
         if(mShowAllUtils!=null){
             MenuAppSettings menuAppSettings = new MenuAppSettings();
             menuAppSettings.setSettings(mShowAllUtils.getSettings());
-            startActivity(MenuActivity.newIntent(this, mShowAllUtils.getAppId(), menuAppSettings));
+            startActivity(ReportsActivity.newIntent(this, mShowAllUtils.getAppId(), menuAppSettings));
         } else {
             finish();
         }
