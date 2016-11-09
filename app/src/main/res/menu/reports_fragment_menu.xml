@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!--<item android:id="@+id/menu_filter"-->
-          <!--android:title="@string/menu_filter"-->
-          <!--android:icon="@drawable/ic_filter_list"-->
-          <!--app:showAsAction="always"/>-->
+    <item android:id="@+id/action_filter"
+          android:title="@string/menu_filter"
+          android:icon="@drawable/ic_filter_list"
+          app:showAsAction="always"/>
 
     <!--<item android:id="@+id/menu_from_date"-->
           <!--android:title="@string/menu_from_date"-->

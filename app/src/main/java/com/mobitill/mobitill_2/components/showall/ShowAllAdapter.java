@@ -66,10 +66,9 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             String key = entry.getKey();
             String value = entry.getValue();
 
-
             int padding = mContext.getResources().getDimensionPixelOffset(R.dimen.padding_16dp);
 
-            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(900),
+            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(1400),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
             LinearLayout linearLayout = new LinearLayout(mContext);
@@ -78,9 +77,6 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             linearLayout.setPadding(0, 0, padding, 0);
             //linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
             linearLayout.removeAllViews();
-
-
-
 
 //            TextView keyTextView = new TextView(mContext);
 //            keyTextView.setText(entry.getKey());
@@ -99,17 +95,11 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
         }
 
-
-
-
         holder.mRootLayout.addView(rootLayout);
-
 
         // set the selected items to checked
         holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
     }
-
-
 
     @Override
     public int getItemCount() {

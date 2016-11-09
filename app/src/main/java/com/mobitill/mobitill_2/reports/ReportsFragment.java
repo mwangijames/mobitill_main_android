@@ -8,10 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +94,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     private DrawerAdapter mDrawerAdapter;
 
     private RecyclerView mDrawerRecyclerView;
+    boolean mIsLargeLayout;
 
 
     private Unbinder unbinder;
@@ -112,6 +116,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mAppId = getArguments().getString(ARG_APPID);
+
+        mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
 
         if(savedInstanceState == null){
             mProductId = "";
@@ -192,17 +198,38 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         dialog.show(manager, DIALOG_DATE);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                // Open the navigation drawer when the home icon is selected from the toolbar.
-//               // mDrawerLayout.openDrawer(GravityCompat.START);
-//                Toast.makeText(getActivity(), "open drawer", Toast.LENGTH_SHORT).show();
-//                return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.reports_fragment_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_filter:
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance();
+                if(mIsLargeLayout){
+                    // the device is showing  a large layout so show the dialog as a dialog
+                    filterDialogFragment.show(fm, "fragment_filter");
+                } else {
+                    // the device is smaller, so show the fragment fullscreen
+                    FragmentTransaction  transaction = fm.beginTransaction();
+                    // for a little polish specify the transition animation
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    //To make it full screen, use the 'content' root view as the container
+                    // for the fragment, which is always the root for the activity
+                    transaction.add(android.R.id.content, filterDialogFragment)
+                            .addToBackStack(null).commit();
+                }
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     @Override
