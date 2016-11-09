@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.media.MediaMetadataCompat;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -26,6 +27,7 @@ import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
 import com.mobitill.mobitill_2.components.showall.ShowAllFragment;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import org.w3c.dom.Text;
@@ -55,6 +57,7 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
     private ShowAllUtils mShowAllUtils;
     private HashMap<String, String> mItem;
     private Unbinder mUnbinder;
+    private MenuAppSettings mMenuAppSettings;
 
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_products) TextView mEmptyTextView;
@@ -89,11 +92,14 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMenuAppSettings = new MenuAppSettings();
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getArguments().getSerializable(ARGS_SHOW_ALL_UTILS);
+            mMenuAppSettings.setSettings(mShowAllUtils.getSettings());
             mItem = (HashMap<String, String>) getArguments().getSerializable(ARGS_ITEM);
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
+            mMenuAppSettings.setSettings(mShowAllUtils.getSettings());
             mItem = (HashMap<String, String>) savedInstanceState.getSerializable(ARGS_ITEM);
         }
     }
@@ -349,7 +355,7 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
 
     @Override
     public void showAll(ShowAllUtils showAllUtils) {
-        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils));
+        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils, mMenuAppSettings));
     }
 
 }

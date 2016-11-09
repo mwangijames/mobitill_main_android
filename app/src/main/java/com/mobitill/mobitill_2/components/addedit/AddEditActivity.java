@@ -36,11 +36,14 @@ public class AddEditActivity extends AppCompatActivity {
     private static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
     private static final String EXTRA_ITEM = "extra_item";
     private static final String ARGS_ITEM = "args_item";
+    public static final String EXTRA_APP_SETTINGS = "extra_app_settings";
+    public static final String ARGS_APP_SETTINGS= "args_app_settings";
 
     private SharedPreferences mSharedPreferences;
     private Constants mConstants;
     private ShowAllUtils mShowAllUtils;
     private HashMap<String, String> mItem;
+    private MenuAppSettings mMenuAppSettings;
 
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -69,12 +72,15 @@ public class AddEditActivity extends AppCompatActivity {
 
         mConstants = new Constants();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mMenuAppSettings = new MenuAppSettings();
 
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getIntent().getSerializableExtra(EXTRA_SHOW_ALL_UTILS);
+            mMenuAppSettings.setSettings(mShowAllUtils.getSettings());
             mItem = (HashMap<String, String>) getIntent().getSerializableExtra(EXTRA_ITEM);
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
+            mMenuAppSettings.setSettings(mShowAllUtils.getSettings());
             mItem = (HashMap<String, String>) savedInstanceState.getSerializable(ARGS_ITEM);
         }
 
@@ -139,7 +145,7 @@ public class AddEditActivity extends AppCompatActivity {
 
     private void goBack(){
         if(mShowAllUtils!=null){
-            startActivity(ShowAllActivity.newIntent(this, mShowAllUtils));
+            startActivity(ShowAllActivity.newIntent(this, mShowAllUtils, mMenuAppSettings));
         } else {
             finish();
         }

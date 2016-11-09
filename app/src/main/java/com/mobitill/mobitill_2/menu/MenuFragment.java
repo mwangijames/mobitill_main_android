@@ -127,7 +127,7 @@ public class MenuFragment extends Fragment implements MenuContract.View{
 
     @Override
     public void showAllActivity(ShowAllUtils showAllUtils) {
-        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils));
+        startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils, mMenuAppSettings));
     }
 
     private void implementRecyclerViewClickListeners(){

@@ -3,6 +3,8 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:paddingTop="@dimen/activity_vertical_margin"
+
+             xmlns:card_view="http://schemas.android.com/apk/res-auto"
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
     <ProgressBar
@@ -52,6 +54,15 @@
         android:layout_gravity="center_horizontal"
         >
 
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_8dp"
+            android:layout_marginRight="@dimen/margin_16dp"
+            card_view:cardCornerRadius="2dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,6 +91,9 @@
                     android:scrollbars="vertical"/>
 
             </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
 
 
     </HorizontalScrollView>

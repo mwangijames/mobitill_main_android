@@ -41,21 +41,54 @@
 
     </LinearLayout>
 
-    <!-- Navigation Drawer -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawer_recycler_view"
+    <LinearLayout
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
-        android:elevation="@dimen/z_drawer"
+        android:orientation="vertical"
         android:background="@color/colorBackground"
-        android:clipToPadding="false"
-        android:fitsSystemWindows="true"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_drawer"/>
+        android:elevation="@dimen/z_drawer">
+
+        <include layout="@layout/nav_header"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:textAppearanceListItem"
+            android:id="@+id/drawer_button_apps"
+            android:text="@string/applications"
+            android:background="?attr/selectableItemBackground"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:textAppearanceListItem"
+            android:id="@+id/drawer_button_reports"
+            android:text="@string/reports"
+            android:background="?attr/selectableItemBackground"/>
+
+        <!-- Navigation Drawer -->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/drawer_recycler_view"
+            android:layout_width="@dimen/drawer_width"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/spacing_normal"
+            android:background="@color/colorBackground"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_drawer"/>
+
+    </LinearLayout>
+
+
 
 </android.support.v4.widget.DrawerLayout>

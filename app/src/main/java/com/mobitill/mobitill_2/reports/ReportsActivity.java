@@ -3,6 +3,7 @@ package com.mobitill.mobitill_2.reports;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.apps.AppsActivity;
 import com.mobitill.mobitill_2.apps.AppsFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
@@ -31,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ReportsActivity extends AppCompatActivity {
 
@@ -55,6 +58,9 @@ public class ReportsActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     //@BindView(R.id.nav_view) NavigationView mNavigationView;
     @BindView(R.id.drawer_recycler_view) RecyclerView mDrawerRecyclerView;
+    @BindView(R.id.drawer_button_apps) Button mAppsButton;
+    @BindView(R.id.drawer_button_reports) Button mReportsButton;
+
 
     private List<String> mModels;
     private DrawerAdapter mDrawerAdapter;
@@ -139,11 +145,23 @@ public class ReportsActivity extends AppCompatActivity {
                 .inject(this);
     }
 
+
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putString(ARGS_APP_ID, mAppId);
         outState.putSerializable(ARGS_APP_SETTINGS, mMenuAppSettings);
         super.onSaveInstanceState(outState);
+    }
+
+    @OnClick(R.id.drawer_button_apps)
+    public void showApps(Button button){
+        startActivity(AppsActivity.newIntent(this));
+    }
+
+    @OnClick(R.id.drawer_button_reports)
+    public void showReports(Button button){
+        startActivity(ReportsActivity.newIntent(this, mAppId, mMenuAppSettings));
     }
 
     public void showMenuItems() {
@@ -188,7 +206,7 @@ public class ReportsActivity extends AppCompatActivity {
                     Log.i(TAG, "openShowAll: model: " + model);
                 } else {
                     //mView.showAllActivity(showAllUtils);
-                    startActivity(ShowAllActivity.newIntent(this, showAllUtils));
+                    startActivity(ShowAllActivity.newIntent(this, showAllUtils, mMenuAppSettings));
                     //menuItem.setChecked(true);
                     mDrawerLayout.closeDrawers();
                 }
