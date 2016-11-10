@@ -33,6 +33,10 @@ public class FilterDialogFragment extends DialogFragment {
     private Toolbar mToolbar;
     private ImageButton mFilterButton;
 
+    public interface FilterDialogListener{
+        void onFinishFilter(String payload);
+    }
+
     public FilterDialogFragment(){
 
     }
@@ -88,11 +92,19 @@ public class FilterDialogFragment extends DialogFragment {
         mFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "filter", Toast.LENGTH_SHORT).show();
+                sendBackResult();
             }
         });
 
        // mToolbar.inflateMenu(R.menu.filter_fragment_menu);
         // getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    public void sendBackResult(){
+        if(getTargetFragment() == null){
+            Toast.makeText(getActivity(), "sendBackResult()", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // TODO: 11/9/2016 start with how to pass data back to parent fragment 
     }
 }

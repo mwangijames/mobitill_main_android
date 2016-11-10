@@ -58,7 +58,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReportsFragment extends Fragment implements ReportsContract.View, ConnectivityReceiver.ConnectivityReceiverListener{
+public class ReportsFragment extends Fragment implements ReportsContract.View, ConnectivityReceiver.ConnectivityReceiverListener, FilterDialogFragment.FilterDialogListener{
 
     private static final String DATES_LIST = "dates_list";
     private static final String PRODUCT_ID = "product_id";
@@ -214,8 +214,10 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
                 FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance();
                 if(mIsLargeLayout){
                     // the device is showing  a large layout so show the dialog as a dialog
+                    setTargetFragment(ReportsFragment.this, 300);
                     filterDialogFragment.show(fm, "fragment_filter");
                 } else {
+                    setTargetFragment(ReportsFragment.this, 300);
                     // the device is smaller, so show the fragment fullscreen
                     FragmentTransaction  transaction = fm.beginTransaction();
                     // for a little polish specify the transition animation
@@ -402,6 +404,11 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         } else {
             showNoNetwork(true);
         }
+    }
+
+    @Override
+    public void onFinishFilter(String payload) {
+        Toast.makeText(getActivity(), payload, Toast.LENGTH_SHORT).show();
     }
 
 }
