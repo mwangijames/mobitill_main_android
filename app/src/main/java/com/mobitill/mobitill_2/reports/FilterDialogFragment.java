@@ -1,12 +1,16 @@
 package com.mobitill.mobitill_2.reports;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
+import android.os.Binder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,12 +20,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.utils.DatePickerFragment;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by james on 11/9/2016.
@@ -29,16 +47,25 @@ import com.mobitill.mobitill_2.R;
 
 public class FilterDialogFragment extends DialogFragment {
 
-    private EditText mEditText;
-    private Toolbar mToolbar;
-    private ImageButton mFilterButton;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.button_filter) ImageButton mFilterButton;
+    @BindView(R.id.button_to) Button mToButton;
+    @BindView(R.id.button_from) Button mFromButton;
 
-    public interface FilterDialogListener{
-        void onFinishFilter(String payload);
-    }
+    private static final String DIALOG_DATE = " DialogDate";
+    private static final int REQUEST_FROM_DATE = 0;
+    private static final int REQUEST_TO_DATE = 1;
+    private List<Long> mDates = new ArrayList<>();
+    private HashMap<String, String> mFilterItems  = new HashMap<>();
+
+    private Unbinder mUnbinder;
 
     public FilterDialogFragment(){
 
+    }
+
+    public interface FilterDialogListener{
+        void onFinishedFiltering(List<Long> range, HashMap<String, String> items);
     }
 
     public static FilterDialogFragment newInstance() {
@@ -68,14 +95,26 @@ public class FilterDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_filter_dialog, container, false);
+        View view =  inflater.inflate(R.layout.fragment_filter_dialog, container, false);
+        mUnbinder = ButterKnife.bind(this, view);
+
+        Calendar date = new GregorianCalendar();
+        // reset hour, minutes, seconds and millis to get midnight
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+
+        mDates.add( date.getTime().getTime());
+        mDates.add(new Date().getTime());
+
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mEditText = (EditText) view.findViewById(R.id.edit_text);
-        mEditText.requestFocus();
+
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //mToolbar.setTitle("Filter");
 
@@ -100,11 +139,110 @@ public class FilterDialogFragment extends DialogFragment {
         // getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
-    public void sendBackResult(){
-        if(getTargetFragment() == null){
-            Toast.makeText(getActivity(), "sendBackResult()", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mUnbinder.unbind();
+    }
+
+    @OnClick(R.id.button_from)
+    public void from(View view){
+        FragmentManager manager = getFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+        dialog.setTargetFragment(FilterDialogFragment.this,REQUEST_FROM_DATE);
+        dialog.show(manager, DIALOG_DATE);
+    }
+
+    @OnClick(R.id.button_to)
+    public void to(View view){
+        FragmentManager manager = getFragmentManager();
+        DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+        dialog.setTargetFragment(FilterDialogFragment.this, REQUEST_TO_DATE);
+        dialog.show(manager, DIALOG_DATE);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode != Activity.RESULT_OK){
             return;
         }
-        // TODO: 11/9/2016 start with how to pass data back to parent fragment 
+
+        if(requestCode  == REQUEST_FROM_DATE){
+            Date date = (Date) data
+                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mDates.remove(0);
+
+            mDates.add(0, date.getTime());
+            //mPresenter.fetchReports(mAppId, mDates, mProductId, mCashierId);
+            mFromButton.setText("From: "  + getFormattedDate(date));
+        }
+
+        if(requestCode == REQUEST_TO_DATE){
+            Date date = (Date) data
+                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mDates.remove(1);
+            mDates.add(1, date.getTime());
+            mToButton.setText("To: " + getFormattedDate(date));
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
+
+    public String getFormattedDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String dateString = Integer.toString(day) + "-" + Integer.toString(month) + "-" + Integer.toString(year);
+        return dateString;
+    }
+
+
+    @OnClick(R.id.button_filter)
+    public void filter(View view){
+        sendBackResult();
+    }
+
+
+
+    public void sendBackResult(){
+
+        if(getTargetFragment() == null){
+            return;
+        }
+
+        // TODO: 11/10/2016 create filter payload ;
+
+        FilterDialogListener filterDialogListener = (FilterDialogListener) getTargetFragment();
+        if(mDates.get(0).equals(mDates.get(1))){
+            Toast.makeText(getActivity(), "Same dates", Toast.LENGTH_SHORT).show();
+        }
+        filterDialogListener.onFinishedFiltering(mDates, mFilterItems);
+        dismiss();
+
+    }
+
+    private Date getStartOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day, 0, 0, 0);
+        return calendar.getTime();
+    }
+
+    private Date getEndOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day, 23, 59, 59);
+        return calendar.getTime();
+    }
+
 }

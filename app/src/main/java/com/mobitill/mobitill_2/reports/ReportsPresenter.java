@@ -16,6 +16,10 @@ import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.data.models.fleet.FleetDataSource;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
+import com.mobitill.mobitill_2.data.models.generic.Actions;
+import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
+import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
+import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.data.models.products.ProductsDataSource;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.MemoryHandler;
 
@@ -47,15 +52,21 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private  ProductsRepository mProductsRepository;
     private  CashiersRepository mCashiersRepository;
     private  ReportsContract.View mView;
+    private Payload mPayload;
+    private final GenericRepository mGenericRepository;
     @Nullable String mAppId;
     private MenuAppSettings mMenuAppSettings;
     private SettingsHelper mSettingsHelper;
+    private final Actions mActions;
 
     @Inject
     public ReportsPresenter(ReportsContract.View view, ReportsRepository reportsRepository,
                             ProductsRepository productsRepository, CashiersRepository cashiersRepository,
                             @Nullable String appId, MenuAppSettings menuAppSettings,
-                            SettingsHelper settingsHelper){
+                            SettingsHelper settingsHelper,
+                            Payload payload,
+                            GenericRepository genericRepository,
+                            Actions actions){
 
         mView = view;
         mReportsRepository = reportsRepository;
@@ -64,6 +75,9 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         mAppId = appId;
         mMenuAppSettings = menuAppSettings;
         mSettingsHelper = settingsHelper;
+        mPayload = payload;
+        mGenericRepository = genericRepository;
+        mActions = actions;
     }
 
     @Override
@@ -166,6 +180,37 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     }
 
     @Override
+    public void fetchReport(List<Long> range, HashMap<String, String> items) {
+        if(mMenuAppSettings!=null && mMenuAppSettings.getSettings() != null){
+            if(mPayload!=null){
+                if(mSettingsHelper != null){
+                    mPayload.setAction(mActions.QUERY);
+                    mPayload.setModel("transactions");
+                    mPayload.setPayload(mSettingsHelper.getReportsPayload(mAppId, range, items));
+                    Log.i(TAG, "fetchReport: " + mSettingsHelper.getReportsPayload(mAppId, range, items));
+                }
+                if(mPayload.isEmpty()){
+                    Log.i(TAG, "fetchReport: Some payloads fields are empty" );
+                } else {
+                    if(mGenericRepository!=null){
+                        mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                            @Override
+                            public void onDataLoaded(String data) {
+                                Log.i(TAG, "onDataLoaded: " + data);
+                            }
+
+                            @Override
+                            public void onDataNotLoaded() {
+                                Log.i(TAG, "onDataNotLoaded: ");
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void fetchProducts(String appId) {
         mProductsRepository.getProducts(appId, new ProductsDataSource.LoadProductsCallBack() {
             @Override
@@ -262,12 +307,9 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
 
     @Override
     public void start() {
-        fetchProducts(mAppId);
-        fetchCashiers(mAppId);
-
         List<Long> dates = new ArrayList<Long>();
         dates.add(getMidnight().getTime().getTime());
         dates.add(new Date().getTime());
-        fetchReports(mAppId, dates);
+        fetchReport(dates, new HashMap<String, String>());
     }
 }

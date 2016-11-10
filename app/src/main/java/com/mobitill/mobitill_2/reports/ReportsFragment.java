@@ -47,6 +47,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,6 +71,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     private static final int REQUEST_FROM_DATE = 0;
     private static final int REQUEST_TO_DATE = 1;
 
+    private static final int REQUEST_FILTER_DATA=2;
+
     private ReportsContract.Presenter mPresenter;
     private String mAppId = null;
     private List<Long> mDates = new ArrayList<>();
@@ -80,10 +83,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     private String mProductId;
     private String mCashierId;
 
-    @BindView(R.id.product) Spinner mProductsSpinner;
-    @BindView(R.id.cashier) Spinner mCashierSpinner;
-    @BindView(R.id.from) Button mFromButton;
-    @BindView(R.id.to) Button mToButton;
+
     @BindView(R.id.quantity) TextView mQuantityTextView;
     @BindView(R.id.total) TextView mTotalTextView;
     @BindView(R.id.report_layout) LinearLayout mReportLayout;
@@ -150,9 +150,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         View view = inflater.inflate(R.layout.fragment_reports, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        mFromButton.setText("From: "  + mPresenter.getFormattedDate(new Date()));
-        mToButton.setText("To: "  + mPresenter.getFormattedDate(new Date()));
-
         mPresenter.start();
         return view;
     }
@@ -182,21 +179,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
 
-    @OnClick(R.id.from)
-    public void fromDate(Button button) {
-        FragmentManager manager = getFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
-        dialog.setTargetFragment(ReportsFragment.this,REQUEST_FROM_DATE);
-        dialog.show(manager, DIALOG_DATE);
-    }
-
-    @OnClick(R.id.to)
-    public void toDate(Button button) {
-        FragmentManager manager = getFragmentManager();
-        DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
-        dialog.setTargetFragment(ReportsFragment.this, REQUEST_TO_DATE);
-        dialog.show(manager, DIALOG_DATE);
-    }
 
 
     @Override
@@ -212,12 +194,11 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             case R.id.action_filter:
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance();
+                filterDialogFragment.setTargetFragment(ReportsFragment.this, REQUEST_FILTER_DATA);
                 if(mIsLargeLayout){
                     // the device is showing  a large layout so show the dialog as a dialog
-                    setTargetFragment(ReportsFragment.this, 300);
                     filterDialogFragment.show(fm, "fragment_filter");
                 } else {
-                    setTargetFragment(ReportsFragment.this, 300);
                     // the device is smaller, so show the fragment fullscreen
                     FragmentTransaction  transaction = fm.beginTransaction();
                     // for a little polish specify the transition animation
@@ -233,34 +214,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if(resultCode != Activity.RESULT_OK){
-            return;
-        }
-
-        if(requestCode  == REQUEST_FROM_DATE){
-            Date date = (Date) data
-                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mDates.remove(0);
-            mDates.add(0, date.getTime());
-            mPresenter.fetchReports(mAppId, mDates, mProductId, mCashierId);
-            mFromButton.setText("From: "  + mPresenter.getFormattedDate(date));
-        }
-
-        if(requestCode == REQUEST_TO_DATE){
-            Date date = (Date) data
-                    .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mDates.remove(1);
-            mDates.add(1, date.getTime());
-            mPresenter.fetchReports(mAppId, mDates, mProductId, mCashierId);
-            mToButton.setText("To: " + mPresenter.getFormattedDate(date));
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     @Override
     public void setLoadingIndicator(boolean active) {
@@ -331,23 +284,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
                 android.R.layout.simple_spinner_dropdown_item,
                 productsArray);
         // Specify the layout to use when the list of choices appears
-        mProductsSpinner.setAdapter(mProductsAdapter);
     }
 
-    @OnItemSelected(R.id.product)
-    public void spinnerProductItemSelected(int position){
-        mLastSpinnerPosition = mLastSpinnerPosition + 1;
-        if(mLastSpinnerPosition > 1){
-            if(position > 0){
-                Product product = mProductsAdapter.getProduct(position);
-                mProductId = product.getId();
-                mPresenter.fetchReports(mAppId, mDates, product.getId());
-            } else {
-                mProductId = "";
-                mPresenter.fetchReports(mAppId, mDates, "");
-            }
-        }
-    }
 
     @Override
     public void showCashiers(List<Cashier> cashiers) {
@@ -356,23 +294,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
                 android.R.layout.simple_spinner_dropdown_item,
                 cashiersArray);
         // specify the layout to use when the list of choices appears
-        mCashierSpinner.setAdapter(mCashiersAdapter);
     }
 
-    @OnItemSelected(R.id.cashier)
-    public void spinnerCashierItemSelected(int position){
-         mLastCashierSpinnerPosition = mLastCashierSpinnerPosition + 1;
-        if(mLastCashierSpinnerPosition > 1){
-            if(position > 0){
-                Cashier cashier = mCashiersAdapter.getCashier(position);
-                mPresenter.fetchReports(mAppId, mDates, mProductId, cashier.getId());
-                mCashierId = cashier.getId();
-            } else {
-                mCashierId = "";
-                mPresenter.fetchReports(mAppId, mDates, mProductId);
-            }
-        }
-    }
+
 
     @Override
     public void showQuantity(int quantity) {
@@ -407,8 +331,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
     @Override
-    public void onFinishFilter(String payload) {
-        Toast.makeText(getActivity(), payload, Toast.LENGTH_SHORT).show();
+    public void onFinishedFiltering(List<Long> range, HashMap<String, String> items) {
+         mPresenter.fetchReport(range, items);
     }
+
 
 }

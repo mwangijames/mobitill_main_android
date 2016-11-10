@@ -32,6 +32,7 @@
 
     <dimen name="z_drawer">16dp</dimen>
     <dimen name="z_dialog">24dp</dimen>
+    <dimen name="margin_button">1dp</dimen>
 
     <!-- per https://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html#MATCH_PARENT -->
     <item name="match_parent" format="integer" type="dimen">-1</item>

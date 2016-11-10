@@ -9,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,6 +36,7 @@ public interface ReportsContract {
         void fetchReports(String appId, List<Long> dates);
         void fetchReports(String appId, List<Long> dates, String product);
         void fetchReports(String appId, List<Long> dates, String product, String cashier);
+        void fetchReport(List<Long> range, HashMap<String, String> items);
         void getQuantity(int quantity);
         void getTotal(List<ReportItem> reportItemList);
         String getFormattedDate(Date date);

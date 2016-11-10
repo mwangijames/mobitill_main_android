@@ -9,4 +9,5 @@ public class Actions {
     public final String INSERT = "insert";
     public final String DELETE = "delete";
     public final String UPDATE = "update";
+    public final String QUERY = "query";
 }

@@ -34,70 +34,12 @@
                       android:layout_marginLeft="@dimen/activity_horizontal_margin"
                       tools:context="com.mobitill.mobitill_2.reports.ReportsFragment">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:elevation="4dp"
-                android:background="@color/colorPrimaryLight"
-                android:padding="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/product"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                    android:spinnerMode="dropdown"
-                    android:theme="@style/ThemeSpinner"
-
-                    />
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/cashier"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                    android:spinnerMode="dropdown"
-                    android:theme="@style/ThemeSpinner"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:text="@string/from"
-                        android:id="@+id/from"
-                        android:background="@drawable/round_button"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"/>
-
-                    <Button
-                        android:layout_width="0dp"
-                        android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:text="@string/to"
-                        android:id="@+id/to"
-                        android:background="@drawable/round_button"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/colorPrimary"
                 android:elevation="@dimen/elevation_4dp"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin">
                 <TextView
@@ -105,12 +47,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/quantity"
                     android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextLight"/>
+                    android:textColor="@color/colorTextDark"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/quantity"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextDark"
                     android:textSize="@dimen/report_large_text"
                     android:text="0"/>
             </LinearLayout>
@@ -120,7 +62,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:background="@color/colorPrimaryDark"
                 android:elevation="3dp"
 
                 >
@@ -128,13 +69,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextDark"
                     android:text="@string/total"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextLight"
+                    android:textColor="@color/colorTextDark"
                     android:id="@+id/total"
                     android:text="0"/>
             </LinearLayout>

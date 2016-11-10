@@ -112,6 +112,29 @@ public class SettingsHelper {
         return payload;
     }
 
+    public String getReportsPayload(String appId, List<Long> range, HashMap<String, String> filterItems){
+        String payload = null;
+
+        JSONObject paramsObject = new JSONObject();
+        JSONObject fetchObject = new JSONObject();
+        JSONObject items = new JSONObject();
+
+        try {
+            items.put("range", new JSONArray(range));
+            items.put("appid", appId);
+
+            fetchObject.put("fetch", items);
+            paramsObject.put("params", fetchObject);
+
+            payload = paramsObject.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return payload;
+    }
+
     public List<HashMap<String, String>> getList(String data){
 
         List<HashMap<String, String>> list = new ArrayList<>();

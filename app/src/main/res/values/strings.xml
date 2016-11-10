@@ -53,4 +53,5 @@
     <string name="delete_fail">Item delete failed</string>
     <string name="action_update">Update</string>
     <string name="applications">Applications</string>
+    <string name="filter">Filter</string>
 </resources>
