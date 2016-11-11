@@ -1,8 +1,10 @@
 package com.mobitill.mobitill_2.reports;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.apps.AppsContract;
@@ -58,6 +60,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private MenuAppSettings mMenuAppSettings;
     private SettingsHelper mSettingsHelper;
     private final Actions mActions;
+    private final Context mContext;
 
     @Inject
     public ReportsPresenter(ReportsContract.View view, ReportsRepository reportsRepository,
@@ -66,7 +69,8 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                             SettingsHelper settingsHelper,
                             Payload payload,
                             GenericRepository genericRepository,
-                            Actions actions){
+                            Actions actions,
+                            Context context){
 
         mView = view;
         mReportsRepository = reportsRepository;
@@ -78,6 +82,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         mPayload = payload;
         mGenericRepository = genericRepository;
         mActions = actions;
+        mContext = context;
     }
 
     @Override
@@ -187,7 +192,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                     mPayload.setAction(mActions.QUERY);
                     mPayload.setModel("transactions");
                     mPayload.setPayload(mSettingsHelper.getReportsPayload(mAppId, range, items));
-                    Log.i(TAG, "fetchReport: " + mSettingsHelper.getReportsPayload(mAppId, range, items));
                 }
                 if(mPayload.isEmpty()){
                     Log.i(TAG, "fetchReport: Some payloads fields are empty" );
@@ -307,9 +311,44 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
 
     @Override
     public void start() {
+
+        setUpFilter();
+
         List<Long> dates = new ArrayList<Long>();
         dates.add(getMidnight().getTime().getTime());
         dates.add(new Date().getTime());
         fetchReport(dates, new HashMap<String, String>());
+
+
     }
+
+    private void setUpFilter() {
+        List<String> items = mSettingsHelper.getReportFilterItems(mMenuAppSettings.getSettings());
+
+        final HashMap<String, List<HashMap<String, String>>> filterItems = new HashMap<>();
+
+        for(final String item: items){
+            if(mPayload != null && mSettingsHelper != null){
+                mPayload.setModel(item);
+                mPayload.setPayload(mSettingsHelper.getPayload(mActions.FETCH, mAppId));
+                mPayload.setAction(mActions.FETCH);
+                if(!mPayload.isEmpty()){
+                    mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                        @Override
+                        public void onDataLoaded(String data) {
+                            filterItems.put(item, mSettingsHelper.getList(data));
+                        }
+
+                        @Override
+                        public void onDataNotLoaded() {
+                            Log.i(TAG, "onDataNotLoaded: ");
+                        }
+                    });
+                }
+            }
+        }
+
+        mView.setUpFilterView(filterItems);
+    }
+
 }

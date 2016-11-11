@@ -135,6 +135,23 @@ public class SettingsHelper {
         return payload;
     }
 
+    public List<String> getReportFilterItems(String settings){
+        List<String> filterItems = new ArrayList<>();
+
+        try {
+            JSONObject settingsObject = new JSONObject(settings);
+            JSONObject reports = settingsObject.getJSONObject("reports");
+            JSONArray filterItemsArray = reports.getJSONArray("filterItems");
+            for(int i = 0; i < filterItemsArray.length(); i++){
+                filterItems.add(filterItemsArray.getString(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return filterItems;
+    }
+
     public List<HashMap<String, String>> getList(String data){
 
         List<HashMap<String, String>> list = new ArrayList<>();

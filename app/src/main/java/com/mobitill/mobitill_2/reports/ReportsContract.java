@@ -7,6 +7,7 @@ import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
 import com.mobitill.mobitill_2.data.models.products.models.Product;
 import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public interface ReportsContract {
         boolean isActive();
         void showQuantity(int quantity);
         void showMenuItems(List<String> models);
+        void setUpFilterView(HashMap<String, List<HashMap<String, String>>> filterItems);
     }
 
     interface Presenter extends BasePresenter{

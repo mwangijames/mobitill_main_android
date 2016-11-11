@@ -2,10 +2,8 @@ package com.mobitill.mobitill_2.reports;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Binder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,17 +11,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.R;
@@ -47,16 +42,21 @@ import butterknife.Unbinder;
 
 public class FilterDialogFragment extends DialogFragment {
 
+    private static final String ARGS_MODELS = "args_models";
+
     @BindView(R.id.toolbar) Toolbar mToolbar;
     @BindView(R.id.button_filter) ImageButton mFilterButton;
     @BindView(R.id.button_to) Button mToButton;
     @BindView(R.id.button_from) Button mFromButton;
-
+    @BindView(R.id.spinner_layout) LinearLayout mSpinnerLinearLayout;
     private static final String DIALOG_DATE = " DialogDate";
     private static final int REQUEST_FROM_DATE = 0;
     private static final int REQUEST_TO_DATE = 1;
     private List<Long> mDates = new ArrayList<>();
     private HashMap<String, String> mFilterItems  = new HashMap<>();
+    private HashMap<String, List<HashMap<String, String>>>  mModels = new HashMap<>();
+
+
 
     private Unbinder mUnbinder;
 
@@ -68,10 +68,10 @@ public class FilterDialogFragment extends DialogFragment {
         void onFinishedFiltering(List<Long> range, HashMap<String, String> items);
     }
 
-    public static FilterDialogFragment newInstance() {
+    public static FilterDialogFragment newInstance(HashMap<String, List<HashMap<String, String>>> filterItems) {
         
         Bundle args = new Bundle();
-        
+        args.putSerializable(ARGS_MODELS, filterItems);
         FilterDialogFragment fragment = new FilterDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -81,15 +81,24 @@ public class FilterDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+
+
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(ARGS_MODELS, mModels);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setHasOptionsMenu(true);
+
     }
 
     @Nullable
@@ -114,6 +123,12 @@ public class FilterDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //setHasOptionsMenu(true);
+        if(savedInstanceState == null){
+            mModels = (HashMap<String, List<HashMap<String, String>>>) getArguments().getSerializable(ARGS_MODELS);
+        } else {
+            mModels = (HashMap<String, List<HashMap<String, String>>>) savedInstanceState.getSerializable(ARGS_MODELS);
+        }
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //mToolbar.setTitle("Filter");
@@ -134,6 +149,10 @@ public class FilterDialogFragment extends DialogFragment {
                 sendBackResult();
             }
         });
+
+
+        // set up spinners
+        setUpSpinners();
 
        // mToolbar.inflateMenu(R.menu.filter_fragment_menu);
         // getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -174,7 +193,7 @@ public class FilterDialogFragment extends DialogFragment {
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mDates.remove(0);
 
-            mDates.add(0, date.getTime());
+            mDates.add(0, getStartOfDay(date).getTime());
             //mPresenter.fetchReports(mAppId, mDates, mProductId, mCashierId);
             mFromButton.setText("From: "  + getFormattedDate(date));
         }
@@ -183,7 +202,7 @@ public class FilterDialogFragment extends DialogFragment {
             Date date = (Date) data
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mDates.remove(1);
-            mDates.add(1, date.getTime());
+            mDates.add(1, getEndOfDay(date).getTime());
             mToButton.setText("To: " + getFormattedDate(date));
         }
 
@@ -243,6 +262,40 @@ public class FilterDialogFragment extends DialogFragment {
         int day = calendar.get(Calendar.DATE);
         calendar.set(year, month, day, 23, 59, 59);
         return calendar.getTime();
+    }
+
+    // set up spinners
+    public void setUpSpinners(){
+        if(mModels.isEmpty()){
+            // do nothing
+        } else {
+            mSpinnerLinearLayout.removeAllViews();
+            for(HashMap.Entry<String, List<HashMap<String, String>>> entry: mModels.entrySet()){
+               // Toast.makeText(getActivity(), entry.getKey(), Toast.LENGTH_SHORT).show();
+                Spinner spinner = new Spinner(getActivity());
+                ViewGroup.LayoutParams layoutParams =
+                        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                spinner.setLayoutParams(layoutParams);
+
+                ArrayList<FilterItem> adapterItems = new ArrayList<>();
+                // create adapter and add items to spinner
+                List<HashMap<String, String>> itemsList = entry.getValue();
+                for(HashMap<String, String> listItem: itemsList){
+                    FilterItem filterItem = new FilterItem();
+                    filterItem.setId(listItem.get("id"));
+                    filterItem.setName(listItem.get("name"));
+                    adapterItems.add(filterItem);
+                }
+
+                FilterItemsAdapter adapter =
+                        new FilterItemsAdapter(getActivity(),
+                                android.R.layout.simple_spinner_item, adapterItems);
+
+                spinner.setAdapter(adapter);
+                mSpinnerLinearLayout.addView(spinner);
+            }
+        }
     }
 
 }

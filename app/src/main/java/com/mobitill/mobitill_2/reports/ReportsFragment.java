@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -61,6 +63,7 @@ import butterknife.Unbinder;
  */
 public class ReportsFragment extends Fragment implements ReportsContract.View, ConnectivityReceiver.ConnectivityReceiverListener, FilterDialogFragment.FilterDialogListener{
 
+    private static final String TAG = ReportsFragment.class.getSimpleName();
     private static final String DATES_LIST = "dates_list";
     private static final String PRODUCT_ID = "product_id";
     private static final String CASHIER_ID = "cashier_id";
@@ -90,7 +93,11 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
+    // create new spinnerList to pass to FilterDialogFragment
+    List<Spinner> mFilterSpinners = new ArrayList<>();
+
     private List<String> mModels;
+    HashMap<String, List<HashMap<String, String>>> mFilterModels;
     private DrawerAdapter mDrawerAdapter;
 
     private RecyclerView mDrawerRecyclerView;
@@ -193,7 +200,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         switch (item.getItemId()) {
             case R.id.action_filter:
                 FragmentManager fm = getActivity().getSupportFragmentManager();
-                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance();
+                FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(mFilterModels);
                 filterDialogFragment.setTargetFragment(ReportsFragment.this, REQUEST_FILTER_DATA);
                 if(mIsLargeLayout){
                     // the device is showing  a large layout so show the dialog as a dialog
@@ -236,6 +243,46 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             }
         }
     }
+
+    @Override
+    public void setUpFilterView(HashMap<String, List<HashMap<String, String>>> filterItems) {
+        mFilterModels = filterItems;
+    }
+
+
+//    @Override
+//    public void setUpFilterView(List<HashMap<String, String>> items, String item) {
+//        Spinner spinner = new Spinner(getActivity());
+//
+//        String[] spinnerArray = new String[items.size()];
+//        HashMap<String, String> spinnerMap = new HashMap<>();
+//
+//        for(int i = 0; i < items.size(); i++){
+//            for (HashMap.Entry<String, String> entry : items.get(i).entrySet())
+//            {
+//                System.out.println(entry.getKey() + "/" + entry.getValue());
+//                if(entry.getKey().equals("name")){
+//                    spinnerArray[i] = entry.getValue();
+//                }
+//            }
+//        }
+//
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+//        spinner.setAdapter(adapter);
+//
+//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                // get the id
+//                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        mFilterSpinners.add(spinner);
+//
+//
+//    }
 
     @Override
     public void showNoReports() {
