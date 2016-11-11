@@ -52,7 +52,7 @@ public class FilterItemsAdapter extends ArrayAdapter<FilterItem> {
         // create a dynamic textview
         TextView label = new TextView(mContext);
         label.setPadding(30, 30, 30 ,30);
-        label.setTextColor(mContext.getResources().getColor(R.color.colorTextLight));
+        label.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
         label.setText(mFilterItems.get(position).getName());
         return label;
     }
@@ -65,7 +65,7 @@ public class FilterItemsAdapter extends ArrayAdapter<FilterItem> {
         TextView label = new TextView(mContext);
         // label.getLayoutParams().height = mContext.getResources().getDimensionPixelSize(R.dimen.text_view_height);
         label.setPadding(30, 30, 30 ,30);
-        label.setTextColor(Color.BLACK);
+        label.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
         label.setText(mFilterItems.get(position).getName());
         return label;
     }
