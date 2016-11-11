@@ -349,6 +349,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
 
         mView.setUpFilterView(filterItems);
+
     }
 
 }

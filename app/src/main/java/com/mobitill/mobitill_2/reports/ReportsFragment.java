@@ -85,6 +85,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     private int mLastCashierSpinnerPosition;
     private String mProductId;
     private String mCashierId;
+    private boolean isHideFilter = true;
 
 
     @BindView(R.id.quantity) TextView mQuantityTextView;
@@ -102,6 +103,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     private RecyclerView mDrawerRecyclerView;
     boolean mIsLargeLayout;
+    MenuItem mFilterItem;
 
 
     private Unbinder unbinder;
@@ -195,6 +197,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -249,40 +252,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         mFilterModels = filterItems;
     }
 
-
-//    @Override
-//    public void setUpFilterView(List<HashMap<String, String>> items, String item) {
-//        Spinner spinner = new Spinner(getActivity());
-//
-//        String[] spinnerArray = new String[items.size()];
-//        HashMap<String, String> spinnerMap = new HashMap<>();
-//
-//        for(int i = 0; i < items.size(); i++){
-//            for (HashMap.Entry<String, String> entry : items.get(i).entrySet())
-//            {
-//                System.out.println(entry.getKey() + "/" + entry.getValue());
-//                if(entry.getKey().equals("name")){
-//                    spinnerArray[i] = entry.getValue();
-//                }
-//            }
-//        }
-//
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
-//        spinner.setAdapter(adapter);
-//
-//        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                // get the id
-//                Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        mFilterSpinners.add(spinner);
-//
-//
-//    }
 
     @Override
     public void showNoReports() {

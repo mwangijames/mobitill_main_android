@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -131,9 +132,9 @@ public class FilterDialogFragment extends DialogFragment {
         }
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        //mToolbar.setTitle("Filter");
+        mToolbar.setTitle("Filter");
 
-        mToolbar.setNavigationIcon(R.drawable.ic_clear);
+        mToolbar.setNavigationIcon(R.drawable.ic_back);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,6 +280,11 @@ public class FilterDialogFragment extends DialogFragment {
                 spinner.setLayoutParams(layoutParams);
 
                 ArrayList<FilterItem> adapterItems = new ArrayList<>();
+                // add default item to adapter items
+                FilterItem defaultItem = new FilterItem();
+                defaultItem.setName(entry.getKey());
+                defaultItem.setId("");
+                adapterItems.add(defaultItem);
                 // create adapter and add items to spinner
                 List<HashMap<String, String>> itemsList = entry.getValue();
                 for(HashMap<String, String> listItem: itemsList){
@@ -288,11 +294,29 @@ public class FilterDialogFragment extends DialogFragment {
                     adapterItems.add(filterItem);
                 }
 
-                FilterItemsAdapter adapter =
+                final FilterItemsAdapter adapter =
                         new FilterItemsAdapter(getActivity(),
                                 android.R.layout.simple_spinner_item, adapterItems);
 
                 spinner.setAdapter(adapter);
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        if(position!=0){
+                            FilterItem filterItem = adapter.getFilterItem(position);
+                            Toast.makeText(getActivity(), filterItem.getName(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                 mSpinnerLinearLayout.addView(spinner);
             }
         }
