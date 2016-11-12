@@ -146,6 +146,7 @@ public class ShowAllActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_SHOW_ALL_UTILS, mShowAllUtils);
+        outState.putSerializable(ARGS_APP_SETTINGS, mMenuAppSettings);
         super.onSaveInstanceState(outState);
     }
 

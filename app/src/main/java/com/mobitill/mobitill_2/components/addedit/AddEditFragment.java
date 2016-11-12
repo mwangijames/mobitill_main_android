@@ -129,8 +129,10 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                 } else {
                     HashMap<String, String> data = new HashMap<>();
                     for(int index = 0; index<mLinearLayout.getChildCount(); index++){
-                        EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
-                        data.put((String)nextChild.getTag(), nextChild.getText().toString());
+                        if(mLinearLayout.getChildAt(index) instanceof EditText){
+                            EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
+                            data.put((String)nextChild.getTag(), nextChild.getText().toString());
+                        }
                     }
                     mPresenter.edit(data);
                 }
@@ -279,6 +281,11 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
             EditText editText;
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            textView.setText(entry.getKey());
+            mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
                     editText = new EditText(getActivity());
