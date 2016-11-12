@@ -56,7 +56,7 @@ public class FilterDialogFragment extends DialogFragment {
     private List<Long> mDates = new ArrayList<>();
     private HashMap<String, String> mFilterItems  = new HashMap<>();
     private HashMap<String, List<HashMap<String, String>>>  mModels = new HashMap<>();
-
+    private HashMap<String, String> mDisplayItems = new HashMap<>();
 
 
     private Unbinder mUnbinder;
@@ -66,7 +66,8 @@ public class FilterDialogFragment extends DialogFragment {
     }
 
     public interface FilterDialogListener{
-        void onFinishedFiltering(List<Long> range, HashMap<String, String> items);
+        void onFinishedFiltering(List<Long> range, HashMap<String, String> items,
+                                 HashMap<String, String> displayItems);
     }
 
     public static FilterDialogFragment newInstance(HashMap<String, List<HashMap<String, String>>> filterItems) {
@@ -236,7 +237,7 @@ public class FilterDialogFragment extends DialogFragment {
         if(mDates.get(0).equals(mDates.get(1))){
             Toast.makeText(getActivity(), "Same dates", Toast.LENGTH_SHORT).show();
         }
-        filterDialogListener.onFinishedFiltering(mDates, mFilterItems);
+        filterDialogListener.onFinishedFiltering(mDates, mFilterItems, mDisplayItems);
         dismiss();
 
     }
@@ -307,7 +308,7 @@ public class FilterDialogFragment extends DialogFragment {
                                 name = name + "id";
                             }
                             mFilterItems.put(name, filterItem.getId());
-                            // TODO: 11/11/2016 resume from setting up filters and counting totals
+                            mDisplayItems.put(cleanString(entry.getKey()), filterItem.getName());
                         }
 
                     }

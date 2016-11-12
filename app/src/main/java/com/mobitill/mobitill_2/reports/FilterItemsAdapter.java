@@ -43,6 +43,10 @@ public class FilterItemsAdapter extends ArrayAdapter<FilterItem> {
         return mFilterItems.get(position).getId();
     }
 
+    public String getFilterItemName(int position){
+        return mFilterItems.get(position).getName();
+    }
+
     // this is for the passive state of the spinner
 
 

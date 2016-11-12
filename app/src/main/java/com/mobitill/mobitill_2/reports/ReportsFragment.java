@@ -13,6 +13,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -97,6 +99,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.from) TextView mFromTextView;
     @BindView(R.id.to) TextView mToTextView;
+    @BindView(R.id.filter_items) LinearLayout mFilterItemsLinearLayout;
 
     // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
@@ -335,14 +338,41 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
     @Override
-    public void onFinishedFiltering(List<Long> range, HashMap<String, String> items) {
+    public void onFinishedFiltering(List<Long> range, HashMap<String, String> items,
+                                    HashMap<String, String> displayItems) {
          mPresenter.fetchReport(range, items);
 
         mFromTextView.setText(mPresenter.getFormattedDate(new Date(range.get(0))));
         mToTextView.setText(mPresenter.getFormattedDate(new Date(range.get(1))));
 
+        mFilterItemsLinearLayout.removeAllViews();
+        for(HashMap.Entry<String, String> entry: displayItems.entrySet()){
+            LinearLayout linearLayout = new LinearLayout(getActivity());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(layoutParams);
+            linearLayout.setGravity(Gravity.CENTER);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-        // TODO: 11/12/2016 create the the other fields to display
+            ViewGroup.LayoutParams textViewLayoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            TextView label = new TextView(getActivity());
+            label.setLayoutParams(textViewLayoutParams);
+            label.setTextColor(getResources().getColor(R.color.colorTextLight));
+            label.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.report_small_text));
+            label.setText(entry.getKey());
+            linearLayout.addView(label);
+
+            TextView name = new TextView(getActivity());
+            name.setLayoutParams(textViewLayoutParams);
+            name.setTextColor(getResources().getColor(R.color.colorTextLight));
+            name.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.report_large_text));
+            name.setText(entry.getValue());
+            linearLayout.addView(name);
+
+            mFilterItemsLinearLayout.addView(linearLayout);
+        }
 
     }
 

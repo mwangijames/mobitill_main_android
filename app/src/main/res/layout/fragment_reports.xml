@@ -94,6 +94,14 @@
                         android:textSize="@dimen/report_large_text"/>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:id="@+id/filter_items">
+
+                </LinearLayout>
+
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
