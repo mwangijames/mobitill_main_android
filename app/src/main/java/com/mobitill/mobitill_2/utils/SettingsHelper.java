@@ -123,8 +123,14 @@ public class SettingsHelper {
             items.put("range", new JSONArray(range));
             items.put("appid", appId);
 
+            for(HashMap.Entry<String, String> entry: filterItems.entrySet()){
+                items.put(entry.getKey(), entry.getValue());
+            }
+
             fetchObject.put("fetch", items);
             paramsObject.put("params", fetchObject);
+
+
 
             payload = paramsObject.toString();
 

@@ -3,7 +3,9 @@ package com.mobitill.mobitill_2.reports;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -192,6 +194,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                     mPayload.setAction(mActions.QUERY);
                     mPayload.setModel("transactions");
                     mPayload.setPayload(mSettingsHelper.getReportsPayload(mAppId, range, items));
+                    Toast.makeText(mContext, mSettingsHelper.getReportsPayload(mAppId, range, items), Toast.LENGTH_LONG).show();
                 }
                 if(mPayload.isEmpty()){
                     Log.i(TAG, "fetchReport: Some payloads fields are empty" );

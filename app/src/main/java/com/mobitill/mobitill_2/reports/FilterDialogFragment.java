@@ -226,15 +226,11 @@ public class FilterDialogFragment extends DialogFragment {
         sendBackResult();
     }
 
-
-
     public void sendBackResult(){
 
         if(getTargetFragment() == null){
             return;
         }
-
-        // TODO: 11/10/2016 create filter payload ;
 
         FilterDialogListener filterDialogListener = (FilterDialogListener) getTargetFragment();
         if(mDates.get(0).equals(mDates.get(1))){
@@ -271,7 +267,7 @@ public class FilterDialogFragment extends DialogFragment {
             // do nothing
         } else {
             mSpinnerLinearLayout.removeAllViews();
-            for(HashMap.Entry<String, List<HashMap<String, String>>> entry: mModels.entrySet()){
+            for(final HashMap.Entry<String, List<HashMap<String, String>>> entry: mModels.entrySet()){
                // Toast.makeText(getActivity(), entry.getKey(), Toast.LENGTH_SHORT).show();
                 Spinner spinner = new Spinner(getActivity());
                 ViewGroup.LayoutParams layoutParams =
@@ -306,7 +302,12 @@ public class FilterDialogFragment extends DialogFragment {
 
                         if(position!=0){
                             FilterItem filterItem = adapter.getFilterItem(position);
-                            Toast.makeText(getActivity(), filterItem.getName(), Toast.LENGTH_SHORT).show();
+                            String name = cleanString(entry.getKey());
+                            if(!name.equalsIgnoreCase("cashier")){
+                                name = name + "id";
+                            }
+                            mFilterItems.put(name, filterItem.getId());
+                            // TODO: 11/11/2016 resume from setting up filters and counting totals
                         }
 
                     }
@@ -320,6 +321,13 @@ public class FilterDialogFragment extends DialogFragment {
                 mSpinnerLinearLayout.addView(spinner);
             }
         }
+    }
+
+    public String cleanString(String str) {
+        if (str != null && str.length() > 0 && str.charAt(str.length()-1)=='s') {
+            str = str.substring(0, str.length()-1);
+        }
+        return str;
     }
 
 }
