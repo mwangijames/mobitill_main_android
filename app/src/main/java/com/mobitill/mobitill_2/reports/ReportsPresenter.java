@@ -1,11 +1,13 @@
 package com.mobitill.mobitill_2.reports;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -35,6 +37,9 @@ import com.mobitill.mobitill_2.data.models.reports.models.ReportsLocal;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,81 +117,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     }
 
     @Override
-    public void fetchReports(String appId, List<Long> dates) {
-        String cashier = "";
-        String productId = "";
-        mView.setLoadingIndicator(true);
-        mReportsRepository.getReports(dates, cashier, productId, appId, new ReportsDataSource.LoadReportsCallback() {
-            @Override
-            public void onLocalReportsLoaded(List<ReportsLocal> reportsLocalList) {
-
-            }
-
-            @Override
-            public void onRemoteDataLoaded(List<ReportItem> reportItemList) {
-                mView.setLoadingIndicator(false);
-                getQuantity(reportItemList.size());
-                getTotal(reportItemList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mView.setLoadingIndicator(false);
-                mView.showNoReports();
-            }
-        });
-    }
-
-    @Override
-    public void fetchReports(String appId, List<Long> dates, String product) {
-        String cashier = "";
-        mView.setLoadingIndicator(true);
-        mReportsRepository.getReports(dates, cashier, product, appId, new ReportsDataSource.LoadReportsCallback() {
-            @Override
-            public void onLocalReportsLoaded(List<ReportsLocal> reportsLocalList) {
-
-            }
-
-            @Override
-            public void onRemoteDataLoaded(List<ReportItem> reportItemList) {
-                mView.setLoadingIndicator(false);
-                getQuantity(reportItemList.size());
-                getTotal(reportItemList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mView.setLoadingIndicator(false);
-                mView.showNoReports();
-            }
-        });
-    }
-
-    @Override
-    public void fetchReports(String appId, List<Long> dates, String product, String cashier) {
-        mView.setLoadingIndicator(true);
-        mReportsRepository.getReports(dates, cashier, product, appId, new ReportsDataSource.LoadReportsCallback() {
-            @Override
-            public void onLocalReportsLoaded(List<ReportsLocal> reportsLocalList) {
-
-            }
-
-            @Override
-            public void onRemoteDataLoaded(List<ReportItem> reportItemList) {
-                mView.setLoadingIndicator(false);
-                getQuantity(reportItemList.size());
-                getTotal(reportItemList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mView.setLoadingIndicator(false);
-                mView.showNoReports();
-            }
-        });
-    }
-
-    @Override
     public void fetchReport(List<Long> range, HashMap<String, String> items) {
         if(mMenuAppSettings!=null && mMenuAppSettings.getSettings() != null){
             if(mPayload!=null){
@@ -194,20 +124,25 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                     mPayload.setAction(mActions.QUERY);
                     mPayload.setModel("transactions");
                     mPayload.setPayload(mSettingsHelper.getReportsPayload(mAppId, range, items));
-                    Toast.makeText(mContext, mSettingsHelper.getReportsPayload(mAppId, range, items), Toast.LENGTH_LONG).show();
                 }
                 if(mPayload.isEmpty()){
                     Log.i(TAG, "fetchReport: Some payloads fields are empty" );
                 } else {
                     if(mGenericRepository!=null){
+                        mView.setLoadingIndicator(true);
                         mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
-                                Log.i(TAG, "onDataLoaded: " + data);
+                                mView.setLoadingIndicator(false);
+                                Log.i(TAG, "onDataLoaded: " + mSettingsHelper.getList(data));
+                                List<HashMap<String, String>> report = mSettingsHelper.getList(data);
+                                mView.showQuantity(report.size());
+                                getTotal(report);
                             }
 
                             @Override
                             public void onDataNotLoaded() {
+                                mView.setLoadingIndicator(false);
                                 Log.i(TAG, "onDataNotLoaded: ");
                             }
                         });
@@ -217,55 +152,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
     }
 
-    @Override
-    public void fetchProducts(String appId) {
-        mProductsRepository.getProducts(appId, new ProductsDataSource.LoadProductsCallBack() {
-            @Override
-            public void onProductsLoaded(List<Product> productList) {
-                mView.showProducts(productList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        });
-    }
-
-    @Override
-    public void fetchCashiers(String appId) {
-        mCashiersRepository.getCashiers(appId, new CashiersDataSource.LoadCashiersCallback() {
-            @Override
-            public void onCashiersLoaded(List<Cashier> cashierList) {
-                    mView.showCashiers(cashierList);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Log.i(TAG, "onDataNotAvailable: " + "No Cashier Retrieved");
-            }
-        });
-    }
-
-    @Override
-    public Product[] getProductsArray(List<Product> products) {
-        Product product = new Product();
-        product.setName("Products");
-        product.setId("");
-        products.add(0, product);
-
-        return products.toArray(new Product[0]);
-    }
-
-    @Override
-    public Cashier[] getCashiersArray(List<Cashier> cashiers) {
-        Cashier cashier = new Cashier();
-        cashier.setName("Cashiers");
-        cashier.setId("");
-        cashiers.add(0, cashier);
-
-        return cashiers.toArray(new Cashier[0]);
-    }
 
     @NonNull
     @Override
@@ -280,18 +166,11 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         return date;
     }
 
-    @Override
-    public void getQuantity(int quantity) {
-        mView.showQuantity(quantity);
-    }
+
 
     @Override
-    public void getTotal(List<ReportItem> reportItemList) {
-        int total = 0;
-        for (ReportItem reportItem: reportItemList) {
-            total += reportItem.getTotal();
-        }
-        mView.showTotal(total);
+    public void getTotal(List<HashMap<String, String>> report) {
+        new CalculateTotal().execute(report);
     }
 
     @Override
@@ -353,6 +232,37 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
 
         mView.setUpFilterView(filterItems);
 
+    }
+
+
+    private class CalculateTotal extends AsyncTask<List<HashMap<String, String>>, Void, Double>{
+
+        @Override
+        protected Double doInBackground(List<HashMap<String, String>>... params) {
+            List<HashMap<String, String>> reports = params[0];
+            Double total = 0d;
+            for(HashMap<String, String> item: reports){
+                for(HashMap.Entry<String, String> entry: item.entrySet()){
+                    if(entry.getKey().equalsIgnoreCase("total")){
+                        double value = Double.parseDouble(entry.getValue());
+                        total = total + value;
+                    }
+                }
+            }
+            return total;
+        }
+
+        @Override
+        protected void onPostExecute(Double aDouble) {
+            if(aDouble!=null){
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) formatter).getDecimalFormatSymbols();
+                decimalFormatSymbols.setCurrencySymbol("");
+                ((DecimalFormat) formatter).setDecimalFormatSymbols(decimalFormatSymbols);
+                String totalString = formatter.format(aDouble);
+                mView.showTotal(totalString);
+            }
+        }
     }
 
 }

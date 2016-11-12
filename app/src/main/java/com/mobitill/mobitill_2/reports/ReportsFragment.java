@@ -44,6 +44,8 @@ import com.mobitill.mobitill_2.utils.CashiersAdapter;
 import com.mobitill.mobitill_2.utils.DatePickerFragment;
 import com.mobitill.mobitill_2.utils.ProductsAdapter;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -93,6 +95,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.report_layout) LinearLayout mReportLayout;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.from) TextView mFromTextView;
+    @BindView(R.id.to) TextView mToTextView;
 
     // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
@@ -158,7 +162,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_reports, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        mFromTextView.setText(mPresenter.getFormattedDate(new Date()));
+        mToTextView.setText(mPresenter.getFormattedDate(new Date()));
         mPresenter.start();
         return view;
     }
@@ -287,30 +292,13 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
     @Override
-    public void showTotal(int total) {
-        mTotalTextView.setText(Integer.toString(total));
-    }
-
-    @Override
-    public void showProducts(List<Product> products) {
-
-        Product[] productsArray = mPresenter.getProductsArray(products);
-
-        mProductsAdapter = new ProductsAdapter(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item,
-                productsArray);
-        // Specify the layout to use when the list of choices appears
+    public void showTotal(String total) {
+        mTotalTextView.setText(total);
     }
 
 
-    @Override
-    public void showCashiers(List<Cashier> cashiers) {
-        Cashier[] cashiersArray = mPresenter.getCashiersArray(cashiers);
-        mCashiersAdapter = new CashiersAdapter(getActivity(),
-                android.R.layout.simple_spinner_dropdown_item,
-                cashiersArray);
-        // specify the layout to use when the list of choices appears
-    }
+
+
 
 
 
@@ -349,6 +337,13 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @Override
     public void onFinishedFiltering(List<Long> range, HashMap<String, String> items) {
          mPresenter.fetchReport(range, items);
+
+        mFromTextView.setText(mPresenter.getFormattedDate(new Date(range.get(0))));
+        mToTextView.setText(mPresenter.getFormattedDate(new Date(range.get(1))));
+
+
+        // TODO: 11/12/2016 create the the other fields to display
+
     }
 
 

@@ -15,7 +15,7 @@
     <string name="menu_filter">Filter</string>
     <string name="from">From</string>
     <string name="to">To</string>
-    <string name="quantity">Quantity</string>
+    <string name="quantity">Transactions</string>
     <string name="total">Total</string>
     <string name="date_picker_title">Date of crime.</string>
     <string name="clients">Clients</string>

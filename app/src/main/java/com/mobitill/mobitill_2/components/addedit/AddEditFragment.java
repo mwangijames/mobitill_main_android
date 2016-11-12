@@ -279,11 +279,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
             EditText editText;
-            TextView textView = new TextView(getActivity());
-            textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView.setText(entry.getKey());
-            mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
                     editText = new EditText(getActivity());

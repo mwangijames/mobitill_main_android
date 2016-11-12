@@ -24,9 +24,7 @@ public interface ReportsContract {
         void hideTitle();
         void showTitle();
         void showReports();
-        void showTotal(int total);
-        void showProducts(List<Product> products);
-        void showCashiers(List<Cashier> cashiers);
+        void showTotal(String total);
         boolean isActive();
         void showQuantity(int quantity);
         void showMenuItems(List<String> models);
@@ -35,17 +33,9 @@ public interface ReportsContract {
 
     interface Presenter extends BasePresenter{
         void sendQuery();
-        void fetchReports(String appId, List<Long> dates);
-        void fetchReports(String appId, List<Long> dates, String product);
-        void fetchReports(String appId, List<Long> dates, String product, String cashier);
         void fetchReport(List<Long> range, HashMap<String, String> items);
-        void getQuantity(int quantity);
-        void getTotal(List<ReportItem> reportItemList);
+        void getTotal(List<HashMap<String, String>> report);
         String getFormattedDate(Date date);
-        void fetchProducts(String appId);
-        void fetchCashiers(String appId);
-        Product[] getProductsArray(List<Product> products);
-        Cashier[] getCashiersArray(List<Cashier> cashiers);
         Calendar getMidnight();
          void getMenuList();
     }

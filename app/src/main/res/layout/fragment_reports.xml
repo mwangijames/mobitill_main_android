@@ -2,9 +2,9 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_gradient">
+            android:background="@color/colorBackground">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -18,9 +18,11 @@
             android:text="No Network. Check Your Connection"/>
 
         <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="?android:attr/progressBarStyleSmall"
             android:id="@+id/progress_bar"
             android:visibility="gone"
+            android:paddingTop="@dimen/padding_8dp"
+            android:layout_gravity="top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"/>
@@ -35,54 +37,136 @@
                       tools:context="com.mobitill.mobitill_2.reports.ReportsFragment">
 
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:elevation="@dimen/elevation_4dp"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/quantity"
-                    android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextDark"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/quantity"
-                    android:textColor="@color/colorTextDark"
-                    android:textSize="@dimen/report_large_text"
-                    android:text="0"/>
-            </LinearLayout>
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:layout_marginRight="@dimen/margin_8dp"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                card_view:cardCornerRadius="4dp">
 
-            <LinearLayout
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_gradient_3"
+                    android:orientation="vertical"
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/from"
+                            android:textSize="@dimen/report_small_text"
+                            android:textColor="@color/colorTextLight"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/from"
+                            android:textColor="@color/colorTextLight"
+                            android:textSize="@dimen/report_large_text"
+                            />
+                    </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/to"
+                        android:textSize="@dimen/report_small_text"
+                        android:textColor="@color/colorTextLight"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/to"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="@dimen/report_large_text"/>
+                </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:elevation="3dp"
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:layout_marginRight="@dimen/margin_8dp"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                card_view:cardCornerRadius="4dp">
 
-                >
-                <TextView
-                    android:layout_width="wrap_content"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_gradient_2"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quantity"
+                        android:textSize="@dimen/report_small_text"
+                        android:textColor="@color/colorTextLight"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/quantity"
+                        android:textColor="@color/colorTextLight"
+                        android:textSize="@dimen/report_large_text"
+                        android:text="0"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_8dp"
+                android:layout_marginRight="@dimen/margin_8dp"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                card_view:cardCornerRadius="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextDark"
-                    android:text="@string/total"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/report_large_text"
-                    android:textColor="@color/colorTextDark"
-                    android:id="@+id/total"
-                    android:text="0"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/background_gradient_4"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/report_small_text"
+                        android:textColor="@color/colorTextLight"
+                        android:text="@string/total"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/report_large_text"
+                        android:textColor="@color/colorTextLight"
+                        android:id="@+id/total"
+                        android:text="0"/>
+                </LinearLayout>
+             </android.support.v7.widget.CardView>
         </LinearLayout>
-
-    </LinearLayout>
-
-
-
+    </FrameLayout>
 </ScrollView>

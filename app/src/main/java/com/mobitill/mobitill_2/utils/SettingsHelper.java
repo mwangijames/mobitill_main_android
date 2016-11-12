@@ -145,11 +145,13 @@ public class SettingsHelper {
         List<String> filterItems = new ArrayList<>();
 
         try {
-            JSONObject settingsObject = new JSONObject(settings);
-            JSONObject reports = settingsObject.getJSONObject("reports");
-            JSONArray filterItemsArray = reports.getJSONArray("filterItems");
-            for(int i = 0; i < filterItemsArray.length(); i++){
-                filterItems.add(filterItemsArray.getString(i));
+            if(settings!=null){
+                JSONObject settingsObject = new JSONObject(settings);
+                JSONObject reports = settingsObject.getJSONObject("reports");
+                JSONArray filterItemsArray = reports.getJSONArray("filterItems");
+                for(int i = 0; i < filterItemsArray.length(); i++){
+                    filterItems.add(filterItemsArray.getString(i));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -157,6 +159,7 @@ public class SettingsHelper {
 
         return filterItems;
     }
+
 
     public List<HashMap<String, String>> getList(String data){
 
