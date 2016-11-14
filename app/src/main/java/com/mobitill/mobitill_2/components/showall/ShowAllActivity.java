@@ -110,7 +110,6 @@ public class ShowAllActivity extends AppCompatActivity {
         showMenuItems();
         implementRecyclerViewClickListeners();
 
-
         if(mShowAllUtils != null){
             if(mSharedPreferences != null ){
                 String title = mSharedPreferences.getString(mConstants.APPNAME, null);

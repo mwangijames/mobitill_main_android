@@ -9,6 +9,15 @@ public class Payload {
     private String model;
     private String action;
     private String payload;
+    private Boolean isDemo;
+
+    public Boolean getDemo() {
+        return isDemo;
+    }
+
+    public void setDemo(Boolean demo) {
+        isDemo = demo;
+    }
 
     public String getModel() {
         return model;
@@ -37,6 +46,7 @@ public class Payload {
     public boolean isEmpty(){
         return (model == null || "".equals(model)) ||
                 (action == null || "".equals(action)) ||
-                (payload == null || "".equals(payload));
+                (payload == null || "".equals(payload)) ||
+                (isDemo == null);
     }
 }

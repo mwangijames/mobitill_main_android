@@ -37,9 +37,7 @@ public class ShowAllHolder extends RecyclerView.ViewHolder {
     }
 
     void bindItem(HashMap<String, String> item, LinearLayout rootLayout){
-
         Log.i(TAG, "bindItem: "  + item.toString());
-
     }
 
 }

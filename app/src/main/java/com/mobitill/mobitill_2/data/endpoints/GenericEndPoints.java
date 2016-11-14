@@ -13,7 +13,8 @@ import retrofit2.http.Path;
  */
 
 public interface GenericEndPoints {
-    @POST("{model}/{action}")
-    Call<ResponseBody> fetch(@Path("model") String model, @Path("action") String action, @Body RequestBody body);
+    @POST("{model}/{action}/{demo}")
+    Call<ResponseBody> fetch(@Path("model") String model, @Path("action") String action,
+                             @Path("demo") String path, @Body RequestBody body);
 }
 

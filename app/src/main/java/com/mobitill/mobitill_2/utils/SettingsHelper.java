@@ -55,6 +55,25 @@ public class SettingsHelper {
         return payload;
     }
 
+    public String getInventoryPayload(String appid){
+        String payload = null;
+
+
+        if(appid!=null){
+            JSONObject params = new JSONObject();
+            JSONObject appIdObject = new JSONObject();
+            try {
+                appIdObject.put("appid", appid);
+                params.put("params", appIdObject);
+                payload = params.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return payload;
+    }
+
     public String getInsertPayLoad(HashMap<String, String> params, String appId) throws JSONException {
         String payload = null;
 
@@ -160,7 +179,6 @@ public class SettingsHelper {
         return filterItems;
     }
 
-
     public List<HashMap<String, String>> getList(String data){
 
         List<HashMap<String, String>> list = new ArrayList<>();
@@ -193,7 +211,6 @@ public class SettingsHelper {
 
     public HashMap<String, String[]> getSchema(String settings, String model){
         HashMap<String, String[]> schema = new HashMap<>();
-
         try{
 
             JSONObject settingsObject = new JSONObject(settings);
@@ -212,11 +229,8 @@ public class SettingsHelper {
                 for(int i = 0; i < values.length; i++){
                     values[i] = jsonArray.getString(i);
                 }
-
                 schema.put(key, values);
-
             }
-
 
         } catch (JSONException e){
             e.printStackTrace();
@@ -225,6 +239,38 @@ public class SettingsHelper {
         return schema;
     }
 
+    public boolean isInventory(String settings){
+        boolean isInventory = false;
+        try {
+            if(settings!=null){
+                JSONObject jsonObject = new JSONObject(settings);
+                if(jsonObject.has("showInventory")){
+                    isInventory = jsonObject.getBoolean("showInventory");
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  isInventory;
+    }
+
+    public boolean isDemo(String settings){
+        boolean isDemo = false;
+
+        if(settings!=null){
+            try {
+                JSONObject jsonObject = new JSONObject(settings);
+                if(jsonObject.has("demo")){
+                    isDemo = jsonObject.getBoolean("demo");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isDemo;
+    }
 
 
 }

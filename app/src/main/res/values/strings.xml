@@ -54,4 +54,5 @@
     <string name="action_update">Update</string>
     <string name="applications">Applications</string>
     <string name="filter">Filter</string>
+    <string name="inventory">Inventory</string>
 </resources>

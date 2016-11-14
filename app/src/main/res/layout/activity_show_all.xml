@@ -89,6 +89,17 @@
                 android:text="@string/reports"
                 android:background="?attr/selectableItemBackground"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?android:attr/listPreferredItemHeight"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:textAppearanceListItem"
+                android:id="@+id/drawer_button_inventory"
+                android:text="@string/inventory"
+                android:background="?attr/selectableItemBackground"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drawer_recycler_view"
                 android:layout_width="@dimen/drawer_width"

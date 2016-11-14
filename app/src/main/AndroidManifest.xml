@@ -118,6 +118,8 @@
         </activity>
         <activity android:name=".components.addedit.AddEditActivity">
         </activity>
+        <activity android:name=".components.inventory.InventoryActivity">
+        </activity>
     </application>
 
 </manifest>

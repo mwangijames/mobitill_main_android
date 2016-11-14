@@ -86,7 +86,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                         mPayload.setPayload(payload);
                         mPayload.setModel(mShowAllUtils.getModel());
                         mPayload.setAction(mActions.INSERT);
-
+                        mPayload.setDemo(false);
                         if(mPayload.isEmpty()){
                             Log.i(TAG, "add: " + "Some Payload fields are empty or null");
                         } else {
@@ -129,7 +129,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                         mPayload.setPayload(payload);
                         mPayload.setModel(mShowAllUtils.getModel());
                         mPayload.setAction(mActions.UPDATE);
-
+                        mPayload.setDemo(false);
                         if(mPayload.isEmpty()){
                             Log.i(TAG, "edit: " + "Some Payload fields are empty or null");
                         } else {

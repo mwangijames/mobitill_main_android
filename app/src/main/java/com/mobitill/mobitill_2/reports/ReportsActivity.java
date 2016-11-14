@@ -7,6 +7,7 @@ import com.mobitill.mobitill_2.apps.AppsActivity;
 import com.mobitill.mobitill_2.apps.AppsFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
+import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.data.models.reports.models.Reports;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.products.ProductsActivity;
@@ -60,6 +61,7 @@ public class ReportsActivity extends AppCompatActivity {
     @BindView(R.id.drawer_recycler_view) RecyclerView mDrawerRecyclerView;
     @BindView(R.id.drawer_button_apps) Button mAppsButton;
     @BindView(R.id.drawer_button_reports) Button mReportsButton;
+    @BindView(R.id.drawer_button_inventory) Button mInventoryButton;
 
 
     private List<String> mModels;
@@ -71,6 +73,7 @@ public class ReportsActivity extends AppCompatActivity {
     String mAppId;
     private MenuAppSettings mMenuAppSettings;
     private static final String TAG = ReportsActivity.class.getSimpleName();
+    private SettingsHelper mSettingsHelper;
 
     public static Intent newIntent(Context context, String appId, MenuAppSettings menuAppSettings){
         Intent intent = new Intent(context, ReportsActivity.class);
@@ -84,6 +87,8 @@ public class ReportsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
         ButterKnife.bind(this);
+
+        mSettingsHelper = new SettingsHelper();
 
 
 
@@ -101,6 +106,7 @@ public class ReportsActivity extends AppCompatActivity {
             mMenuAppSettings = (MenuAppSettings) savedInstanceState.getSerializable(ARGS_APP_SETTINGS);
         }
 
+        hideInventory();
 
         // Set up the toolbar.
         setSupportActionBar(toolbar);
@@ -145,6 +151,13 @@ public class ReportsActivity extends AppCompatActivity {
                 .inject(this);
     }
 
+    private void hideInventory() {
+
+        mInventoryButton.setVisibility(
+                mSettingsHelper.isInventory(
+                        mMenuAppSettings.getSettings()) ? View.VISIBLE : View.GONE);
+
+    }
 
 
     @Override
@@ -162,6 +175,15 @@ public class ReportsActivity extends AppCompatActivity {
     @OnClick(R.id.drawer_button_reports)
     public void showReports(Button button){
         startActivity(ReportsActivity.newIntent(this, mAppId, mMenuAppSettings));
+    }
+
+    @OnClick(R.id.drawer_button_inventory)
+    public void showInventory(Button button){
+        ShowAllUtils showAllUtils = new ShowAllUtils();
+        showAllUtils.setModel("inventory");
+        showAllUtils.setAppId(mAppId);
+        showAllUtils.setSettings(mMenuAppSettings.getSettings());
+        startActivity(ShowAllActivity.newIntent(this, showAllUtils, mMenuAppSettings));
     }
 
     public void showMenuItems() {
