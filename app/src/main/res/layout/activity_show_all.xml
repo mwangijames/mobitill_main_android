@@ -103,7 +103,7 @@
                 tools:listitem="@layout/item_drawer"/>
 
         </LinearLayout>
-    </ScrollView>
 
+    </ScrollView>
 
 </android.support.v4.widget.DrawerLayout>

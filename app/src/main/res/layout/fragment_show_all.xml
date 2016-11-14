@@ -3,7 +3,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:paddingTop="@dimen/activity_vertical_margin"
-
              xmlns:card_view="http://schemas.android.com/apk/res-auto"
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
@@ -82,7 +81,6 @@
                     android:id="@+id/recycler_view"
                     android:scrollbarStyle="insideInset"
                     android:scrollbars="vertical"/>
-
             </LinearLayout>
 
 
