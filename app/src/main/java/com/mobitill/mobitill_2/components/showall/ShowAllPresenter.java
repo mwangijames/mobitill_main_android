@@ -115,6 +115,60 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
     }
 
     @Override
+    public void fetch(String action) {
+        if(mShowAllUtils != null) {
+            if(mShowAllUtils.isEmpty()){
+                Log.i(TAG, "fetch: " + "Some utils are not available");
+            } else {
+                if(mPayload != null){
+                    mPayload.setModel(mShowAllUtils.getModel());
+                    mPayload.setAction(mActions.FETCH);
+                    mPayload.setPayload(mSettingsHelper.getPayload(mActions.FETCH, mShowAllUtils.getAppId()));
+                    if(mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+                        mPayload.setAction(action);
+                        mPayload.setPayload(mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));
+                        Log.i(TAG, "fetch: " + mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));
+                    }
+                    if(mSettingsHelper.isDemo(mShowAllUtils.getSettings()) && mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+                        mPayload.setDemo(true);
+                    } else {
+                        mPayload.setDemo(false);
+                    }
+
+                    if(mPayload.isEmpty()){
+                        Log.i(TAG, "fetch: " + "Payload has some issues");
+                    } else {
+                        mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                            @Override
+                            public void onDataLoaded(String data) {
+                                List<HashMap<String, String>> items = mSettingsHelper.getList(data);
+                                mView.showLoading(false);
+
+                                if(items.isEmpty()){
+                                    mView.showEmpty(true);
+                                } else {
+                                    mView.showHeader(items.get(0));
+                                    mView.show(items);
+
+                                }
+                                mView.showDataError(false);
+                                mView.showNetworkError(false);
+                            }
+
+                            @Override
+                            public void onDataNotLoaded() {
+                                mView.showLoading(false);
+                                mView.showDataError(true);
+                                Log.i(TAG, "onDataNotLoaded: No data");
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void delete(final HashMap<String, String> item) {
         if(mShowAllUtils != null){
             if(mShowAllUtils.isEmpty()){

@@ -15,6 +15,7 @@ import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +32,12 @@ import com.mobitill.mobitill_2.clients.ClientsActionBarCallBack;
 import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
+import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.DpPixelsConversion;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
 import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
+import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -75,6 +78,9 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     private RecyclerView.LayoutManager mLayoutManager;
     private ActionMode mActionMode;
 
+    /** to prevent multiple calls to inflate menu */
+    private boolean mMenuIsInflated;
+
 
     public ShowAllFragment() {
         // Required empty public constructor
@@ -92,7 +98,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hasOptionsMenu();
+        setHasOptionsMenu(true);
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getArguments().getSerializable(ARGS_SHOW_ALL_UTILS);
         } else {
@@ -117,6 +123,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 startActivity(AddEditActivity.newIntent(getActivity(), mShowAllUtils));
             }
         });
+        //addFAB.setVisibility(mShowAllUtils.getModel().equalsIgnoreCase("inventory") ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -129,6 +136,57 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         mRecyclerView.setLayoutManager(mLayoutManager);
         implementRecyclerViewClickListeners();
         return view;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        if(!mMenuIsInflated){
+            inflater.inflate(R.menu.show_all_menu, menu);
+
+            hideLogItem(menu);
+            mMenuIsInflated = true;
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void hideLogItem(Menu menu) {
+        SettingsHelper settingsHelper = new SettingsHelper();
+        MenuItem menuItem = menu.findItem(R.id.action_logs);
+        if(!mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+            getActivity().invalidateOptionsMenu();
+            menuItem.setVisible(false);
+        }
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.action_logs:
+                Actions actions = new Actions();
+                if(!item.isChecked()){
+                    mPresenter.fetch(actions.LOG);
+                    item.setChecked(true);
+                    item.setIcon(R.drawable.ic_list);
+                    item.setTitle(R.string.action_list);
+                } else {
+                    mPresenter.fetch();
+                    item.setChecked(false);
+                    item.setIcon(R.drawable.ic_logs);
+                    item.setTitle(R.string.action_logs);
+                }
+
+                //Toast.makeText(getActivity(), "logs", Toast.LENGTH_SHORT).show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
     }
 
     @Override

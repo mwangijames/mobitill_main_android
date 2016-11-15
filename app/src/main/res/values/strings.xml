@@ -55,4 +55,6 @@
     <string name="applications">Applications</string>
     <string name="filter">Filter</string>
     <string name="inventory">Inventory</string>
+    <string name="action_logs">Logs</string>
+    <string name="action_list">List</string>
 </resources>

@@ -299,12 +299,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         mTotalTextView.setText(total);
     }
 
-
-
-
-
-
-
     @Override
     public void showQuantity(int quantity) {
         if(mQuantityTextView!=null){

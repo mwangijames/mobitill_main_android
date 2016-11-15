@@ -30,6 +30,7 @@ public interface ShowAllContract {
         void fetch();
         void delete(HashMap<String, String> item);
         void openEdit(HashMap<String ,String> item);
+        void fetch(String action);
     }
 
 }

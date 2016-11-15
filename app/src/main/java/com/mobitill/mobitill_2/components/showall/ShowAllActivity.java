@@ -68,6 +68,7 @@ public class ShowAllActivity extends AppCompatActivity {
     @BindView(R.id.drawer_button_apps)
     Button mAppsButton;
     @BindView(R.id.drawer_button_reports) Button mReportsButton;
+    @BindView(R.id.drawer_button_inventory) Button mInventoryButton;
 
     private List<String> mModels;
     private DrawerAdapter mDrawerAdapter;
@@ -157,6 +158,15 @@ public class ShowAllActivity extends AppCompatActivity {
     @OnClick(R.id.drawer_button_reports)
     public void showReports(Button button){
         startActivity(ReportsActivity.newIntent(this, mShowAllUtils.getAppId(), mMenuAppSettings));
+    }
+
+    @OnClick(R.id.drawer_button_inventory)
+    public void showInventory(Button button){
+        ShowAllUtils showAllUtils = new ShowAllUtils();
+        showAllUtils.setModel("inventory");
+        showAllUtils.setAppId(mShowAllUtils.getAppId());
+        showAllUtils.setSettings(mMenuAppSettings.getSettings());
+        startActivity(ShowAllActivity.newIntent(this, showAllUtils, mMenuAppSettings));
     }
 
 
