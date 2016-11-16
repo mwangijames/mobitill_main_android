@@ -48,11 +48,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".menu.MenuActivity"
-            android:parentActivityName=".apps.AppsActivity">
-        </activity>
-
         <service android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
