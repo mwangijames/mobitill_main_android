@@ -125,7 +125,12 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                         data.put((String)nextChild.getTag(), nextChild.getText().toString());
                     }
 
-                    mPresenter.add(data);
+                    if(!mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+                        mPresenter.add(data);
+                    } else {
+                        mPresenter.addStock(data);
+                    }
+
                 } else {
                     HashMap<String, String> data = new HashMap<>();
                     for(int index = 0; index<mLinearLayout.getChildCount(); index++){

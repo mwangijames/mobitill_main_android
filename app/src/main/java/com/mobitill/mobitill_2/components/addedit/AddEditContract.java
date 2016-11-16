@@ -32,6 +32,8 @@ public interface AddEditContract {
         void generateUI();
         void generateAndPopulateUI(HashMap<String, String> item);
         void openShowAll();
+
+        void addStock(HashMap<String, String> data);
     }
 
 }

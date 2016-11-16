@@ -115,6 +115,12 @@ public class AddEditPresenter implements AddEditContract.Presenter {
 
     }
 
+
+    @Override
+    public void addStock(HashMap<String, String> data) {
+        // TODO: 11/16/2016 start from here to add stock 
+    }
+
     @Override
     public void edit(HashMap<String, String> data) {
         if(mSettingsHelper != null){
@@ -170,10 +176,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                 } else {
                     schema = mSettingsHelper.getInventorySchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
                 }
-
-
+                
                 mView.showUI(schema);
-
             }
         } else {
             Log.i(TAG, "generateUI: mShowAllUtils is null");
@@ -202,4 +206,5 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             mView.showAll(mShowAllUtils);
         }
     }
+
 }
