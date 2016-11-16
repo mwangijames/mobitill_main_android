@@ -1,13 +1,8 @@
 package com.mobitill.mobitill_2.reports;
 
-import com.google.common.base.Strings;
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
-import com.mobitill.mobitill_2.data.models.products.models.Product;
-import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;

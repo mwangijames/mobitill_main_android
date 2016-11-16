@@ -1,7 +1,6 @@
 package com.mobitill.mobitill_2.data.models.generic;
 
 import com.mobitill.mobitill_2.data.Remote;
-import com.mobitill.mobitill_2.data.models.fleet.remote.FleetRemoteDataSource;
 import com.mobitill.mobitill_2.data.models.generic.remote.GenericDataRemoteDataSource;
 
 import dagger.Module;

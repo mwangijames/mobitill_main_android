@@ -6,13 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepository;
+
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
@@ -35,9 +33,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
 
     private static final String TAG = ReportsPresenter.class.getSimpleName();
 
-    private  ReportsRepository mReportsRepository;
-    private  ProductsRepository mProductsRepository;
-    private  CashiersRepository mCashiersRepository;
+
     private  ReportsContract.View mView;
     private Payload mPayload;
     private final GenericRepository mGenericRepository;
@@ -48,8 +44,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private final Context mContext;
 
     @Inject
-    public ReportsPresenter(ReportsContract.View view, ReportsRepository reportsRepository,
-                            ProductsRepository productsRepository, CashiersRepository cashiersRepository,
+    public ReportsPresenter(ReportsContract.View view,
                             @Nullable String appId, MenuAppSettings menuAppSettings,
                             SettingsHelper settingsHelper,
                             Payload payload,
@@ -58,9 +53,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                             Context context){
 
         mView = view;
-        mReportsRepository = reportsRepository;
-        mProductsRepository = productsRepository;
-        mCashiersRepository = cashiersRepository;
         mAppId = appId;
         mMenuAppSettings = menuAppSettings;
         mSettingsHelper = settingsHelper;

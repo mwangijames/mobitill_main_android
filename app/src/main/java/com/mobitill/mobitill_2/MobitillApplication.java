@@ -2,18 +2,11 @@ package com.mobitill.mobitill_2;
 
 import android.app.Application;
 
-
 import com.mobitill.mobitill_2.data.RealmModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryComponent;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryModule;
 import com.mobitill.mobitill_2.data.models.apps.DaggerAppsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.products.DaggerProductsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
-import com.mobitill.mobitill_2.data.models.reports.DaggerReportsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepositoryModule;
 import com.mobitill.mobitill_2.data.models.users.UserModule;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.net.NetModule;
@@ -25,8 +18,7 @@ public class MobitillApplication extends Application {
 
     private BaseComponent mBaseComponent;
     private AppsRepositoryComponent mAppsRepositoryComponent;
-    private ReportsRepositoryComponent mReportsRepositoryComponent;
-    private ProductsRepositoryComponent mProductsRepositoryComponent;
+
 
     private static MobitillApplication mInstance;
 
@@ -54,15 +46,6 @@ public class MobitillApplication extends Application {
                 .baseComponent(getBaseComponent())
                 .build();
 
-        mReportsRepositoryComponent = DaggerReportsRepositoryComponent.builder()
-                .reportsRepositoryModule(new ReportsRepositoryModule())
-                .baseComponent(getBaseComponent())
-                .build();
-
-        mProductsRepositoryComponent = DaggerProductsRepositoryComponent.builder()
-                .productsRepositoryModule(new ProductsRepositoryModule())
-                .baseComponent(getBaseComponent())
-                .build();
     }
 
     public BaseComponent getBaseComponent(){
@@ -72,15 +55,6 @@ public class MobitillApplication extends Application {
     public AppsRepositoryComponent getAppsRepositoryComponent(){
         return mAppsRepositoryComponent;
     }
-
-    public ReportsRepositoryComponent getReportsRepositoryComponent(){
-        return mReportsRepositoryComponent;
-    }
-
-    public ProductsRepositoryComponent getProductsRepositoryComponent(){
-        return mProductsRepositoryComponent;
-    }
-
 
     public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener){
         ConnectivityReceiver.sConnectivityReceiverListener = listener;

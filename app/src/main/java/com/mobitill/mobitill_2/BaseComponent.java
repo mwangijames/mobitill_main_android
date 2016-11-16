@@ -5,94 +5,18 @@ import android.content.SharedPreferences;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.mobitill.mobitill_2.data.RealmModule;
+import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryModule;
 import com.mobitill.mobitill_2.data.models.apps.models.App;
-import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.models.Apps;
 import com.mobitill.mobitill_2.data.models.apps.models.Body;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.Params;
-import com.mobitill.mobitill_2.data.models.cashiers.CashiersModule;
-import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
-import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepositoryModule;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashiers;
-import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersFetch;
-import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersParams;
-import com.mobitill.mobitill_2.data.models.cashiers.models.CashiersQuery;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateParams;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateQuery;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponse;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierCreateResponseData;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditParams;
-import com.mobitill.mobitill_2.data.models.cashiers.models.create.CashierEditQuery;
-import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteParams;
-import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteQuery;
-import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponse;
-import com.mobitill.mobitill_2.data.models.cashiers.models.delete.CashierDeleteResponseData;
-import com.mobitill.mobitill_2.data.models.clients.ClientsModule;
-import com.mobitill.mobitill_2.data.models.clients.ClientsRepository;
-import com.mobitill.mobitill_2.data.models.clients.ClientsRepositoryModule;
-import com.mobitill.mobitill_2.data.models.clients.models.Client;
-import com.mobitill.mobitill_2.data.models.clients.models.Clients;
-import com.mobitill.mobitill_2.data.models.clients.models.ClientsFetch;
-import com.mobitill.mobitill_2.data.models.clients.models.ClientsParams;
-import com.mobitill.mobitill_2.data.models.clients.models.ClientsQuery;
-import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateParams;
-import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateQuery;
-import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponse;
-import com.mobitill.mobitill_2.data.models.clients.models.create.ClientCreateResponseData;
-import com.mobitill.mobitill_2.data.models.clients.models.create.ClientEditQuery;
-import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteParams;
-import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteQuery;
-import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponse;
-import com.mobitill.mobitill_2.data.models.clients.models.delete.ClientDeleteResponseData;
-import com.mobitill.mobitill_2.data.models.fleet.FleetModule;
-import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
-import com.mobitill.mobitill_2.data.models.fleet.FleetRepositoryModule;
-import com.mobitill.mobitill_2.data.models.fleet.models.Fleet;
-import com.mobitill.mobitill_2.data.models.fleet.models.FleetFetch;
-import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
-import com.mobitill.mobitill_2.data.models.fleet.models.FleetParams;
-import com.mobitill.mobitill_2.data.models.fleet.models.FleetQuery;
-import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams;
-import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateQuery;
-import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponse;
-import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
-import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteParams;
-import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteQuery;
-import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponse;
-import com.mobitill.mobitill_2.data.models.fleet.models.delete.FleetDeleteResponseData;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
-import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericModule;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepositoryModule;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
-import com.mobitill.mobitill_2.data.models.products.ProductsModule;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
-import com.mobitill.mobitill_2.data.models.products.models.Product;
-import com.mobitill.mobitill_2.data.models.products.models.Products;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsFetch;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsParams;
-import com.mobitill.mobitill_2.data.models.products.models.ProductsQuery;
-import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateParams;
-import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateQuery;
-import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponse;
-import com.mobitill.mobitill_2.data.models.products.models.create.ProductCreateResponseData;
-import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteParams;
-import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteQuery;
-import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponse;
-import com.mobitill.mobitill_2.data.models.products.models.delete.ProductDeleteResponseData;
-import com.mobitill.mobitill_2.data.models.reports.ReportsModule;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepository;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepositoryModule;
-import com.mobitill.mobitill_2.data.models.reports.models.Fetch;
-import com.mobitill.mobitill_2.data.models.reports.models.Query;
-import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
-import com.mobitill.mobitill_2.data.models.reports.models.Reports;
-import com.mobitill.mobitill_2.data.models.reports.models.ReportsLocal;
 import com.mobitill.mobitill_2.data.models.users.Error;
 import com.mobitill.mobitill_2.data.models.users.ErrorMessage;
 import com.mobitill.mobitill_2.data.models.users.User;
@@ -105,7 +29,6 @@ import com.mobitill.mobitill_2.net.NetModule;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 import com.mobitill.mobitill_2.utils.UIHelper;
 import com.mobitill.mobitill_2.utils.UtilsModule;
-
 
 import javax.inject.Singleton;
 
@@ -121,9 +44,7 @@ import retrofit2.Retrofit;
 @Singleton
 @Component(modules={ApplicationModule.class, NetModule.class, UserModule.class, ConstantsModule.class,
         AppsModule.class, RealmModule.class, AppsRepositoryModule.class, JobsModule.class,
-        ReportsModule.class, ReportsRepositoryModule.class, ProductsModule.class, ProductsRepositoryModule.class,
-        CashiersRepositoryModule.class, CashiersModule.class, FleetModule.class, FleetRepositoryModule.class,
-        ClientsModule.class, ClientsRepositoryModule.class, UtilsModule.class, GenericRepositoryModule.class,
+        UtilsModule.class, GenericRepositoryModule.class,
         GenericModule.class})
 public interface BaseComponent {
     // Application Module
@@ -161,83 +82,7 @@ public interface BaseComponent {
 //    JobsModule
     FirebaseJobDispatcher firebaseJobDispatcher();
 
-    //ReportsModule
-    ReportItem reportItem();
-    Reports reports();
-    ReportsLocal reportsLocal();
-    Query query();
-    com.mobitill.mobitill_2.data.models.reports.models.Params reportsParams();
-    Fetch fetch();
-    ReportsRepository reportsRepository();
 
-
-    //ProductsModule
-    Product product();
-    Products products();
-    ProductsFetch productsFetch();
-    ProductsParams productsParams();
-    ProductsQuery productsQuery();
-    ProductsRepository productsRepository();
-    ProductCreateResponse productCreateResponse();
-    ProductCreateParams productCreateParams();
-    ProductCreateResponseData productCreateResponseData();
-    ProductCreateQuery productCreateQuery();
-    ProductDeleteResponse productDeleteResponse();
-    ProductDeleteQuery productDeleteQuery();
-    ProductDeleteParams productDeleteParams();
-    ProductDeleteResponseData productDeleteResponseData();
-
-    // CashiersModule
-    Cashiers cashiers();
-    Cashier cashier();
-    CashiersFetch cashiersFetch();
-    CashiersParams cashiersParams();
-    CashiersQuery cashiersQuery();
-    CashiersRepository cashiersRepository();
-    CashierCreateQuery cashierCreateQuery();
-    CashierCreateResponseData cashierCreateResponseData();
-    CashierCreateResponse cashierCreateResponse();
-    CashierCreateParams cashierCreateParams();
-    CashierDeleteResponse cashierDeleteResponse();
-    CashierDeleteResponseData cashierDeleteResponseData();
-    CashierDeleteQuery cashierDeleteQuery();
-    CashierDeleteParams cashierDeleteParams();
-    CashierEditParams cashierEditParams();
-    CashierEditQuery cashierEditQuery();
-
-    // FleetModule
-    Fleet fleet();
-    FleetItem fleetItem();
-    FleetFetch fleetFetch();
-    FleetParams fleetParams();
-    FleetQuery fleetQuery();
-    FleetRepository fleetRepository();
-    FleetCreateResponse fleetCreateResponse();
-    FleetCreateResponseData fleetCreateResponseData();
-    FleetCreateQuery fleetCreateQuery();
-    FleetCreateParams fleetCreateParams();
-    FleetDeleteResponse fleetDeleteResponse();
-    FleetDeleteParams fleetDeleteParams();
-    FleetDeleteResponseData fleetDeleteResponseData();
-    FleetDeleteQuery fleetDeleteQuery();
-
-
-    // ClientsModule
-    Client client();
-    Clients clients();
-    ClientsFetch clientsFetch();
-    ClientsParams clientsParams();
-    ClientsQuery clientsQuery();
-    ClientsRepository clientsRepository();
-    ClientCreateQuery clientCreateQuery();
-    ClientCreateParams clientCreateParams();
-    ClientCreateResponse clientCreateResponse();
-    ClientCreateResponseData clientCreateResponseData();
-    ClientDeleteResponse clientDeleteResponse();
-    ClientDeleteResponseData clientDeleteResponseData();
-    ClientDeleteQuery clientDeleteQuery();
-    ClientDeleteParams clientDeleteParams();
-    ClientEditQuery clientEditQuery();
 
     // Utils
     SettingsHelper settingsHelper();

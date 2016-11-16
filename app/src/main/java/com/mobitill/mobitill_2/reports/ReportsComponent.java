@@ -1,11 +1,7 @@
 package com.mobitill.mobitill_2.reports;
 
 import com.mobitill.mobitill_2.BaseComponent;
-import com.mobitill.mobitill_2.data.models.products.ProductsModule;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryComponent;
-import com.mobitill.mobitill_2.data.models.products.ProductsRepositoryModule;
-import com.mobitill.mobitill_2.data.models.reports.ReportsRepositoryComponent;
+
 import com.mobitill.mobitill_2.utils.FragmentScoped;
 
 import dagger.Component;

@@ -23,13 +23,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
-import com.mobitill.mobitill_2.utils.CashiersAdapter;
-import com.mobitill.mobitill_2.utils.ProductsAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +37,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,8 +61,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     private ReportsContract.Presenter mPresenter;
     private String mAppId = null;
     private List<Long> mDates = new ArrayList<>();
-    private ProductsAdapter mProductsAdapter;
-    private CashiersAdapter mCashiersAdapter;
+
     private int mLastSpinnerPosition;
     private int mLastCashierSpinnerPosition;
     private String mProductId;
