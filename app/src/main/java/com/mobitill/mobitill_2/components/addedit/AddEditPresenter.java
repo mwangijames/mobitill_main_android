@@ -65,7 +65,6 @@ public class AddEditPresenter implements AddEditContract.Presenter {
 
     @Override
     public void start() {
-
         if(mItem == null){
             generateUI();
         } else {
@@ -76,12 +75,10 @@ public class AddEditPresenter implements AddEditContract.Presenter {
 
     @Override
     public void add(HashMap<String, String> data) {
-
         if(mSettingsHelper != null){
             if(mShowAllUtils != null && !mShowAllUtils.isEmpty()){
                 try {
                    String payload = mSettingsHelper.getInsertPayLoad(data, mShowAllUtils.getAppId());
-
                     if(payload != null && mPayload != null){
                         mPayload.setPayload(payload);
                         mPayload.setModel(mShowAllUtils.getModel());
@@ -167,8 +164,14 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             if(mShowAllUtils.isEmpty()){
                 Log.i(TAG, "generateUI: mShowAllUtils missing some fields");
             } else {
-                HashMap<String, String[]> schema =
-                        mSettingsHelper.getSchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
+                HashMap<String, String[]> schema = new HashMap<>();
+                if(!mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+                    schema = mSettingsHelper.getSchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
+                } else {
+                    schema = mSettingsHelper.getInventorySchema(mShowAllUtils.getSettings(), mShowAllUtils.getModel());
+                }
+
+
                 mView.showUI(schema);
 
             }

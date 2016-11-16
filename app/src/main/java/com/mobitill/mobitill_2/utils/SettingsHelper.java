@@ -239,6 +239,45 @@ public class SettingsHelper {
         return schema;
     }
 
+    public HashMap<String,String[]> getInventorySchema(String settings, String model) {
+        HashMap<String, String[]> schema = new HashMap<>();
+
+        try {
+            JSONObject settingsObject = new JSONObject(settings);
+
+            if(settingsObject.has("showInventory")){
+                if(settingsObject.has(model)){
+                    JSONObject inventoryObject = settingsObject.getJSONObject(model);
+                    JSONObject schemaObject = inventoryObject.getJSONObject("schema");
+
+                    Iterator<String> iterator = schemaObject.keys();
+
+                    while (iterator.hasNext()){
+                        String key = iterator.next();
+
+                        JSONArray jsonArray = schemaObject.getJSONArray(key);
+                        String[] values = new String[jsonArray.length()];
+
+                        for(int i = 0; i < values.length; i++){
+                            values[i] = jsonArray.getString(i);
+                        }
+                        schema.put(key, values);
+                    }
+
+                } else {
+                    String[] values = new String[1];
+                    values[0] = "number";
+                    schema.put("identifier", values);
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return schema;
+    }
+
     public boolean isInventory(String settings){
         boolean isInventory = false;
         try {
@@ -271,6 +310,7 @@ public class SettingsHelper {
 
         return isDemo;
     }
+
 
 
 }
