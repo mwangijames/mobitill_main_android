@@ -12,4 +12,5 @@ public class Actions {
     public final String QUERY = "query";
     public final String LIST = "list";
     public final String LOG = "log";
+    public final String CREATE = "create";
 }

@@ -331,7 +331,6 @@ public class SettingsHelper {
                     } else {
                         paramsObject.put(entry.getKey(), entry.getValue());
                     }
-
                 }
             }
 
@@ -344,4 +343,5 @@ public class SettingsHelper {
 
         return payload;
     }
+
 }

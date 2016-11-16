@@ -128,6 +128,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                     mPayload.setPayload(payload);
                     if(!mPayload.isEmpty()){
                         // get products from remote server and check, this should be optimized to work with local data instead
+                        mView.showLoading(true);
                         mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
@@ -141,6 +142,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                             @Override
                             public void onDataNotLoaded() {
                                 Log.i(TAG, "onDataNotLoaded: addStock: getProducts");
+                                mView.showFail(true);
+                                mView.showLoading(false);
                             }
                         });
                     }
@@ -152,6 +155,28 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     private void addStockItem(String productId, HashMap<String, String> createData) {
         String payload = mSettingsHelper.getInsertInventoryPayload(mShowAllUtils.getAppId(), productId, createData);
         Log.i(TAG, "addStockItem: " + payload);
+        mPayload.setModel("inventory");
+        mPayload.setAction(mActions.CREATE);
+        mPayload.setPayload(payload);
+        mPayload.setDemo(mSettingsHelper.isDemo(mShowAllUtils.getSettings()));
+        
+        if(!mPayload.isEmpty()){
+            mView.showLoading(true);
+            mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                @Override
+                public void onDataLoaded(String data) {
+                    mView.showSuccess(true);
+                    mView.showLoading(false);
+                    openShowAll();
+                }
+
+                @Override
+                public void onDataNotLoaded() {
+                    mView.showFail(true);
+                    mView.showLoading(false);
+                }
+            });
+        }
     }
 
     private String getProductId(String data, HashMap<String, String> createData) {
