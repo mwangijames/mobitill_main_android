@@ -9,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,6 +85,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                     if(mPayload.isEmpty()){
                         Log.i(TAG, "fetch: " + "Payload has some issues");
                     } else {
+                        mView.showLoading(true);
                         mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
@@ -92,10 +94,12 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
 
                                 if(items.isEmpty()){
                                    mView.showEmpty(true);
+                                   List<HashMap<String, String>> emptyItems = new ArrayList<HashMap<String, String>>();
+                                   mView.show(emptyItems);
                                 } else {
                                     mView.showHeader(items.get(0));
                                     mView.show(items);
-
+                                    mView.showEmpty(false);
                                 }
                                 mView.showDataError(false);
                                 mView.showNetworkError(false);
@@ -138,6 +142,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                     if(mPayload.isEmpty()){
                         Log.i(TAG, "fetch: " + "Payload has some issues");
                     } else {
+                        mView.showLoading(true);
                         mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                             @Override
                             public void onDataLoaded(String data) {
@@ -146,9 +151,12 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
 
                                 if(items.isEmpty()){
                                     mView.showEmpty(true);
+                                    List<HashMap<String, String>> emptyItems = new ArrayList<HashMap<String, String>>();
+                                    mView.show(emptyItems);
                                 } else {
                                     mView.showHeader(items.get(0));
                                     mView.show(items);
+                                    mView.showEmpty(false);
 
                                 }
                                 mView.showDataError(false);

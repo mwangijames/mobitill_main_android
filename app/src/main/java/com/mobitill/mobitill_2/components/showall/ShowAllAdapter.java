@@ -31,12 +31,14 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
     private List<HashMap<String, String>> mItems;
     private Context mContext;
     private SparseBooleanArray mSelectedItemsIds;
+    private Boolean mIsSelectable;
 
     ShowAllAdapter(List<HashMap<String, String>> items,
-                   Context context){
+                   Context context, boolean isSelectable){
         mItems = items;
         mContext = context;
         mSelectedItemsIds = new SparseBooleanArray();
+        mIsSelectable = isSelectable;
     }
 
     @Override
@@ -98,7 +100,10 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
         holder.mRootLayout.addView(rootLayout);
 
         // set the selected items to checked
-        holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
+        if(!mIsSelectable){
+            holder.itemView.setSelected(mSelectedItemsIds.get(position) ? true : false);
+        }
+
     }
 
     @Override

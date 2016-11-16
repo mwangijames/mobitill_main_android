@@ -77,7 +77,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     private ShowAllAdapter mShowAllAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ActionMode mActionMode;
-
+    private Boolean mIsInventory;
     /** to prevent multiple calls to inflate menu */
     private boolean mMenuIsInflated;
 
@@ -104,6 +104,8 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
         }
+
+        mIsInventory = mShowAllUtils.getModel().equalsIgnoreCase("inventory");
     }
 
 
@@ -234,7 +236,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     public void show(List<HashMap<String, String>> items) {
         if(isAdded()){
             if(mShowAllAdapter == null){
-                mShowAllAdapter = new ShowAllAdapter(items, getActivity());
+                mShowAllAdapter = new ShowAllAdapter(items, getActivity(), mShowAllUtils.getModel().equalsIgnoreCase("inventory"));
                 mRecyclerView.setAdapter(mShowAllAdapter);
                 mItems = items;
             }
@@ -317,8 +319,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             public void onClick(View view, int position) {
                 //if ActionMode is not null select item
                 if(mActionMode!=null){
-                    onListItemSelect(position);
-                    showEditActionItem();
+                    if(!mIsInventory){
+                        onListItemSelect(position);
+                        showEditActionItem();
+                    }
                 } else {
                     //mPresenter.showClientDetailView(mClients.get(position));
                 }
@@ -326,9 +330,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
             @Override
             public void onLongClick(View view, int position) {
-                onListItemSelect(position);
-                showEditActionItem();
-
+                if(!mIsInventory){
+                    onListItemSelect(position);
+                    showEditActionItem();
+                }
             }
         }));
     }
