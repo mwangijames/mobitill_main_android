@@ -1,7 +1,6 @@
 package com.mobitill.mobitill_2.fleet;
 
 import com.mobitill.mobitill_2.BaseComponent;
-import com.mobitill.mobitill_2.clients.ClientsActivity;
 import com.mobitill.mobitill_2.utils.FragmentScoped;
 
 import dagger.Component;

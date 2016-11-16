@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditContract;
-import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditFragment;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 import com.mobitill.mobitill_2.fleet.FleetActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -25,7 +23,6 @@ import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.Provides;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

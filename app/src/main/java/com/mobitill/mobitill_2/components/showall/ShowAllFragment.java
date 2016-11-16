@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -21,15 +20,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.clients.ClientsActionBarCallBack;
-import com.mobitill.mobitill_2.clientsdetail.ClientsDetailFragment;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
@@ -43,8 +39,6 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.HashMap;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

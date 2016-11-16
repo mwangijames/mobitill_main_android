@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.apps.AppsActivity;
-import com.mobitill.mobitill_2.clients.ClientsActivity;
 import com.mobitill.mobitill_2.fleet.FleetActivity;
 import com.mobitill.mobitill_2.products.ProductsActivity;
 
@@ -51,7 +50,7 @@ public class SetUpDrawerContent {
                                // context.startActivity(CashiersActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
                                 break;
                             case R.id.clients_navigation_menu_item:
-                                context.startActivity(ClientsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+                               // context.startActivity(ClientsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
                                 break;
                             default:
                                 break;

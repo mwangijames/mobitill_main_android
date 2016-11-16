@@ -2,7 +2,6 @@ package com.mobitill.mobitill_2.fleetaddedit;
 
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
-import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditContract;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateResponseData;
 
 /**

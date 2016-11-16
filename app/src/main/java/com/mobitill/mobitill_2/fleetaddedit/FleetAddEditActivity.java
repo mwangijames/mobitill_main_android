@@ -3,26 +3,21 @@ package com.mobitill.mobitill_2.fleetaddedit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
-import com.mobitill.mobitill_2.clientsaddedit.DaggerClientAddEditComponent;
-import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Provides;
 
 public class FleetAddEditActivity extends AppCompatActivity {
 

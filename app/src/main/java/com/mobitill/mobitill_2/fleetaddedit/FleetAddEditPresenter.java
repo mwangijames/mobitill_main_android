@@ -2,7 +2,6 @@ package com.mobitill.mobitill_2.fleetaddedit;
 
 import android.support.annotation.Nullable;
 
-import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditPresenter;
 import com.mobitill.mobitill_2.data.models.fleet.FleetDataSource;
 import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
 import com.mobitill.mobitill_2.data.models.fleet.models.create.FleetCreateParams;

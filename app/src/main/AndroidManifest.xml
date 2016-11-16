@@ -50,15 +50,11 @@
         </receiver>
 
 
-        <activity android:name=".clients.ClientsActivity">
-        </activity>
+
         <activity android:name=".fleet.FleetActivity">
         </activity>
 >
-        <activity
-            android:name=".clientsaddedit.ClientAddEditActivity"
-            android:parentActivityName=".clients.ClientsActivity">
-        </activity>
+
         <activity
             android:name=".fleetaddedit.FleetAddEditActivity"
             android:parentActivityName=".fleet.FleetActivity">
@@ -68,10 +64,7 @@
             android:parentActivityName=".products.ProductsActivity">
         </activity>
 
-        <activity
-            android:name=".clientsdetail.ClientsDetailActivity"
-            android:parentActivityName=".clients.ClientsActivity">
-        </activity>
+
         <activity android:name=".fleetdetail.FleetDetailActivity">
         </activity>
         <activity
