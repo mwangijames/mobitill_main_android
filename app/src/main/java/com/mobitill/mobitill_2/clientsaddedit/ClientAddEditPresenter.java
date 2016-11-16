@@ -4,7 +4,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierPresenter;
 import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
 import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
 import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;

@@ -20,14 +20,11 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiers.CashiersActionBarCallBack;
 import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
 import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

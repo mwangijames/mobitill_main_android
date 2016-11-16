@@ -16,8 +16,6 @@ import android.view.MenuItem;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiers.CashiersActivity;
-import com.mobitill.mobitill_2.cashiers.CashiersPresenter;
 import com.mobitill.mobitill_2.data.models.clients.models.Clients;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 import com.mobitill.mobitill_2.utils.SetUpDrawerContent;

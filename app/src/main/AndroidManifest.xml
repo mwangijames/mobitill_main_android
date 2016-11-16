@@ -49,16 +49,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".cashiers.CashiersActivity">
-        </activity>
+
         <activity android:name=".clients.ClientsActivity">
         </activity>
         <activity android:name=".fleet.FleetActivity">
         </activity>
-        <activity
-            android:name=".cashiersaddedit.AddEditCashierActivity"
-            android:parentActivityName=".cashiers.CashiersActivity">
-        </activity>
+>
         <activity
             android:name=".clientsaddedit.ClientAddEditActivity"
             android:parentActivityName=".clients.ClientsActivity">
@@ -71,10 +67,7 @@
             android:name=".productsaddedit.ProductAddEditActivity"
             android:parentActivityName=".products.ProductsActivity">
         </activity>
-        <activity
-            android:name=".cashiersdetail.CashierDetailActivity"
-            android:parentActivityName=".cashiers.CashiersActivity">
-        </activity>
+
         <activity
             android:name=".clientsdetail.ClientsDetailActivity"
             android:parentActivityName=".clients.ClientsActivity">
@@ -118,8 +111,7 @@
         </activity>
         <activity android:name=".components.addedit.AddEditActivity">
         </activity>
-        <activity android:name=".components.inventory.InventoryActivity">
-        </activity>
+
     </application>
 
 </manifest>

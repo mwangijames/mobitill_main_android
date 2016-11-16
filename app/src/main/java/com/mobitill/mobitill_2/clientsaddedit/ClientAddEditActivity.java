@@ -3,19 +3,17 @@ package com.mobitill.mobitill_2.clientsaddedit;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierActivity;
 import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
 import com.mobitill.mobitill_2.clientsdetail.ClientsJson;
-import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;

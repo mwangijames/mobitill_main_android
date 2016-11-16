@@ -1,7 +1,6 @@
 package com.mobitill.mobitill_2.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -12,16 +11,9 @@ import android.view.MenuItem;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.apps.AppsActivity;
-import com.mobitill.mobitill_2.cashiers.CashiersActivity;
 import com.mobitill.mobitill_2.clients.ClientsActivity;
-import com.mobitill.mobitill_2.data.models.reports.models.Reports;
 import com.mobitill.mobitill_2.fleet.FleetActivity;
 import com.mobitill.mobitill_2.products.ProductsActivity;
-import com.mobitill.mobitill_2.reports.ReportsActivity;
-
-import java.util.HashSet;
-
-import javax.inject.Inject;
 
 /**
  * Created by james on 9/19/2016.
@@ -56,7 +48,7 @@ public class SetUpDrawerContent {
                                 context.startActivity(FleetActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
                                 break;
                             case R.id.cashiers_navigation_menu_item:
-                                context.startActivity(CashiersActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+                               // context.startActivity(CashiersActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
                                 break;
                             case R.id.clients_navigation_menu_item:
                                 context.startActivity(ClientsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));

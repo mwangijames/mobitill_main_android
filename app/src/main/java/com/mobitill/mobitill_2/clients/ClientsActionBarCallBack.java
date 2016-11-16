@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.widget.Switch;
 
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiers.CashiersActionBarCallBack;
 
 /**
  * Created by james on 10/7/2016.

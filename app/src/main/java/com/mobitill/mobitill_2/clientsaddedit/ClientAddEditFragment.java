@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierContract;
-import com.mobitill.mobitill_2.cashiersaddedit.AddEditCashierFragment;
 import com.mobitill.mobitill_2.clients.ClientsActivity;
 import com.mobitill.mobitill_2.clientsdetail.ClientsAppId;
 import com.mobitill.mobitill_2.clientsdetail.ClientsJson;

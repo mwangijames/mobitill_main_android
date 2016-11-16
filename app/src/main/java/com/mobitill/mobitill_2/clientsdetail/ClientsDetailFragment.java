@@ -14,12 +14,9 @@ import android.widget.Toast;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.cashiersdetail.CashierDetailContract;
-import com.mobitill.mobitill_2.cashiersdetail.CashierDetailFragment;
 import com.mobitill.mobitill_2.clientsaddedit.ClientAddEditActivity;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
-
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -3,7 +3,6 @@ package com.mobitill.mobitill_2.clientsdetail;
 import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
-import com.mobitill.mobitill_2.cashiersdetail.CashierDetailPresenter;
 import com.mobitill.mobitill_2.data.models.clients.models.Client;
 
 import javax.inject.Inject;
