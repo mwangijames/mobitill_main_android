@@ -1,10 +1,6 @@
 package com.mobitill.mobitill_2.data.models.apps;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
-import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 
 import javax.inject.Inject;
@@ -46,7 +42,7 @@ public class RealmController {
         RealmQuery realmQuery = mRealm.where(RealmApp.class);
         RealmResults<RealmApp> realmResults = realmQuery.findAll();
         for(RealmApp realmApp: realmResults){
-            Log.i(TAG, "getApps: " + realmApp.getName());
+           // Log.i(TAG, "getApps: " + realmApp.getName());
         }
         return realmResults;
     }

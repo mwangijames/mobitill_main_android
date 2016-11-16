@@ -273,7 +273,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     @Override
     public void showTotal(String total) {
-        mTotalTextView.setText(total);
+        if(mTotalTextView!=null){
+            mTotalTextView.setText(total);
+        }
     }
 
     @Override

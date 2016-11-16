@@ -9,12 +9,9 @@ import com.mobitill.mobitill_2.data.models.apps.RealmController;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -39,7 +36,6 @@ public class AppsLocalDataSource implements AppsDataSource{
     @Override
     public void getApps(@NonNull LoadAppsCallback callback) {
         RealmResults<RealmApp> realmApps = mRealmController.getApps();
-        Log.i(TAG, "getApps: " + realmApps.size());
         if(realmApps.isEmpty()){
             Log.i(TAG, "getApps: " + "table is empty");
             // this will be called if the table is new or just empty

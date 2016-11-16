@@ -214,10 +214,10 @@ public class ReportsActivity extends AppCompatActivity {
                 showAllUtils.setSettings(mMenuAppSettings.getSettings());
                 showAllUtils.setModel(model);
                 if(showAllUtils.isEmpty()){
-                    Log.i(TAG, "openShowAll: show showAllUtils fields are null or empty");
-                    Log.i(TAG, "openShowAll: appId: " + mAppId);
-                    Log.i(TAG, "openShowAll: menuAppSettings: " + mMenuAppSettings.getSettings());
-                    Log.i(TAG, "openShowAll: model: " + model);
+//                    Log.i(TAG, "openShowAll: show showAllUtils fields are null or empty");
+//                    Log.i(TAG, "openShowAll: appId: " + mAppId);
+//                    Log.i(TAG, "openShowAll: menuAppSettings: " + mMenuAppSettings.getSettings());
+//                    Log.i(TAG, "openShowAll: model: " + model);
                 } else {
                     //mView.showAllActivity(showAllUtils);
                     startActivity(ShowAllActivity.newIntent(this, showAllUtils, mMenuAppSettings));

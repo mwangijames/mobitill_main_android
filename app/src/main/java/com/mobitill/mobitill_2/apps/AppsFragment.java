@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -298,7 +297,6 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         }
 
         public void bindAppName(RealmApp app){
-            Log.i(TAG, "bindAppName: "  + app.getName());
             mAppName.setText(app.getName());
             mRealmApp = app;
         }
