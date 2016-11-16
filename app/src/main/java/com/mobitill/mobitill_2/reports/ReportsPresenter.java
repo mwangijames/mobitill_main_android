@@ -4,36 +4,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
-import android.webkit.DownloadListener;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.mobitill.mobitill_2.apps.AppsContract;
-import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
-import com.mobitill.mobitill_2.data.models.cashiers.CashiersDataSource;
 import com.mobitill.mobitill_2.data.models.cashiers.CashiersRepository;
-import com.mobitill.mobitill_2.data.models.cashiers.models.Cashier;
-import com.mobitill.mobitill_2.data.models.clients.ClientsDataSource;
-import com.mobitill.mobitill_2.data.models.clients.ClientsRepository;
-import com.mobitill.mobitill_2.data.models.clients.models.Client;
-import com.mobitill.mobitill_2.data.models.fleet.FleetDataSource;
-import com.mobitill.mobitill_2.data.models.fleet.FleetRepository;
-import com.mobitill.mobitill_2.data.models.fleet.models.FleetItem;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
-import com.mobitill.mobitill_2.data.models.products.ProductsDataSource;
 import com.mobitill.mobitill_2.data.models.products.ProductsRepository;
-import com.mobitill.mobitill_2.data.models.products.models.Product;
-import com.mobitill.mobitill_2.data.models.products.remote.ProductsRemoteDataSource;
-import com.mobitill.mobitill_2.data.models.reports.ReportsDataSource;
 import com.mobitill.mobitill_2.data.models.reports.ReportsRepository;
-import com.mobitill.mobitill_2.data.models.reports.models.ReportItem;
-import com.mobitill.mobitill_2.data.models.reports.models.ReportsLocal;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
@@ -46,7 +25,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.MemoryHandler;
 
 import javax.inject.Inject;
 
@@ -213,7 +191,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         for(final String item: items){
             if(mPayload != null && mSettingsHelper != null){
                 mPayload.setModel(item);
-                mPayload.setPayload(mSettingsHelper.getPayload(mActions.FETCH, mAppId));
+                mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mAppId));
                 mPayload.setAction(mActions.FETCH);
                 mPayload.setDemo(false);
                 if(!mPayload.isEmpty()){

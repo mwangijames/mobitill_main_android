@@ -365,4 +365,9 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
         startActivity(ShowAllActivity.newIntent(getActivity(), showAllUtils, mMenuAppSettings));
     }
 
+    @Override
+    public void showInvalidIdentifier() {
+        Toast.makeText(getActivity(), R.string.invalid_product_identifier, Toast.LENGTH_SHORT).show();
+    }
+
 }

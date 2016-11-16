@@ -70,7 +70,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                 if(mPayload != null){
                     mPayload.setModel(mShowAllUtils.getModel());
                     mPayload.setAction(mActions.FETCH);
-                    mPayload.setPayload(mSettingsHelper.getPayload(mActions.FETCH, mShowAllUtils.getAppId()));
+                    mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mShowAllUtils.getAppId()));
                     if(mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
                         mPayload.setAction(mActions.LIST);
                         mPayload.setPayload(mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));
@@ -127,7 +127,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                 if(mPayload != null){
                     mPayload.setModel(mShowAllUtils.getModel());
                     mPayload.setAction(mActions.FETCH);
-                    mPayload.setPayload(mSettingsHelper.getPayload(mActions.FETCH, mShowAllUtils.getAppId()));
+                    mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mShowAllUtils.getAppId()));
                     if(mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
                         mPayload.setAction(action);
                         mPayload.setPayload(mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));

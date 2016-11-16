@@ -2,6 +2,7 @@ package com.mobitill.mobitill_2.utils;
 
 import android.util.Log;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public class SettingsHelper {
         return modelsList;
     }
 
-    public String getPayload(String action, String appid){
+    public String getFetchPayload(String action, String appid){
         String payload = null;
         try {
             JSONObject params = new JSONObject();
@@ -312,5 +313,35 @@ public class SettingsHelper {
     }
 
 
+    public String getInsertInventoryPayload(String appId, String productId, HashMap<String, String> createData) {
+        String payload = null;
 
+        JSONObject paramsObject = new JSONObject();
+        JSONObject parentObject = new JSONObject();
+
+        try {
+            paramsObject.put("appid", appId);
+            paramsObject.put("productid", productId);
+
+            for(HashMap.Entry<String, String> entry: createData.entrySet()){
+                if(!entry.getKey().equalsIgnoreCase("identifier")){
+                    // check value is int if it is convert it
+                    if(NumberUtils.isNumber(entry.getValue())){
+                        paramsObject.put(entry.getKey(), Integer.parseInt(entry.getValue()));
+                    } else {
+                        paramsObject.put(entry.getKey(), entry.getValue());
+                    }
+
+                }
+            }
+
+            parentObject.put("params", paramsObject);
+            payload = parentObject.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return payload;
+    }
 }

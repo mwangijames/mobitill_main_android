@@ -55,6 +55,7 @@
     <string name="applications">Applications</string>
     <string name="filter">Filter</string>
     <string name="inventory">Inventory</string>
-    <string name="action_logs">Logs</string>
-    <string name="action_list">List</string>
+    <string name="action_logs">Show Logs</string>
+    <string name="action_list">Show List</string>
+    <string name="invalid_product_identifier">Invalid Product Identifier</string>
 </resources>

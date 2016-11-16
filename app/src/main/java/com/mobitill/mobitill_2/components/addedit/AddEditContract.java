@@ -4,6 +4,8 @@ import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public interface AddEditContract {
         void showDataError(boolean show);
         void showAll(ShowAllUtils showAllUtils);
 
+        void showInvalidIdentifier();
     }
 
     interface Presenter extends BasePresenter{
@@ -32,8 +35,7 @@ public interface AddEditContract {
         void generateUI();
         void generateAndPopulateUI(HashMap<String, String> item);
         void openShowAll();
-
-        void addStock(HashMap<String, String> data);
+        void addStock(HashMap<String, String> createData);
     }
 
 }

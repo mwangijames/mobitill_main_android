@@ -171,16 +171,16 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         switch (item.getItemId()){
             case R.id.action_logs:
                 Actions actions = new Actions();
-                if(!item.isChecked()){
-                    mPresenter.fetch(actions.LOG);
-                    item.setChecked(true);
-                    item.setIcon(R.drawable.ic_list);
-                    item.setTitle(R.string.action_list);
-                } else {
+                if (item.isChecked()) {
                     mPresenter.fetch();
                     item.setChecked(false);
-                    item.setIcon(R.drawable.ic_logs);
+//                    item.setIcon(R.drawable.ic_logs);
                     item.setTitle(R.string.action_logs);
+                } else {
+                    mPresenter.fetch(actions.LOG);
+                    item.setChecked(true);
+//                    item.setIcon(R.drawable.ic_list);
+                    item.setTitle(R.string.action_list);
                 }
 
                 //Toast.makeText(getActivity(), "logs", Toast.LENGTH_SHORT).show();

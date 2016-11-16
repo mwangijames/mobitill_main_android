@@ -14,6 +14,7 @@ import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -112,14 +113,68 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                 }
             }
         }
-
     }
-
 
     @Override
-    public void addStock(HashMap<String, String> data) {
-        // TODO: 11/16/2016 start from here to add stock 
+    public void addStock(final HashMap<String, String> createData){
+        if(mShowAllUtils!=null && !mShowAllUtils.isEmpty()){
+            // get the product id
+            if(mPayload!=null){
+                String payload =mSettingsHelper.getFetchPayload(mActions.FETCH, mShowAllUtils.getAppId());
+                if(payload!=null && !payload.isEmpty()){
+                    mPayload.setModel("products");
+                    mPayload.setDemo(false);
+                    mPayload.setAction(mActions.FETCH);
+                    mPayload.setPayload(payload);
+                    if(!mPayload.isEmpty()){
+                        // get products from remote server and check, this should be optimized to work with local data instead
+                        mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                            @Override
+                            public void onDataLoaded(String data) {
+                                String productId = getProductId(data, createData);
+                                if(productId == null){
+                                    mView.showInvalidIdentifier();
+                                } else {
+                                    addStockItem(productId, createData);
+                                }
+                            }
+                            @Override
+                            public void onDataNotLoaded() {
+                                Log.i(TAG, "onDataNotLoaded: addStock: getProducts");
+                            }
+                        });
+                    }
+                }
+            }
+        }
     }
+
+    private void addStockItem(String productId, HashMap<String, String> createData) {
+        String payload = mSettingsHelper.getInsertInventoryPayload(mShowAllUtils.getAppId(), productId, createData);
+        Log.i(TAG, "addStockItem: " + payload);
+    }
+
+    private String getProductId(String data, HashMap<String, String> createData) {
+        // obtain the identifier
+        String productId = null;
+        if(createData.containsKey("identifier")){
+            String identifier = createData.get("identifier");
+
+            // get the products
+            List<HashMap<String, String>> products =  mSettingsHelper.getList(data);
+            for (HashMap<String, String> product: products) {
+                if(product.containsKey("identifier")){
+                    String productIdentifier = product.get("identifier");
+                    if(productIdentifier.equalsIgnoreCase(identifier)){
+                        productId = product.get("id");
+                    }
+                }
+            }
+        }
+
+        return productId;
+    }
+
 
     @Override
     public void edit(HashMap<String, String> data) {
