@@ -2,20 +2,14 @@
 <resources>
     <color name="colorPrimary">#7B1FA2</color>
     <color name="colorPrimaryDark">#4C1363</color>
-    <color name="colorPrimaryLight">#AC2BE3</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#FFFFFF</color>
-    <color name="colorDefaultBackground">#FAFAFA</color>
     <color name="colorTextLight">#FAFAFA</color>
     <color name="colorTextBlack">#212121</color>
     <color name="colorTextDark">#424242</color>
     <color name="colorBackgroundSelector">#CCCCCC</color>
 
-    <drawable name="completedTaskBackground">#CCCCCC</drawable>
-
-    <drawable name="touchFeedback">#CFD8DC</drawable>
     <color name="colorLine">#CFD8DC</color>
-    <color name="translucent_black">#80000000</color>
     <color name="colorPressed">#E0E0E0</color>
 
 </resources>

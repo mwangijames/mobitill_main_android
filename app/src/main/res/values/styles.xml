@@ -19,11 +19,4 @@
 
     <style name="Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="ThemeSpinner">
-        <!-- Color when pressed -->
-        <item name="colorAccent">@color/colorAccent</item>
-        <!-- Default color for the dropdown arrow and line -->
-        <item name="colorControlNormal">@color/colorAccent</item>
-    </style>
-
 </resources>

@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.mobitill.mobitill_2.Constants;
-import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.apps.AppsActivity;
 
 
 /**
@@ -36,23 +34,23 @@ public class SetUpDrawerContent {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         switch (menuItem.getItemId()) {
-                            case R.id.home_navigation_menu_item:
-                                context.startActivity(AppsActivity.newIntent(context));
-                                break;
-                            case R.id.products_navigation_menu_item:
-                               // context.startActivity(ProductsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
-                                break;
-                            case R.id.fleet_navigation_menu_item:
-                                //context.startActivity(FleetActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
-                                break;
-                            case R.id.cashiers_navigation_menu_item:
-                               // context.startActivity(CashiersActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
-                                break;
-                            case R.id.clients_navigation_menu_item:
-                               // context.startActivity(ClientsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
-                                break;
-                            default:
-                                break;
+//                            case R.id.home_navigation_menu_item:
+//                                context.startActivity(AppsActivity.newIntent(context));
+//                                break;
+//                            case R.id.products_navigation_menu_item:
+//                               // context.startActivity(ProductsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+//                                break;
+//                            case R.id.fleet_navigation_menu_item:
+//                                //context.startActivity(FleetActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+//                                break;
+//                            case R.id.cashiers_navigation_menu_item:
+//                               // context.startActivity(CashiersActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+//                                break;
+//                            case R.id.clients_navigation_menu_item:
+//                               // context.startActivity(ClientsActivity.newIntent(context, mSharedPreferences.getString(mConstants.APPID, null)));
+//                                break;
+//                            default:
+//                                break;
                         }
                         // Close the navigation drawer when an item is selected.
                         menuItem.setChecked(true);
