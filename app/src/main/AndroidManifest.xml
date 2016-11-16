@@ -30,8 +30,7 @@
         </activity>
         <activity android:name=".reports.ReportsActivity">
         </activity>
-        <activity android:name=".products.ProductsActivity">
-        </activity>
+
 
         <service
             android:name=".sync.AppsJobsService"
@@ -49,24 +48,6 @@
             </intent-filter>
         </receiver>
 
-
-
-        <activity android:name=".fleet.FleetActivity">
-        </activity>
->
-
-        <activity
-            android:name=".fleetaddedit.FleetAddEditActivity"
-            android:parentActivityName=".fleet.FleetActivity">
-        </activity>
-        <activity
-            android:name=".productsaddedit.ProductAddEditActivity"
-            android:parentActivityName=".products.ProductsActivity">
-        </activity>
-
-
-        <activity android:name=".fleetdetail.FleetDetailActivity">
-        </activity>
         <activity
             android:name=".menu.MenuActivity"
             android:parentActivityName=".apps.AppsActivity">

@@ -1,32 +1,14 @@
 package com.mobitill.mobitill_2.reports;
 
-import com.mobitill.mobitill_2.Constants;
-import com.mobitill.mobitill_2.MobitillApplication;
-import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.apps.AppsActivity;
-import com.mobitill.mobitill_2.apps.AppsFragment;
-import com.mobitill.mobitill_2.components.ShowAllUtils;
-import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
-import com.mobitill.mobitill_2.data.models.generic.Payload;
-import com.mobitill.mobitill_2.data.models.reports.models.Reports;
-import com.mobitill.mobitill_2.menu.MenuAppSettings;
-import com.mobitill.mobitill_2.products.ProductsActivity;
-import com.mobitill.mobitill_2.utils.ActivityUtils;
-import com.mobitill.mobitill_2.utils.RecyclerClickListener;
-import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
-import com.mobitill.mobitill_2.utils.SetUpDrawerContent;
-import com.mobitill.mobitill_2.utils.SettingsHelper;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,11 +16,21 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import com.mobitill.mobitill_2.Constants;
+import com.mobitill.mobitill_2.MobitillApplication;
+import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.apps.AppsActivity;
+import com.mobitill.mobitill_2.components.ShowAllUtils;
+import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
+import com.mobitill.mobitill_2.menu.MenuAppSettings;
+import com.mobitill.mobitill_2.utils.ActivityUtils;
+import com.mobitill.mobitill_2.utils.RecyclerClickListener;
+import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
+import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 

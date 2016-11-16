@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.showall.ShowAllActivity;
-import com.mobitill.mobitill_2.fleetaddedit.FleetAddEditFragment;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
 import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
 
@@ -31,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class MenuFragment extends Fragment implements MenuContract.View{
 
-    private static final String TAG = FleetAddEditFragment.class.getSimpleName();
+    private static final String TAG = MenuFragment.class.getSimpleName();
     private static final String ARGS_APP_ID = "args_app_id";
     private static final String ARGS_APP_SETTINGS = "args_app_settings";
 
