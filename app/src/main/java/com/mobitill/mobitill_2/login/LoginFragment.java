@@ -12,19 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.apps.AppsActivity;
-
-import javax.inject.Inject;
 
 import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Retrofit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -38,6 +36,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     @BindView(R.id.password) EditText mPasswordEditText;
     @BindView(R.id.username) EditText mUsernameEditText;
     @BindView(R.id.login_button) Button mLoginButton;
+    @BindView(R.id.progress_bar) ProgressBar mProgressBar;
 
     // Resources
     @BindString(R.string.login_error) String mLoginError;
@@ -86,6 +85,11 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
+    }
+
+    @Override
+    public void showProgress(boolean show) {
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override

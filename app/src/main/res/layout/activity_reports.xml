@@ -89,12 +89,6 @@
                 android:text="@string/inventory"
                 android:background="?attr/selectableItemBackground"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/padding_8dp"
-                android:layout_height="1dp"
-                android:background="@color/colorLine"/>
-
             <!-- Navigation Drawer -->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drawer_recycler_view"

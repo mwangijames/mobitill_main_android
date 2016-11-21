@@ -31,4 +31,11 @@
         android:id="@+id/login_button"
         android:text="@string/login"/>
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

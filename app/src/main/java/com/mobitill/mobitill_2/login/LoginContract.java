@@ -8,12 +8,14 @@ import com.mobitill.mobitill_2.BaseView;
  */
 public class LoginContract {
     interface View extends BaseView<Presenter>{
+        void showProgress(boolean show);
         void showEmptyUsernameError();
         void showEmptyPasswordError();
         void showLoginFailError();
         void showTaskActivity();
         void setTitle();
         boolean isActive();
+
     }
 
     interface Presenter extends BasePresenter {

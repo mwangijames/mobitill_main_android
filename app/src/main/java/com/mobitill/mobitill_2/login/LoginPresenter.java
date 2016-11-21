@@ -70,14 +70,14 @@ final class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String username, String password) {
-
+        mView.showProgress(true);
         UserEndpoints userEndpoints = getUserEndpoints(username, password);
         Call<User> call = userEndpoints.authorise(mUser);
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-
+                mView.showProgress(false);
                 if(response != null){
                     if(response.code() == 401){
                         Log.i(TAG, "onResponse: " + "Authorisation Error");
@@ -103,6 +103,7 @@ final class LoginPresenter implements LoginContract.Presenter {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                mView.showProgress(false);
                 Log.i(TAG, "onFailure: " + t.getMessage());
             }
         });

@@ -28,7 +28,7 @@
                         android:fitsSystemWindows="true"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="0.7"
-                        android:src="@drawable/collpasing_image"/>
+                        android:src="@drawable/collapsing_image"/>
 
                     <android.support.v7.widget.Toolbar
                         android:id="@+id/toolbar"
