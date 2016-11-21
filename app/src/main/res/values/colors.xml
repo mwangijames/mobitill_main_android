@@ -11,5 +11,6 @@
 
     <color name="colorLine">#CFD8DC</color>
     <color name="colorPressed">#E0E0E0</color>
+    <color name="colorNavHeader">#EEEEEE</color>
 
 </resources>

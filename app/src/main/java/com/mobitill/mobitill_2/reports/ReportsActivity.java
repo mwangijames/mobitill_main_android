@@ -238,10 +238,10 @@ public class ReportsActivity extends AppCompatActivity {
         if(mMenuAppSettings != null){
 
             if(mMenuAppSettings.getSettings() != null){
-                Log.i(TAG, "start: " + mMenuAppSettings.getSettings());
+               // Log.i(TAG, "start: " + mMenuAppSettings.getSettings());
                  models = settingsHelper.getModels(mMenuAppSettings.getSettings());
                 for (String model: models) {
-                    Log.i(TAG, "getMenuList: " + model);
+                    //Log.i(TAG, "getMenuList: " + model);
                 }
                 //mView.showMenuItems(models);
             } else {

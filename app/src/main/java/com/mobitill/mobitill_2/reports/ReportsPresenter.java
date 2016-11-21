@@ -71,10 +71,10 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     public void getMenuList() {
         if(mMenuAppSettings != null){
             if(mMenuAppSettings.getSettings() != null){
-                Log.i(TAG, "start: " + mMenuAppSettings.getSettings());
+                //Log.i(TAG, "start: " + mMenuAppSettings.getSettings());
                 ArrayList<String> models = mSettingsHelper.getModels(mMenuAppSettings.getSettings());
                 for (String model: models) {
-                    Log.i(TAG, "getMenuList: " + model);
+                   // Log.i(TAG, "getMenuList: " + model);
                 }
                 mView.showMenuItems(models);
             } else {
@@ -105,7 +105,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                             @Override
                             public void onDataLoaded(String data) {
                                 mView.setLoadingIndicator(false);
-                                Log.i(TAG, "onDataLoaded: " + mSettingsHelper.getList(data));
+                               // Log.i(TAG, "onDataLoaded: " + mSettingsHelper.getList(data));
                                 List<HashMap<String, String>> report = mSettingsHelper.getList(data);
                                 mView.showQuantity(report.size());
                                 getTotal(report);
@@ -114,7 +114,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                             @Override
                             public void onDataNotLoaded() {
                                 mView.setLoadingIndicator(false);
-                                Log.i(TAG, "onDataNotLoaded: ");
+                                Log.i(TAG, "onDataNotLoaded: fetchReport");
                             }
                         });
                     }
