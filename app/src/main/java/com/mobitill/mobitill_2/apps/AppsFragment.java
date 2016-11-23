@@ -12,6 +12,7 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,11 +24,13 @@ import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.reports.ReportsActivity;
+import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -46,6 +49,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_products) TextView mNoAppsTextView;
+    @BindView(R.id.sync) Button mSyncButton;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private AppAdapter mAppAdapter;
@@ -95,6 +99,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         AppsFragment fragment = new AppsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @OnClick(R.id.sync)
+    public void sync(View view){
+        MobitillSyncAdapter.syncImmediately(getActivity());
     }
 
 

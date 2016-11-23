@@ -1,8 +1,5 @@
 package com.mobitill.mobitill_2.apps;
 
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.mobitill.mobitill_2.sync.ScheduleAppSync;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -21,10 +18,4 @@ public class AppsPresenterModule {
     AppsContract.View providesAppsContractView(){
         return mView;
     }
-
-    @Provides
-    ScheduleAppSync provideScheduleAppSync(FirebaseJobDispatcher firebaseJobDispatcher){
-        return new ScheduleAppSync(firebaseJobDispatcher);
-    }
-
 }

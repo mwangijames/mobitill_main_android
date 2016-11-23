@@ -1,33 +1,21 @@
 package com.mobitill.mobitill_2.apps;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryComponent;
-import com.mobitill.mobitill_2.sync.SyncUtils;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AppsActivity extends AppCompatActivity {
     public static final String TAG = AppsActivity.class.getSimpleName();
@@ -48,7 +36,6 @@ public class AppsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        SyncUtils.CreateSyncAccount(this);
 
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();

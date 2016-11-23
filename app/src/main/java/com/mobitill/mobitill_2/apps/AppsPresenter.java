@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
-import com.mobitill.mobitill_2.sync.ScheduleAppSync;
 import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
@@ -27,9 +26,6 @@ public final class AppsPresenter implements AppsContract.Presenter{
     private final AppsContract.View mAppsView;
     private final SharedPreferences mSharedPreferences;
     private final Constants mConstants;
-
-    @Inject
-    ScheduleAppSync mScheduleAppSync;
 
 
     private boolean mfirstLoad = true;

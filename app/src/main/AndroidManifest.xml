@@ -30,15 +30,11 @@
         </activity>
         <activity android:name=".reports.ReportsActivity">
         </activity>
+        <activity android:name=".components.showall.ShowAllActivity">
+        </activity>
+        <activity android:name=".components.addedit.AddEditActivity">
+        </activity>
 
-
-        <service
-            android:name=".sync.AppsJobsService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.action_execute"/>
-            </intent-filter>
-        </service>
 
         <receiver
             android:name=".net.ConnectivityReceiver"
@@ -48,38 +44,36 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".sync.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
-        </service>
-        <service
-            android:name=".sync.SyncService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
-        </service>
-
         <provider
-            android:name=".sync.StubProvider"
-            android:authorities="com.mobitill.mobitill_2.provider"
+            android:name=".sync.MobitillStubProvider"
+            android:authorities="@string/content_authority"
             android:exported="false"
             android:syncable="true"/>
 
-        <activity android:name=".components.showall.ShowAllActivity">
-        </activity>
-        <activity android:name=".components.addedit.AddEditActivity">
-        </activity>
+        <!-- SyncAdapter's dummy authentication service -->
+        <service
+            android:name=".sync.MobitillAuthenticatorService"
+            >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+
+        <!-- The SyncAdapter service -->
+        <service
+            android:name=".sync.MobitillSyncService"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
 
     </application>
 
