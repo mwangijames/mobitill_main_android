@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 import com.mobitill.mobitill_2.utils.ActivityUtils;
 
 import javax.inject.Inject;
@@ -59,6 +60,7 @@ public class AppsActivity extends AppCompatActivity {
                 .build()
                 .inject(this);
 
+        MobitillSyncAdapter.initializeSyncAdapter(this);
 
     }
 
