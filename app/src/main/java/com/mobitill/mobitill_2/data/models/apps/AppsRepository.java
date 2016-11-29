@@ -9,9 +9,9 @@ import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 
 import java.util.List;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import javax.inject.Inject;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by james on 8/23/2016.
@@ -70,9 +70,26 @@ public class AppsRepository implements AppsDataSource{
     }
 
     @Override
-    public void refreshApps() {
+    public void refreshApps(@NonNull final LoadAppsCallback callback) {
+        mAppsRemoteDataSource.getApps(new LoadAppsCallback() {
+            @Override
+            public void onLocalAppsLoaded(List<RealmApp> apps) {
+                //callback.onLocalAppsLoaded(apps);
+            }
 
+            @Override
+            public void onRemoteAppsLoaded(List<Datum> apps) {
+                refreshLocalDataSource(apps);
+                callback.onRemoteAppsLoaded(apps);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
     }
+
 
     @Override
     public void deleteApps() {

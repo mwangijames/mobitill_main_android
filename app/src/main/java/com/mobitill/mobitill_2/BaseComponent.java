@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.mobitill.mobitill_2.data.RealmModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsModule;
+import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryModule;
 import com.mobitill.mobitill_2.data.models.apps.models.App;
 import com.mobitill.mobitill_2.data.models.apps.models.Apps;
@@ -74,7 +75,7 @@ public interface BaseComponent {
     Apps apps();
     Params params();
     Body body();
-
+    AppsRepository appsRepository();
     //Realm Module
     Realm realm();
 

@@ -1,7 +1,5 @@
 package com.mobitill.mobitill_2;
 
-import android.app.Application;
-
 import com.mobitill.mobitill_2.data.RealmModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryComponent;
@@ -10,11 +8,12 @@ import com.mobitill.mobitill_2.data.models.apps.DaggerAppsRepositoryComponent;
 import com.mobitill.mobitill_2.data.models.users.UserModule;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.net.NetModule;
+import com.orm.SugarApp;
 
 /**
  * Created by DI on 8/5/2016.
  */
-public class MobitillApplication extends Application {
+public class MobitillApplication extends SugarApp {
 
     private BaseComponent mBaseComponent;
     private AppsRepositoryComponent mAppsRepositoryComponent;

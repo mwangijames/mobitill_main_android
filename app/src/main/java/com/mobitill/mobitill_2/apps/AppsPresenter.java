@@ -92,7 +92,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
 
     private void loadApps(boolean forceUpdate, final boolean showLoadingUI){
         if(forceUpdate){
-            mAppsRepository.refreshApps();
+            //mAppsRepository.refreshApps();
         }
         mAppsView.showLoadingIndicator(true);
 

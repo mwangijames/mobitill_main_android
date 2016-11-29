@@ -11,11 +11,8 @@ import com.mobitill.mobitill_2.data.models.apps.models.Body;
 import com.mobitill.mobitill_2.data.models.apps.models.Params;
 import com.mobitill.mobitill_2.data.models.apps.remote.AppsRemoteDataSource;
 
-import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import io.realm.Realm;
 import retrofit2.Retrofit;
 
 /**
@@ -25,8 +22,8 @@ import retrofit2.Retrofit;
 public class AppsRepositoryModule {
     @Provides
     @Local
-    AppsDataSource provideAppsLocalDataSource(Context context, RealmController realmController){
-        return new AppsLocalDataSource(context, realmController);
+    AppsDataSource provideAppsLocalDataSource(Context context, AppsController appsController){
+        return new AppsLocalDataSource(context, appsController);
     }
 
     @Provides
@@ -38,7 +35,7 @@ public class AppsRepositoryModule {
     }
 
     @Provides
-    RealmController provideRealmController(Realm realm){
-        return new RealmController(realm);
+    AppsController provideRealmController(){
+        return new AppsController();
     }
 }

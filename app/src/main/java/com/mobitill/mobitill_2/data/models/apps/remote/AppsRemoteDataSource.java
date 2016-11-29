@@ -2,9 +2,7 @@ package com.mobitill.mobitill_2.data.models.apps.remote;
 
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.data.endpoints.AppsEndpoints;
 import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
@@ -70,9 +68,10 @@ public class AppsRemoteDataSource implements AppsDataSource {
     }
 
     @Override
-    public void refreshApps() {
+    public void refreshApps(@NonNull LoadAppsCallback callback) {
 
     }
+
 
     @Override
     public void deleteApps() {
@@ -103,5 +102,7 @@ public class AppsRemoteDataSource implements AppsDataSource {
             }
         });
     }
+
+
 
 }

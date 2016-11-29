@@ -1,17 +1,17 @@
 package com.mobitill.mobitill_2.data.models.apps.models;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import com.orm.SugarRecord;
 
 /**
  * Created by james on 8/24/2016.
  */
-public class RealmApp extends RealmObject {
-    @PrimaryKey
+public class RealmApp extends SugarRecord {
     private String appid;
     private String name;
     private String orgid;
     private String settings;
+
+    public RealmApp(){};
 
     public String getName() {
         return name;

@@ -39,7 +39,7 @@ public interface AppsDataSource {
 
     void saveApp(@NonNull Datum app);
 
-    void refreshApps();
+    void refreshApps(@NonNull LoadAppsCallback callback);
 
     void deleteApps();
 

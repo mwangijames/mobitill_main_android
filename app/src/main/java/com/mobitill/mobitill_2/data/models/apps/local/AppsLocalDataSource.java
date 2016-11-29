@@ -4,15 +4,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.mobitill.mobitill_2.data.models.apps.AppsController;
 import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
-import com.mobitill.mobitill_2.data.models.apps.RealmController;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.realm.RealmResults;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -25,23 +25,24 @@ public class AppsLocalDataSource implements AppsDataSource{
 
     private static final String TAG = AppsLocalDataSource.class.getSimpleName();
 
-    private final RealmController mRealmController;
+    private final AppsController mAppsController;
 
     @Inject
-    public AppsLocalDataSource(@NonNull Context context, RealmController realmController){
+    public AppsLocalDataSource(@NonNull Context context, AppsController appsController){
         checkNotNull(context);
-        mRealmController = realmController;
+        mAppsController = appsController;
     }
 
     @Override
     public void getApps(@NonNull LoadAppsCallback callback) {
-        RealmResults<RealmApp> realmApps = mRealmController.getApps();
-        if(realmApps.isEmpty()){
+        List<RealmApp> apps = mAppsController.getApps();
+        Log.i(TAG, "getApps: " + apps.size());
+        if(apps.isEmpty()){
             Log.i(TAG, "getApps: " + "table is empty");
             // this will be called if the table is new or just empty
             callback.onDataNotAvailable();
         } else {
-            callback.onLocalAppsLoaded(realmApps);
+            callback.onLocalAppsLoaded(apps);
         }
     }
 
@@ -52,16 +53,17 @@ public class AppsLocalDataSource implements AppsDataSource{
 
     @Override
     public void saveApp(@NonNull Datum app) {
-        mRealmController.saveApp(app);
+        mAppsController.saveApp(app);
     }
 
     @Override
-    public void refreshApps() {
+    public void refreshApps(@NonNull LoadAppsCallback callback) {
 
     }
+
 
     @Override
     public void deleteApps() {
-        mRealmController.clearAll();
+        mAppsController.clearAll();
     }
 }

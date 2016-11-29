@@ -12,24 +12,58 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
+import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
+import com.mobitill.mobitill_2.data.models.apps.models.Datum;
+import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class MobitillSyncAdapter extends AbstractThreadedSyncAdapter {
-    public final String LOG_TAG = MobitillSyncAdapter.class.getSimpleName();
+    public final String TAG = MobitillSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute)  180 = 3 hours
-   // public static final int SYNC_INTERVAL = 30; // use this for testing
-    public static final int SYNC_INTERVAL = 60 * 180;
+    public static final int SYNC_INTERVAL = 30; // use this for testing
+    //public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
+    @Inject
+    public  AppsRepository mAppsRepository;
+    
     public MobitillSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+
+        DaggerMobitillSyncComponent.builder()
+                .baseComponent(((MobitillApplication) context.getApplicationContext()).getBaseComponent())
+                .build()
+                .inject(this);
     }
+
+
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.d(LOG_TAG, "onPerformSync Called.");
+        Log.d(TAG, "onPerformSync Called.");
+        mAppsRepository.refreshApps(new AppsDataSource.LoadAppsCallback() {
+            @Override
+            public void onLocalAppsLoaded(List<RealmApp> apps) {
+                Log.i(TAG, "onLocalAppsLoaded");
+            }
+
+            @Override
+            public void onRemoteAppsLoaded(List<Datum> apps) {
+                Log.i(TAG, "onRemoteAppsLoaded");
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                Log.i(TAG, "onDataNotAvailable");
+            }
+        });
 
     }
 
