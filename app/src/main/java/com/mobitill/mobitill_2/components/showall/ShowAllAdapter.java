@@ -88,9 +88,10 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
                 valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
                 linearLayout.addView(valueTextView);
+                rootLayout.addView(linearLayout);
             }
 
-            rootLayout.addView(linearLayout);
+
 
         }
 
