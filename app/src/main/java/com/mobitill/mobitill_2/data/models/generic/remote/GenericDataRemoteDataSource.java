@@ -1,10 +1,7 @@
 package com.mobitill.mobitill_2.data.models.generic.remote;
 
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.data.endpoints.GenericEndPoints;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
@@ -65,5 +62,10 @@ public class GenericDataRemoteDataSource implements GenericDataSource{
                 callBack.onDataNotLoaded();
             }
         });
+    }
+
+    @Override
+    public void refreshData(Payload payload, @NonNull LoadDataCallBack callBack) {
+
     }
 }

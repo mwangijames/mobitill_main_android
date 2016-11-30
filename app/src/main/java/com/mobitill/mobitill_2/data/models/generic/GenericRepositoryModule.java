@@ -1,6 +1,8 @@
 package com.mobitill.mobitill_2.data.models.generic;
 
+import com.mobitill.mobitill_2.data.Local;
 import com.mobitill.mobitill_2.data.Remote;
+import com.mobitill.mobitill_2.data.models.generic.local.GenericDataLocalDataSource;
 import com.mobitill.mobitill_2.data.models.generic.remote.GenericDataRemoteDataSource;
 
 import dagger.Module;
@@ -16,5 +18,11 @@ public class GenericRepositoryModule {
     @Remote
     GenericDataSource provideGenericDataRemoteDataSource(Retrofit retrofit){
         return new GenericDataRemoteDataSource(retrofit);
+    }
+
+    @Provides
+    @Local
+    GenericDataSource provideGenericLocalDataSource(){
+        return new GenericDataLocalDataSource();
     }
 }
