@@ -293,15 +293,16 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         mHeaderLayout.removeAllViews();
 
         for(HashMap.Entry<String, String> entry : item.entrySet()){
-            TextView keyTextView = new TextView(getActivity());
-            keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
-           // keyTextView.setPadding(padding, 0, 0, 0);
-            keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
-            keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
-            keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-            keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-            mHeaderLayout.addView(keyTextView);
-
+            if(!entry.getKey().equalsIgnoreCase("id")){
+                TextView keyTextView = new TextView(getActivity());
+                keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
+                // keyTextView.setPadding(padding, 0, 0, 0);
+                keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
+                keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
+                keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                mHeaderLayout.addView(keyTextView);
+            }
         }
 
 

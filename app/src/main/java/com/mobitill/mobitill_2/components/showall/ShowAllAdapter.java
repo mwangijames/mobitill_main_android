@@ -1,16 +1,12 @@
 package com.mobitill.mobitill_2.components.showall;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,7 +16,6 @@ import com.mobitill.mobitill_2.utils.DpPixelsConversion;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by james on 11/2/2016.
@@ -86,12 +81,14 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 //            keyTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //            linearLayout.addView(keyTextView);
 
-            TextView valueTextView = new TextView(mContext);
-            valueTextView.setText(entry.getValue());
-            valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
-            valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-            linearLayout.addView(valueTextView);
+            if(!entry.getKey().equalsIgnoreCase("id")){
+                TextView valueTextView = new TextView(mContext);
+                valueTextView.setText(entry.getValue());
+                valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
+                valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+                linearLayout.addView(valueTextView);
+            }
 
             rootLayout.addView(linearLayout);
 
