@@ -71,6 +71,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                     mPayload.setModel(mShowAllUtils.getModel());
                     mPayload.setAction(mActions.FETCH);
                     mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mShowAllUtils.getAppId()));
+                    mPayload.setAppid(mShowAllUtils.getAppId());
                     if(mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
                         mPayload.setAction(mActions.LIST);
                         mPayload.setPayload(mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));
@@ -128,6 +129,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                     mPayload.setModel(mShowAllUtils.getModel());
                     mPayload.setAction(mActions.FETCH);
                     mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mShowAllUtils.getAppId()));
+                    mPayload.setAppid(mShowAllUtils.getAppId());
                     if(mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
                         mPayload.setAction(action);
                         mPayload.setPayload(mSettingsHelper.getInventoryPayload(mShowAllUtils.getAppId()));
@@ -191,6 +193,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                             mPayload.setPayload(payloadString);
                             mPayload.setAction(mActions.DELETE);
                             mPayload.setDemo(false);
+                            mPayload.setAppid(mShowAllUtils.getAppId());
                             if(mPayload.isEmpty()){
                                 Log.i(TAG, "delete: some Payload fields are Empty or Null");
                             } else {

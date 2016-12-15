@@ -95,6 +95,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                     mPayload.setModel("transactions");
                     mPayload.setPayload(mSettingsHelper.getReportsPayload(mAppId, range, items));
                     mPayload.setDemo(false);
+                    mPayload.setAppid(mAppId);
                 }
                 if(mPayload.isEmpty()){
                     Log.i(TAG, "fetchReport: Some payloads fields are empty" );
@@ -186,6 +187,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                 mPayload.setPayload(mSettingsHelper.getFetchPayload(mActions.FETCH, mAppId));
                 mPayload.setAction(mActions.FETCH);
                 mPayload.setDemo(false);
+                mPayload.setAppid(mAppId);
                 if(!mPayload.isEmpty()){
                     mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                         @Override

@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Console;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,12 +23,14 @@ public class SettingsHelper {
     public ArrayList<String> getModels(String settings){
         ArrayList<String> modelsList = new ArrayList<>();
         try {
-            JSONObject settingsObject = new JSONObject(settings);
-            if(settingsObject.has("models")){
-                JSONObject models = settingsObject.getJSONObject("models");
-                Iterator<String> iterator = models.keys();
-                while(iterator.hasNext()){
-                    modelsList.add(iterator.next());
+            if(settings!=null){
+                JSONObject settingsObject = new JSONObject(settings);
+                if(settingsObject.has("models")){
+                    JSONObject models = settingsObject.getJSONObject("models");
+                    Iterator<String> iterator = models.keys();
+                    while(iterator.hasNext()){
+                        modelsList.add(iterator.next());
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -181,27 +181,30 @@ public class SettingsHelper {
     }
 
     public List<HashMap<String, String>> getList(String data){
-
         List<HashMap<String, String>> list = new ArrayList<>();
 
         try {
             JSONObject dataObject = new JSONObject(data);
-            JSONArray jsonArray = dataObject.getJSONArray("data");
-
-            //loop through each json array to create  a hashmap
-            for(int i = 0; i < jsonArray.length(); i++){
-                JSONObject item = jsonArray.getJSONObject(i);
-
-                //put the items in the hash map
-                HashMap<String, String> itemMap = new HashMap<>();
-                Iterator<String> iterator = item.keys();
-
-                while(iterator.hasNext()){
-                   String key = iterator.next();
-                   String val = item.getString(key);
-                    itemMap.put(key, val);
-                }
-                list.add(itemMap);
+            if(dataObject.has("data")){
+                JSONArray jsonArray = dataObject.getJSONArray("data");
+                //loop through each json array to create  a hashmap
+                for(int i = 0; i < jsonArray.length(); i++){
+                    JSONObject item;
+                    if(jsonArray.get(i) instanceof String){
+                       item = new JSONObject(jsonArray.getString(i));
+                    } else {
+                        item = jsonArray.getJSONObject(i);
+                    }
+                    //put the items in the hash map
+                    HashMap<String, String> itemMap = new HashMap<>();
+                    Iterator<String> iterator = item.keys();
+                    while(iterator.hasNext()){
+                        String key = iterator.next();
+                        String val = item.getString(key);
+                        itemMap.put(key, val);
+                    }
+                    list.add(itemMap);
+            }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -239,6 +242,8 @@ public class SettingsHelper {
 
         return schema;
     }
+
+
 
     public HashMap<String,String[]> getInventorySchema(String settings, String model) {
         HashMap<String, String[]> schema = new HashMap<>();

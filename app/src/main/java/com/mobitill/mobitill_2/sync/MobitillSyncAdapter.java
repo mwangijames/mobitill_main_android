@@ -18,6 +18,11 @@ import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
 import com.mobitill.mobitill_2.data.models.apps.models.Datum;
 import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
+import com.mobitill.mobitill_2.data.models.generic.Actions;
+import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
+import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
+import com.mobitill.mobitill_2.data.models.generic.Payload;
+import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.List;
 
@@ -27,12 +32,20 @@ public class MobitillSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String TAG = MobitillSyncAdapter.class.getSimpleName();
     // Interval at which to sync with the weather, in milliseconds.
     // 60 seconds (1 minute)  180 = 3 hours
-    public static final int SYNC_INTERVAL = 30; // use this for testing
-    //public static final int SYNC_INTERVAL = 60 * 180;
+    //public static final int SYNC_INTERVAL = 30; // use this for testing
+    public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     @Inject
     public  AppsRepository mAppsRepository;
+
+    @Inject
+    public GenericRepository mGenericRepository;
+
+    @Inject
+    SettingsHelper mSettingsHelper;
+
+
     
     public MobitillSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -48,6 +61,10 @@ public class MobitillSyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.d(TAG, "onPerformSync Called.");
+        syncApps();
+    }
+
+    private void syncApps() {
         mAppsRepository.refreshApps(new AppsDataSource.LoadAppsCallback() {
             @Override
             public void onLocalAppsLoaded(List<RealmApp> apps) {
@@ -57,6 +74,10 @@ public class MobitillSyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onRemoteAppsLoaded(List<Datum> apps) {
                 Log.i(TAG, "onRemoteAppsLoaded");
+                for (Datum app: apps) {
+                    syncModels(app.getApp().getSettings(), app.getAppid());
+                }
+
             }
 
             @Override
@@ -64,7 +85,39 @@ public class MobitillSyncAdapter extends AbstractThreadedSyncAdapter {
                 Log.i(TAG, "onDataNotAvailable");
             }
         });
+    }
 
+    private void syncModels(String settings, String appId) {
+        mGenericRepository.deleteAll();
+        Actions actions = new Actions();
+        //Log.i(TAG, "syncModels: " + appId + " : " + settings);
+        List<String> models = mSettingsHelper.getModels(settings);
+        if(models!=null && !models.isEmpty()){
+            for(final String model: models){
+                Log.i(TAG, "syncModels: " + model);
+                Payload payload = new Payload();
+                payload.setDemo(mSettingsHelper.isDemo(settings));
+                payload.setAppid(appId);
+                payload.setAction(actions.FETCH);
+                payload.setModel(model);
+                payload.setPayload(mSettingsHelper.getFetchPayload(actions.FETCH, appId));
+                if(!payload.isEmpty()){
+                    mGenericRepository.refreshData(payload, new GenericDataSource.LoadDataCallBack() {
+                        @Override
+                        public void onDataLoaded(String data) {
+                            Log.i(TAG, "onDataLoaded: " + model);
+                        }
+
+                        @Override
+                        public void onDataNotLoaded() {
+                            Log.i(TAG, "onDataNotLoaded: " + model);
+                        }
+                    });
+                } else {
+                    Log.i(TAG, "syncModels: " + "payload missing some fields");
+                }
+            }
+        }
     }
 
     /**

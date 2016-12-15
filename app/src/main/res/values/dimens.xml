@@ -21,6 +21,7 @@
     <dimen name="margin_button">1dp</dimen>
     <dimen name="report_small_text">16sp</dimen>
     <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="elevation_4dp">4dp</dimen>
 
     <!-- per https://developer.android.com/reference/android/view/ViewGroup.LayoutParams.html#MATCH_PARENT -->
     <item name="match_parent" format="integer" type="dimen">-1</item>

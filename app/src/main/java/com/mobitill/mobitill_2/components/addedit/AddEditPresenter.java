@@ -12,7 +12,6 @@ import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import org.json.JSONException;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,6 +84,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                         mPayload.setModel(mShowAllUtils.getModel());
                         mPayload.setAction(mActions.INSERT);
                         mPayload.setDemo(false);
+                        mPayload.setAppid(mShowAllUtils.getAppId());
                         if(mPayload.isEmpty()){
                             Log.i(TAG, "add: " + "Some Payload fields are empty or null");
                         } else {
@@ -126,6 +126,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                     mPayload.setDemo(false);
                     mPayload.setAction(mActions.FETCH);
                     mPayload.setPayload(payload);
+                    mPayload.setAppid(mShowAllUtils.getAppId());
                     if(!mPayload.isEmpty()){
                         // get products from remote server and check, this should be optimized to work with local data instead
                         mView.showLoading(true);
@@ -159,7 +160,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
         mPayload.setAction(mActions.CREATE);
         mPayload.setPayload(payload);
         mPayload.setDemo(mSettingsHelper.isDemo(mShowAllUtils.getSettings()));
-        
+        mPayload.setAction(mShowAllUtils.getAppId());
+        mPayload.setAppid(mShowAllUtils.getAppId());
         if(!mPayload.isEmpty()){
             mView.showLoading(true);
             mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
@@ -213,6 +215,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                         mPayload.setModel(mShowAllUtils.getModel());
                         mPayload.setAction(mActions.UPDATE);
                         mPayload.setDemo(false);
+                        mPayload.setAppid(mShowAllUtils.getAppId());
                         if(mPayload.isEmpty()){
                             Log.i(TAG, "edit: " + "Some Payload fields are empty or null");
                         } else {

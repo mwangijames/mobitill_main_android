@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.mobitill.mobitill_2.data.endpoints.GenericEndPoints;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
+import com.mobitill.mobitill_2.data.models.generic.models.LocalGeneric;
 
 import java.io.IOException;
 
@@ -66,6 +67,16 @@ public class GenericDataRemoteDataSource implements GenericDataSource{
 
     @Override
     public void refreshData(Payload payload, @NonNull LoadDataCallBack callBack) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public void saveItem(LocalGeneric localGeneric) {
 
     }
 }

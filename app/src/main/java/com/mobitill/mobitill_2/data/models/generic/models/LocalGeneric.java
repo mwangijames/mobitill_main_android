@@ -7,20 +7,20 @@ import com.orm.SugarRecord;
  */
 
 public class LocalGeneric extends SugarRecord {
-    private String modelName;
+    private String model;
     private String data;
     private String appid;
 
-    public LocalGeneric(){
+        public LocalGeneric(){
         
     }
 
     public String getModelName() {
-        return modelName;
+        return model;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public void setModelName(String model) {
+        this.model = model;
     }
 
     public String getData() {

@@ -10,6 +10,15 @@ public class Payload {
     private String action;
     private String payload;
     private Boolean isDemo;
+    private String appid;
+
+    public String getAppid() {
+        return appid;
+    }
+
+    public void setAppid(String appid) {
+        this.appid = appid;
+    }
 
     public Boolean getDemo() {
         return isDemo;
@@ -47,6 +56,7 @@ public class Payload {
         return (model == null || "".equals(model)) ||
                 (action == null || "".equals(action)) ||
                 (payload == null || "".equals(payload)) ||
+                (appid ==  null) || "".equalsIgnoreCase(appid) ||
                 (isDemo == null);
     }
 }

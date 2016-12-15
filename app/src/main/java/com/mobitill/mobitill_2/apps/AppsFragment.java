@@ -21,6 +21,7 @@ import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.reports.ReportsActivity;
+import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 
 import java.util.List;
 
@@ -105,6 +106,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
     @Override
     public void showRemoteApps(List<Datum> apps) {
+        MobitillSyncAdapter.initializeSyncAdapter(getActivity());
         if(isAdded()){
             if(mAppAdapter == null){
                 mAppAdapter = new AppAdapter(apps);

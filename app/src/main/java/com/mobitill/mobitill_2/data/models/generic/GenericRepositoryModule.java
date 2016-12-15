@@ -22,7 +22,12 @@ public class GenericRepositoryModule {
 
     @Provides
     @Local
-    GenericDataSource provideGenericLocalDataSource(){
-        return new GenericDataLocalDataSource();
+    GenericDataSource provideGenericLocalDataSource(GenericController genericController){
+        return new GenericDataLocalDataSource(genericController);
+    }
+
+    @Provides
+    GenericController provideGenericController(){
+        return new GenericController();
     }
 }
