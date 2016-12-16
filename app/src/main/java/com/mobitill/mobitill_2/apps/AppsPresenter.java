@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.Constants;
+import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.data.models.apps.AppsDataSource;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepository;
@@ -25,6 +26,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
     private final AppsRepository mAppsRepository;
     private final AppsContract.View mAppsView;
     private final SharedPreferences mSharedPreferences;
+    private final GenericRepository mGenericRepository;
     private final Constants mConstants;
 
 
@@ -32,11 +34,13 @@ public final class AppsPresenter implements AppsContract.Presenter{
 
     @Inject
     public AppsPresenter(AppsContract.View appsView, AppsRepository appsRepository,
-                         SharedPreferences sharedPreferences, Constants constants) {
+                         SharedPreferences sharedPreferences, Constants constants,
+                         GenericRepository genericRepository) {
         mAppsView = appsView;
         mAppsRepository = appsRepository;
         mSharedPreferences = sharedPreferences;
         mConstants = constants;
+        mGenericRepository = genericRepository;
     }
 
     @Override
@@ -109,6 +113,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 mAppsView.showRemoteApps(apps);
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(false);
+                // TODO: 12/15/2016 resume from here, calculate total and transactions for each application 
             }
 
             @Override

@@ -197,12 +197,16 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     class AppHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Nullable  @BindView(R.id.app_name) TextView mAppName;
+        @BindView(R.id.transactions) TextView mTransactionsTextView;
+        @BindView(R.id.total) TextView mTotalTextView;
+
         Datum mDatum = new Datum();
 
         public AppHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+
         }
 
         public void bindAppName(Datum datum){
@@ -255,6 +259,10 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     class LocalAppHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.app_name) TextView mAppName;
+
+        @BindView(R.id.transactions) TextView mTransactionsTextView;
+        @BindView(R.id.total) TextView mTotalTextView;
+
         RealmApp mRealmApp = new RealmApp();
 
         public LocalAppHolder(View itemView) {

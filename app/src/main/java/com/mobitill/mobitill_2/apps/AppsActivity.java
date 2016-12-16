@@ -55,7 +55,7 @@ public class AppsActivity extends AppCompatActivity {
         // Create the presenter
         DaggerAppsComponent.builder()
                 .appsPresenterModule(new AppsPresenterModule(appsFragment))
-                .appsRepositoryComponent(((MobitillApplication) getApplication()).getAppsRepositoryComponent())
+                .baseComponent(((MobitillApplication) getApplication()).getBaseComponent())
                 .build()
                 .inject(this);
     }
