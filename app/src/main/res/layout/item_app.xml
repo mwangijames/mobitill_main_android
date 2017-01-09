@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceListItem"
                 android:id="@+id/transactions"
-                android:text="100"/>
+                android:text="0"/>
         </LinearLayout>
 
         <View
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceListItem"
                 android:id="@id/total"
-                android:text="1000"/>
+                android:text="0"/>
 
         </LinearLayout>
 

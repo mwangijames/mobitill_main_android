@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,8 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     private RecyclerView.LayoutManager mLayoutManager;
     private AppAdapter mAppAdapter;
     private LocalAppAdapter mLocalAppAdapter;
+    private int mTransactions;
+    private double mTotal;
 
 
     private Unbinder mUnbinder;
@@ -106,10 +109,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
     @Override
     public void showRemoteApps(List<Datum> apps) {
+        // run sync
         MobitillSyncAdapter.initializeSyncAdapter(getActivity());
         if(isAdded()){
             if(mAppAdapter == null){
-                mAppAdapter = new AppAdapter(apps);
+                mAppAdapter = new AppAdapter(apps, getTransactions(), getTotal());
                 mRecyclerView.setAdapter(mAppAdapter);
             } else {
                 mAppAdapter.setApps(apps);
@@ -122,7 +126,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     public void showLocalApps(List<RealmApp> apps) {
         if(isAdded()){
             if(mLocalAppAdapter == null){
-                mLocalAppAdapter = new LocalAppAdapter(apps);
+                mLocalAppAdapter = new LocalAppAdapter(apps, getTransactions(), getTotal());
                 mRecyclerView.setAdapter(mLocalAppAdapter);
             } else {
                 mLocalAppAdapter.setApps(apps);
@@ -158,6 +162,28 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     public void onResponse(int code) {
         Toast.makeText(getActivity(), Integer.toString(code), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void showTransactions(int transactions) {
+        Log.i(TAG, "showTransactions: " + transactions);
+
+        mTransactions = transactions;
+    }
+
+    @Override
+    public void showTotal(double total) {
+        Log.i(TAG, "showTotal: " + total);
+        mTotal = total;
+    }
+
+    private double getTotal(){
+        return mTotal;
+    }
+
+    private int getTransactions(){
+        return mTransactions;
+    }
+
 
     @Override
     public void showLoadingIndicator(boolean show) {
@@ -209,9 +235,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
         }
 
-        public void bindAppName(Datum datum){
+        public void bindAppName(Datum datum, int transactions, double total){
             mAppName.setText(datum.getApp().getName());
             mDatum = datum;
+            mTransactionsTextView.setText(Integer.toString(transactions));
+            mTotalTextView.setText(Double.toString(total));
         }
 
         @Override
@@ -223,9 +251,13 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     private class AppAdapter extends RecyclerView.Adapter<AppHolder>{
 
         private List<Datum> mApps;
+        private int mTransactions;
+        private double mTotal;
 
-        public AppAdapter(List<Datum> apps){
+        public AppAdapter(List<Datum> apps, int transactions, double total){
             mApps = apps;
+            mTransactions = transactions;
+            mTotal = total;
         }
 
         @Override
@@ -238,7 +270,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         @Override
         public void onBindViewHolder(AppHolder holder, int position) {
             Datum datum = mApps.get(position);
-            holder.bindAppName(datum);
+            holder.bindAppName(datum, mTransactions, mTotal);
         }
 
         @Override
@@ -276,9 +308,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
             itemView.setOnClickListener(this);
         }
 
-        public void bindAppName(RealmApp app){
+        public void bindAppName(RealmApp app, int transactions, double total){
             mAppName.setText(app.getName());
             mRealmApp = app;
+            mTransactionsTextView.setText(Integer.toString(transactions));
+            mTotalTextView.setText(Double.toString(total));
         }
 
         @Override
@@ -290,9 +324,13 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     private class LocalAppAdapter extends RecyclerView.Adapter<LocalAppHolder>{
 
         private List<RealmApp> mApps;
+        private int mTransactions;
+        private double mTotal;
 
-        public LocalAppAdapter(List<RealmApp> apps){
+        public LocalAppAdapter(List<RealmApp> apps, int transactions, double total){
             mApps = apps;
+            mTransactions = transactions;
+            mTotal = total;
         }
 
         @Override
@@ -305,7 +343,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         @Override
         public void onBindViewHolder(LocalAppHolder holder, int position) {
             RealmApp realmApp = mApps.get(position);
-            holder.bindAppName(realmApp);
+            holder.bindAppName(realmApp, mTransactions, mTotal);
         }
 
         @Override

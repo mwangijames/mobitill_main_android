@@ -9,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class AppsContract {
         void showNoApps(boolean show);
         void showNoNetwork(boolean show);
         void onResponse(int code);
+        void showTransactions(int transactions);
+        void showTotal(double total);
         void showLoadingIndicator(boolean show);
         boolean isActive();
     }
@@ -32,6 +35,8 @@ public class AppsContract {
         void openAppDetails(@NonNull Datum requestedApp);
         void openAppDetails(@NonNull RealmApp requestedApp);
         void fetchApps(boolean forceUpdate);
+        void fetchReport(List<Long> range, String appId);
+        public void getTotal(List<HashMap<String, String>> report);
         String getFormattedDate(Date date);
         void performSync();
     }
