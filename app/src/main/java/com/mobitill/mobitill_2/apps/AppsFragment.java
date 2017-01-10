@@ -113,7 +113,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         MobitillSyncAdapter.initializeSyncAdapter(getActivity());
         if(isAdded()){
             if(mAppAdapter == null){
-                mAppAdapter = new AppAdapter(apps, getTransactions(), getTotal());
+                mAppAdapter = new AppAdapter(apps);
                 mRecyclerView.setAdapter(mAppAdapter);
             } else {
                 mAppAdapter.setApps(apps);
@@ -126,7 +126,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     public void showLocalApps(List<RealmApp> apps) {
         if(isAdded()){
             if(mLocalAppAdapter == null){
-                mLocalAppAdapter = new LocalAppAdapter(apps, getTransactions(), getTotal());
+                mLocalAppAdapter = new LocalAppAdapter(apps);
                 mRecyclerView.setAdapter(mLocalAppAdapter);
             } else {
                 mLocalAppAdapter.setApps(apps);
@@ -223,8 +223,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     class AppHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @Nullable  @BindView(R.id.app_name) TextView mAppName;
-        @BindView(R.id.transactions) TextView mTransactionsTextView;
-        @BindView(R.id.total) TextView mTotalTextView;
+
 
         Datum mDatum = new Datum();
 
@@ -235,11 +234,9 @@ public class AppsFragment extends Fragment implements AppsContract.View,
 
         }
 
-        public void bindAppName(Datum datum, int transactions, double total){
+        public void bindAppName(Datum datum){
             mAppName.setText(datum.getApp().getName());
             mDatum = datum;
-            mTransactionsTextView.setText(Integer.toString(transactions));
-            mTotalTextView.setText(Double.toString(total));
         }
 
         @Override
@@ -251,13 +248,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     private class AppAdapter extends RecyclerView.Adapter<AppHolder>{
 
         private List<Datum> mApps;
-        private int mTransactions;
-        private double mTotal;
 
-        public AppAdapter(List<Datum> apps, int transactions, double total){
+
+        public AppAdapter(List<Datum> apps){
             mApps = apps;
-            mTransactions = transactions;
-            mTotal = total;
+
         }
 
         @Override
@@ -270,7 +265,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         @Override
         public void onBindViewHolder(AppHolder holder, int position) {
             Datum datum = mApps.get(position);
-            holder.bindAppName(datum, mTransactions, mTotal);
+            holder.bindAppName(datum);
         }
 
         @Override
@@ -291,10 +286,6 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     class LocalAppHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         @BindView(R.id.app_name) TextView mAppName;
-
-        @BindView(R.id.transactions) TextView mTransactionsTextView;
-        @BindView(R.id.total) TextView mTotalTextView;
-
         RealmApp mRealmApp = new RealmApp();
 
         public LocalAppHolder(View itemView) {
@@ -311,8 +302,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         public void bindAppName(RealmApp app, int transactions, double total){
             mAppName.setText(app.getName());
             mRealmApp = app;
-            mTransactionsTextView.setText(Integer.toString(transactions));
-            mTotalTextView.setText(Double.toString(total));
+
         }
 
         @Override
@@ -324,13 +314,9 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     private class LocalAppAdapter extends RecyclerView.Adapter<LocalAppHolder>{
 
         private List<RealmApp> mApps;
-        private int mTransactions;
-        private double mTotal;
 
-        public LocalAppAdapter(List<RealmApp> apps, int transactions, double total){
+        public LocalAppAdapter(List<RealmApp> apps){
             mApps = apps;
-            mTransactions = transactions;
-            mTotal = total;
         }
 
         @Override

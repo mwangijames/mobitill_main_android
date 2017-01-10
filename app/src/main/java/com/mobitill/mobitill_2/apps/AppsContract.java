@@ -9,7 +9,6 @@ import com.mobitill.mobitill_2.data.models.apps.models.RealmApp;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,8 +34,6 @@ public class AppsContract {
         void openAppDetails(@NonNull Datum requestedApp);
         void openAppDetails(@NonNull RealmApp requestedApp);
         void fetchApps(boolean forceUpdate);
-        HashMap<String, String> fetchReport(List<Long> range, String appId);
-        public double getTotal(List<HashMap<String, String>> report);
         String getFormattedDate(Date date);
         void performSync();
     }
