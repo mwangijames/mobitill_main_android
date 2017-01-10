@@ -35,8 +35,8 @@ public class AppsContract {
         void openAppDetails(@NonNull Datum requestedApp);
         void openAppDetails(@NonNull RealmApp requestedApp);
         void fetchApps(boolean forceUpdate);
-        void fetchReport(List<Long> range, String appId);
-        public void getTotal(List<HashMap<String, String>> report);
+        HashMap<String, String> fetchReport(List<Long> range, String appId);
+        public double getTotal(List<HashMap<String, String>> report);
         String getFormattedDate(Date date);
         void performSync();
     }

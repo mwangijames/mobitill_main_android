@@ -43,6 +43,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
     private final Payload mPayload;
     private final Actions mActions;
     private final SettingsHelper mSettingsHelper;
+    private double mTotal = 0;
 
 
     private boolean mfirstLoad = true;
@@ -103,82 +104,8 @@ public final class AppsPresenter implements AppsContract.Presenter{
 
     }
 
-    @Override
-    public void fetchReport(List<Long> range, String appId) {
-        if(mPayload != null){
-            mPayload.setAction(mActions.QUERY);
-            mPayload.setModel("transactions");
-            mPayload.setPayload(mSettingsHelper.getReportsPayload(appId, range, new HashMap<String, String>()));
-            mPayload.setDemo(false);
-            mPayload.setAppid(appId);
-            if(mPayload.isEmpty()){
-                Log.i(TAG, "fetchReport: some payload fields are empty");
-            } else {
-                if(mGenericRepository!=null){
-                    mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
-                        @Override
-                        public void onDataLoaded(String data) {
-                            List<HashMap<String, String>> report = mSettingsHelper.getList(data);
-                            //// show the transactions here
-                            mAppsView.showTransactions(report.size());
-                            // calculate the total
-                            getTotal(report);
-                        }
-
-                        @Override
-                        public void onDataNotLoaded() {
-
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    @Override
-    public String getFormattedDate(Date date) {
-        return null;
-    }
-
-    @Override
-    public void getTotal(List<HashMap<String, String>> report) {
-        new CalculateTotal().execute(report);
-    }
-
-    private class CalculateTotal extends AsyncTask<List<HashMap<String, String>>, Void, Double> {
-
-        @Override
-        protected Double doInBackground(List<HashMap<String, String>>... params) {
-            List<HashMap<String, String>> reports = params[0];
-            Double total = 0d;
-            for(HashMap<String, String> item: reports){
-                for(HashMap.Entry<String, String> entry: item.entrySet()){
-                    if(entry.getKey().equalsIgnoreCase("total")){
-                        double value = Double.parseDouble(entry.getValue());
-                        total = total + value;
-                    }
-                }
-            }
-            return total;
-        }
-
-        @Override
-        protected void onPostExecute(Double aDouble) {
-            if(aDouble!=null){
-                NumberFormat formatter = NumberFormat.getCurrencyInstance();
-                DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) formatter).getDecimalFormatSymbols();
-                decimalFormatSymbols.setCurrencySymbol("");
-                ((DecimalFormat) formatter).setDecimalFormatSymbols(decimalFormatSymbols);
-                String totalString = formatter.format(aDouble);
-                // display the total
-                //mAppsView.showTotal(String.v);
-                mAppsView.showTotal(aDouble);
-            }
-
-        }
 
 
-    }
 
     @Override
     public void performSync() {
@@ -213,6 +140,8 @@ public final class AppsPresenter implements AppsContract.Presenter{
 
                     fetchReport(dates, app.getAppid());
                 }
+
+                // TODO: 1/9/2017 resume from calculate totals 
             }
 
             @Override
@@ -221,6 +150,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(false);
                 // loop through each application
+
                 for(Datum app: apps){
                     // fetch report for each application
                     List<Long> dates = new ArrayList<>();
@@ -246,4 +176,104 @@ public final class AppsPresenter implements AppsContract.Presenter{
             }
         });
     }
+
+
+    @Override
+    public HashMap<String, String> fetchReport(List<Long> range, String appId) {
+        final HashMap<String, String> reportItem = new HashMap<>();
+        if(mPayload != null){
+            mPayload.setAction(mActions.QUERY);
+            mPayload.setModel("transactions");
+            mPayload.setPayload(mSettingsHelper.getReportsPayload(appId, range, new HashMap<String, String>()));
+            mPayload.setDemo(false);
+            mPayload.setAppid(appId);
+            if(mPayload.isEmpty()){
+                Log.i(TAG, "fetchReport: some payload fields are empty");
+            } else {
+                if(mGenericRepository!=null){
+                    mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
+                        @Override
+                        public void onDataLoaded(String data) {
+                            List<HashMap<String, String>> report = mSettingsHelper.getList(data);
+                            //// show the transactions here
+                            mAppsView.showTransactions(report.size());
+                            // calculate the total
+                            reportItem.put("transactions", Integer.toString(report.size()));
+                            reportItem.put("total", Double.toString(getTotal(report)));
+                        }
+
+                        @Override
+                        public void onDataNotLoaded() {
+
+                        }
+                    });
+                }
+            }
+        }
+
+        return reportItem;
+    }
+
+    @Override
+    public String getFormattedDate(Date date) {
+        return null;
+    }
+
+    @Override
+    public double getTotal(List<HashMap<String, String>> report) {
+        final double[] total = {0};
+        new CalculateTotal(new CalculateTotal.AsyncResponse() {
+            @Override
+            public void processFinish(double output) {
+                total[0] = output;
+            }
+        }).execute(report);
+        return total[0];
+    }
+
+    private static class CalculateTotal extends AsyncTask<List<HashMap<String, String>>, Void, Double> {
+
+        public interface AsyncResponse{
+            void processFinish(double output);
+        }
+
+        public AsyncResponse delegate = null;
+
+        public CalculateTotal(AsyncResponse delegate){
+            this.delegate = delegate;
+        }
+
+        @Override
+        protected Double doInBackground(List<HashMap<String, String>>... params) {
+            List<HashMap<String, String>> reports = params[0];
+            Double total = 0d;
+            for(HashMap<String, String> item: reports){
+                for(HashMap.Entry<String, String> entry: item.entrySet()){
+                    if(entry.getKey().equalsIgnoreCase("total")){
+                        double value = Double.parseDouble(entry.getValue());
+                        total = total + value;
+                    }
+                }
+            }
+            return total;
+        }
+
+        @Override
+        protected void onPostExecute(Double aDouble) {
+            if(aDouble!=null){
+                NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                DecimalFormatSymbols decimalFormatSymbols = ((DecimalFormat) formatter).getDecimalFormatSymbols();
+                decimalFormatSymbols.setCurrencySymbol("");
+                ((DecimalFormat) formatter).setDecimalFormatSymbols(decimalFormatSymbols);
+                String totalString = formatter.format(aDouble);
+                // display the total
+                //mAppsView.showTotal(String.v);
+
+            }
+
+        }
+
+
+    }
+
 }
