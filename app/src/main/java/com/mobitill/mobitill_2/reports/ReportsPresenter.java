@@ -150,7 +150,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         String dateString = Integer.toString(day) + "-" + Integer.toString(month) + "-" + Integer.toString(year);
         return dateString;
