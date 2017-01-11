@@ -1,7 +1,6 @@
 package com.mobitill.mobitill_2.data.models.generic.local;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.mobitill.mobitill_2.data.models.generic.GenericController;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
@@ -34,25 +33,26 @@ public class GenericDataLocalDataSource implements GenericDataSource {
 
     @Override
     public void postData(Payload payload, @NonNull LoadDataCallBack callBack) {
-        List<LocalGeneric> data = mGenericController.getData(payload.getModel(), payload.getAppid());
-        if(data.isEmpty()){
-            callBack.onDataNotLoaded();
-        } else {
-            // create json string same as from server
-            try {
-                JSONObject dataObject = new JSONObject();
-                JSONArray jsonArray = new JSONArray();
-                for (int i = 0; i <  data.size(); i++) {
-                    jsonArray.put(data.get(i).getData());
+            List<LocalGeneric> data = mGenericController.getData(payload.getModel(), payload.getAppid());
+            if(data.isEmpty()){
+                callBack.onDataNotLoaded();
+            } else {
+                // create json string same as from server
+                try {
+                    JSONObject dataObject = new JSONObject();
+                    JSONArray jsonArray = new JSONArray();
+                    for (int i = 0; i <  data.size(); i++) {
+                        jsonArray.put(data.get(i).getData());
+                    }
+                    dataObject.put("data", jsonArray);
+                    String dataString = dataObject.toString();
+                    //Log.i(TAG, "postData: " + dataString);
+                    callBack.onDataLoaded(dataString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                dataObject.put("data", jsonArray);
-                String dataString = dataObject.toString();
-                Log.i(TAG, "postData: " + dataString);
-                callBack.onDataLoaded(dataString);
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
+
     }
 
     @Override

@@ -34,18 +34,23 @@ public class GenericRepository implements GenericDataSource {
     @Override
     public void postData(final Payload payload, @NonNull final LoadDataCallBack callBack) {
 
-        // query the local data source if available, if not query the remote data source
-        mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
-            @Override
-            public void onDataLoaded(String data) {
-                callBack.onDataLoaded(data);
-            }
+        if(payload.getModel().equalsIgnoreCase("transactions")){
+            getDataFromRemoteDataSource(payload, callBack);
+        } else {
+            // query the local data source if available, if not query the remote data source
+            mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
+                @Override
+                public void onDataLoaded(String data) {
+                    callBack.onDataLoaded(data);
+                }
 
-            @Override
-            public void onDataNotLoaded() {
-                getDataFromRemoteDataSource(payload, callBack);
-            }
-        });
+                @Override
+                public void onDataNotLoaded() {
+                    getDataFromRemoteDataSource(payload, callBack);
+                }
+            });
+        }
+
     }
 
     private void getDataFromRemoteDataSource(final Payload payload, final LoadDataCallBack callBack) {
@@ -90,21 +95,22 @@ public class GenericRepository implements GenericDataSource {
     }
 
     private void refreshLocalDataSource(Payload payload, String data) {
-
-            try {
-                JSONObject dataObject = new JSONObject(data);
-                JSONArray jsonArray = dataObject.getJSONArray("data");
-                // loop through saving each item to db
-                for(int i = 0; i < jsonArray.length(); i++){
-                    JSONObject item = jsonArray.getJSONObject(i);
-                    LocalGeneric localGeneric = new LocalGeneric();
-                    localGeneric.setAppid(payload.getAppid());
-                    localGeneric.setData(item.toString());
-                    localGeneric.setModelName(payload.getModel());
-                    mGenericLocalDataSource.saveItem(localGeneric);
+            if(!payload.getModel().equalsIgnoreCase("transactions")){
+                try {
+                    JSONObject dataObject = new JSONObject(data);
+                    JSONArray jsonArray = dataObject.getJSONArray("data");
+                    // loop through saving each item to db
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject item = jsonArray.getJSONObject(i);
+                        LocalGeneric localGeneric = new LocalGeneric();
+                        localGeneric.setAppid(payload.getAppid());
+                        localGeneric.setData(item.toString());
+                        localGeneric.setModelName(payload.getModel());
+                        mGenericLocalDataSource.saveItem(localGeneric);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
     }
 
