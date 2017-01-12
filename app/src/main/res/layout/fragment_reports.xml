@@ -65,37 +65,37 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/from"
+                            android:text="@string/date"
                             android:textSize="@dimen/report_small_text"
                             android:textColor="@color/colorTextDark"/>
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/from"
-                            android:textColor="@color/colorTextDark"
-                            android:textSize="@dimen/report_large_text"
-                            />
+                            android:gravity="center"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/from"
+                                android:textColor="@color/colorTextDarker"
+                                android:textSize="@dimen/report_large_text"
+                                android:textStyle="bold"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="---"
+                                android:textColor="@color/colorTextDarker"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/to"
+                                android:textColor="@color/colorTextDarker"
+                                android:textSize="@dimen/report_large_text"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
                     </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/to"
-                        android:textSize="@dimen/report_small_text"
-                        android:textColor="@color/colorTextDark"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/to"
-                        android:textColor="@color/colorTextDark"
-                        android:textSize="@dimen/report_large_text"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -139,8 +139,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/quantity"
-                                android:textColor="@color/colorTextDark"
+                                android:textColor="@color/colorTextDarker"
                                 android:textSize="@dimen/report_large_text"
+                                android:textStyle="bold"
                                 android:text="0"/>
                         </LinearLayout>
 
@@ -167,7 +168,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="@dimen/report_large_text"
-                                android:textColor="@color/colorTextDark"
+                                android:textColor="@color/colorTextDarker"
+                                android:textStyle="bold"
                                 android:id="@+id/total"
                                 android:text="0"/>
                         </LinearLayout>

@@ -1,6 +1,7 @@
 package com.mobitill.mobitill_2.reports;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -339,8 +340,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
             TextView name = new TextView(getActivity());
             name.setLayoutParams(textViewLayoutParams);
-            name.setTextColor(getResources().getColor(R.color.colorTextDark));
+            name.setTextColor(getResources().getColor(R.color.colorTextDarker));
             name.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.report_large_text));
+            name.setTypeface(null, Typeface.BOLD);
             name.setText(entry.getValue());
             linearLayout.addView(name);
 
