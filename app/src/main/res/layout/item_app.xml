@@ -5,6 +5,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/app_item"
                 android:gravity="center"
+              android:paddingTop="@dimen/padding_app_item"
+              android:paddingBottom="@dimen/padding_app_item"
+              android:layout_margin="@dimen/margin_1dp"
+
 
     >
 
@@ -13,14 +17,10 @@
             android:layout_height="wrap_content"
             android:minHeight="?android:attr/listPreferredItemHeight"
             android:gravity="center"
-            android:textColor="@color/colorTextDark"
+            android:textColor="@color/colorTextLight"
             android:textAppearance="?android:textAppearanceListItem"
             android:id="@+id/app_name"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorLine"/>
 
 </LinearLayout>

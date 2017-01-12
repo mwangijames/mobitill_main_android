@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +25,7 @@ import com.mobitill.mobitill_2.reports.ReportsActivity;
 
 import java.util.List;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -45,6 +46,7 @@ public class AppsFragment extends Fragment implements AppsContract.View,
     @BindView(R.id.progress_bar) ProgressBar mProgressBar;
     @BindView(R.id.no_network) TextView mNoNetworkTextView;
     @BindView(R.id.no_products) TextView mNoAppsTextView;
+    @BindInt(R.integer.num_columns) int columns;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private AppAdapter mAppAdapter;
@@ -80,7 +82,8 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         mUnbinder = ButterKnife.bind(this, view);
         mAppsPresenter.fetchApps(false);
 
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+//        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        mLayoutManager = new GridLayoutManager(getActivity(), columns);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
         mAppsPresenter.start();

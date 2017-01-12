@@ -4,4 +4,6 @@
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively). -->
     <dimen name="activity_horizontal_margin">64dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <integer name="num_columns">4</integer>
+    <dimen name="padding_app_item">48dp</dimen>
 </resources>
