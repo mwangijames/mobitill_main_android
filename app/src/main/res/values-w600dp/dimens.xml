@@ -2,4 +2,5 @@
 <resources>
     <integer name="num_columns">3</integer>
     <dimen name="padding_app_item">32dp</dimen>
+    <dimen name="activity_horizontal_margin">32dp</dimen>
 </resources>

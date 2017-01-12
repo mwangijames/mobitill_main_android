@@ -333,14 +333,14 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
             TextView label = new TextView(getActivity());
             label.setLayoutParams(textViewLayoutParams);
-            label.setTextColor(getResources().getColor(R.color.colorTextDark));
+            label.setTextColor(getResources().getColor(R.color.colorTextLight));
             label.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.report_small_text));
             label.setText(entry.getKey());
             linearLayout.addView(label);
 
             TextView name = new TextView(getActivity());
             name.setLayoutParams(textViewLayoutParams);
-            name.setTextColor(getResources().getColor(R.color.colorTextDarker));
+            name.setTextColor(getResources().getColor(R.color.colorTextLight));
             name.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen.report_large_text));
             name.setTypeface(null, Typeface.BOLD);
             name.setText(entry.getValue());

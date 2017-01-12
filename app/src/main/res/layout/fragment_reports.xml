@@ -1,187 +1,186 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:background="@color/colorPrimary">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/no_network"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="No Network. Check Your Connection"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_24dp"
+            android:orientation="vertical">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:id="@+id/progress_bar"
-            android:visibility="gone"
-            android:paddingTop="@dimen/padding_8dp"
-            android:layout_gravity="top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_network"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="No Network. Check Your Connection"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:orientation="vertical"
-                      android:id="@+id/report_layout"
-                      android:layout_marginTop="@dimen/margin_24dp"
-                      tools:context="com.mobitill.mobitill_2.reports.ReportsFragment">
-
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:id="@+id/progress_bar"
+                android:visibility="gone"
+                android:paddingTop="@dimen/padding_8dp"
                 android:layout_gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_8dp"
-                android:layout_marginLeft="@dimen/margin_8dp"
-                android:layout_marginRight="@dimen/margin_8dp"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:orientation="vertical"
-                card_view:cardCornerRadius="1dp"
-                android:elevation="@dimen/elevation_16dp">
+                android:indeterminate="true"/>
 
-                <!--start show query parameters-->
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="match_parent"
+                          android:orientation="vertical"
+                          android:id="@+id/report_layout"
+                          android:layout_marginTop="@dimen/margin_24dp"
+                          tools:context="com.mobitill.mobitill_2.reports.ReportsFragment">
+
                 <LinearLayout
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_8dp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/padding_16dp"
-                    android:paddingBottom="@dimen/padding_16dp"
-                    >
+                    android:elevation="@dimen/elevation_16dp">
 
+                    <!--start show query parameters-->
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date"
-                            android:textSize="@dimen/report_small_text"
-                            android:textColor="@color/colorTextDark"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/from"
-                                android:textColor="@color/colorTextDarker"
-                                android:textSize="@dimen/report_large_text"
-                                android:textStyle="bold"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="---"
-                                android:textColor="@color/colorTextDarker"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/to"
-                                android:textColor="@color/colorTextDarker"
-                                android:textSize="@dimen/report_large_text"
-                                android:textStyle="bold"/>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="@dimen/padding_24dp"
-                    android:id="@+id/filter_items">
-
-                </LinearLayout>
-                    <!--end show query parameters-->
-
-                    <!--horizontal divider-->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLine"/>
-
-                    <!--start show transactions and total-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/padding_24dp">
-
+                        android:paddingTop="@dimen/padding_16dp"
+                        android:paddingBottom="@dimen/padding_16dp"
+                        >
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical"
-
-                            android:gravity="center"
-                            >
+                            android:gravity="center">
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/quantity"
+                                android:text="@string/date"
                                 android:textSize="@dimen/report_small_text"
-                                android:textColor="@color/colorTextDark"/>
-                            <TextView
-                                android:layout_width="wrap_content"
+                                android:textColor="@color/colorTextLight"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/quantity"
-                                android:textColor="@color/colorTextDarker"
-                                android:textSize="@dimen/report_large_text"
-                                android:textStyle="bold"
-                                android:text="0"/>
+                                android:gravity="center"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/from"
+                                    android:textColor="@color/colorTextLight"
+                                    android:textSize="@dimen/report_large_text"
+                                    android:textStyle="bold"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="---"
+                                    android:textColor="@color/colorTextLight"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/to"
+                                    android:textColor="@color/colorTextLight"
+                                    android:textSize="@dimen/report_large_text"
+                                    android:textStyle="bold"/>
+                            </LinearLayout>
+
                         </LinearLayout>
 
-                        <!--vertical divider-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingBottom="@dimen/padding_24dp"
+                            android:id="@+id/filter_items">
+
+                        </LinearLayout>
+                        <!--end show query parameters-->
+
+                        <!--horizontal divider-->
                         <View
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
                             android:background="@color/colorLine"/>
 
+                        <!--start show transactions and total-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center"
-                            >
-                            <TextView
-                                android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/padding_24dp">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/report_small_text"
-                                android:textColor="@color/colorTextDark"
-                                android:text="@string/total"/>
-                            <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+
+                                android:gravity="center"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/quantity"
+                                    android:textSize="@dimen/report_small_text"
+                                    android:textColor="@color/colorTextLight"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/quantity"
+                                    android:textColor="@color/colorTextLight"
+                                    android:textSize="@dimen/report_large_text"
+                                    android:textStyle="bold"
+                                    android:text="0"/>
+                            </LinearLayout>
+
+                            <!--vertical divider-->
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorLine"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/report_large_text"
-                                android:textColor="@color/colorTextDarker"
-                                android:textStyle="bold"
-                                android:id="@+id/total"
-                                android:text="0"/>
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/report_small_text"
+                                    android:textColor="@color/colorTextLight"
+                                    android:text="@string/total"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="@dimen/report_large_text"
+                                    android:textColor="@color/colorTextLight"
+                                    android:textStyle="bold"
+                                    android:id="@+id/total"
+                                    android:text="0"/>
+                            </LinearLayout>
                         </LinearLayout>
+                        <!--end show transactions and total-->
+
                     </LinearLayout>
-                    <!--end show transactions and total-->
-
                 </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
+            </LinearLayout>
         </LinearLayout>
 
 
-    </FrameLayout>
-</ScrollView>
+</FrameLayout>
