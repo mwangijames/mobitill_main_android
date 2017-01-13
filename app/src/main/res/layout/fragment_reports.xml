@@ -20,15 +20,7 @@
                 android:visibility="gone"
                 android:text="No Network. Check Your Connection"/>
 
-            <ProgressBar
-                style="?android:attr/progressBarStyleSmall"
-                android:id="@+id/progress_bar"
-                android:visibility="gone"
-                android:paddingTop="@dimen/padding_8dp"
-                android:layout_gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"/>
+
 
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="match_parent"
@@ -182,5 +174,14 @@
             </LinearLayout>
         </LinearLayout>
 
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:paddingTop="@dimen/padding_8dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"/>
 
 </FrameLayout>
