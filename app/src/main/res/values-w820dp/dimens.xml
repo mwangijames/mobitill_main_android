@@ -6,4 +6,5 @@
     <dimen name="fab_margin">24dp</dimen>
     <integer name="num_columns">4</integer>
     <dimen name="padding_app_item">48dp</dimen>
+    <dimen name="column_width">250dp</dimen>
 </resources>

@@ -12,7 +12,6 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.mobitill.mobitill_2.R;
-import com.mobitill.mobitill_2.utils.DpPixelsConversion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +64,12 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
             int padding = mContext.getResources().getDimensionPixelOffset(R.dimen.padding_16dp);
 
-            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(1400),
+//            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(1400),
+//                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+//            testing on table layout
+            ViewGroup.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(Math.round(mContext.getResources().getDimension(R.dimen.column_width)),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
             LinearLayout linearLayout = new LinearLayout(mContext);

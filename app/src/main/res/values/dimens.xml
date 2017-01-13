@@ -35,4 +35,6 @@
     <!-- grid -->
     <integer name="num_columns">2</integer>
 
+    <dimen name="column_width">120dp</dimen>
+
 </resources>

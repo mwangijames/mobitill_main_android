@@ -3,4 +3,5 @@
     <integer name="num_columns">3</integer>
     <dimen name="padding_app_item">40dp</dimen>
     <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="column_width">218dp</dimen>
 </resources>
