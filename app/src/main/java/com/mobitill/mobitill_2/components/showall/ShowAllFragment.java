@@ -71,6 +71,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     private RecyclerView.LayoutManager mLayoutManager;
     private ActionMode mActionMode;
     private Boolean mIsInventory;
+    private Boolean mIsColumnView;
     /** to prevent multiple calls to inflate menu */
     private boolean mMenuIsInflated;
 
@@ -97,7 +98,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
         }
-
+        mIsColumnView = true;
         mIsInventory = mShowAllUtils.getModel().equalsIgnoreCase("inventory");
     }
 
@@ -139,9 +140,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
         if(!mMenuIsInflated){
             inflater.inflate(R.menu.show_all_menu, menu);
-
             hideLogItem(menu);
             mMenuIsInflated = true;
+        } else {
+            inflater.inflate(R.menu.show_all_menu, menu);
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -175,9 +177,20 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 //                    item.setIcon(R.drawable.ic_list);
                     item.setTitle(R.string.action_list);
                 }
+                break;
+            case R.id.action_list:
+                Toast.makeText(getActivity(), "Show Vertical", Toast.LENGTH_SHORT).show();
+                mIsColumnView = false;
+                mShowAllAdapter.setColumn(mIsColumnView);
+                showHeader(mItems.get(0), false);
+                break;
+            case R.id.action_column:
+                Toast.makeText(getActivity(), "Show Horizontal", Toast.LENGTH_SHORT).show();
+                mIsColumnView = true;
+                mShowAllAdapter.setColumn(mIsColumnView);
+                showHeader(mItems.get(0), mIsColumnView);
+                break;
 
-                //Toast.makeText(getActivity(), "logs", Toast.LENGTH_SHORT).show();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -279,33 +292,34 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     }
 
     @Override
-    public void showHeader(HashMap<String, String> item) {
+    public void showHeader(HashMap<String, String> item, boolean show) {
+        if(show){
+            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+            int padding = getActivity().getResources().getDimensionPixelOffset(R.dimen.padding_8dp);
+            mHeaderLayout.setVisibility(View.VISIBLE);
+            mHeaderLayout.setLayoutParams(layoutParams);
+            mHeaderLayout.setPadding(0, 0, padding, 0);
+            mHeaderLayout.removeAllViews();
 
-        int padding = getActivity().getResources().getDimensionPixelOffset(R.dimen.padding_8dp);
-
-
-        mHeaderLayout.setLayoutParams(layoutParams);
-        mHeaderLayout.setPadding(0, 0, padding, 0);
-        mHeaderLayout.removeAllViews();
-
-        for(HashMap.Entry<String, String> entry : item.entrySet()){
-            if(!entry.getKey().equalsIgnoreCase("id")){
-                TextView keyTextView = new TextView(getActivity());
-                keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
-                // keyTextView.setPadding(padding, 0, 0, 0);
-                keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
-                //keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
-                // running tests
-                keyTextView.setLayoutParams(new TableRow.LayoutParams(Math.round(getActivity().getResources().getDimension(R.dimen.column_width)), ViewGroup.LayoutParams.WRAP_CONTENT));
-                keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-                keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-                mHeaderLayout.addView(keyTextView);
+            for(HashMap.Entry<String, String> entry : item.entrySet()){
+                if(!entry.getKey().equalsIgnoreCase("id")){
+                    TextView keyTextView = new TextView(getActivity());
+                    keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
+                    // keyTextView.setPadding(padding, 0, 0, 0);
+                    keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
+                    //keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
+                    // running tests
+                    keyTextView.setLayoutParams(new TableRow.LayoutParams(Math.round(getActivity().getResources().getDimension(R.dimen.column_width)), ViewGroup.LayoutParams.WRAP_CONTENT));
+                    keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                    keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+                    mHeaderLayout.addView(keyTextView);
+                }
             }
+        } else {
+            mHeaderLayout.setVisibility(View.GONE);
         }
-
 
     }
 

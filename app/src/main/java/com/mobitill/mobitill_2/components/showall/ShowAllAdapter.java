@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
     private Context mContext;
     private SparseBooleanArray mSelectedItemsIds;
     private Boolean mIsSelectable;
+    private Boolean mIsColumn;
 
     ShowAllAdapter(List<HashMap<String, String>> items,
                    Context context, boolean isSelectable){
@@ -33,6 +35,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
         mContext = context;
         mSelectedItemsIds = new SparseBooleanArray();
         mIsSelectable = isSelectable;
+        mIsColumn = true;
     }
 
     @Override
@@ -44,16 +47,25 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
     @Override
     public void onBindViewHolder(ShowAllHolder holder, int position) {
+
+        // TODO: 1/13/2017 resume from switching between layouts 
         HashMap<String, String> item = mItems.get(position);
 
         //LinearLayout mLinearLayout = new LinearLayout(mContext);
-
         LinearLayout.LayoutParams linLayoutParams = new LinearLayout
-                .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         LinearLayout rootLayout = new LinearLayout(mContext);
-        rootLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        if(mIsColumn){
+            rootLayout.setOrientation(LinearLayout.HORIZONTAL);
+        } else {
+            linLayoutParams = new LinearLayout
+                    .LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            rootLayout.setOrientation(LinearLayout.VERTICAL);
+        }
         rootLayout.setLayoutParams(linLayoutParams);
 
         holder.mRootLayout.removeAllViews();
@@ -64,38 +76,49 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
             int padding = mContext.getResources().getDimensionPixelOffset(R.dimen.padding_16dp);
 
-//            ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(DpPixelsConversion.pxToDp(1400),
-//                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
 //            testing on table layout
             ViewGroup.LayoutParams layoutParams =
                     new LinearLayout.LayoutParams(Math.round(mContext.getResources().getDimension(R.dimen.column_width)),
                     ViewGroup.LayoutParams.WRAP_CONTENT);
+            if(!mIsColumn){
+
+                layoutParams =
+                        new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT);
+            }
 
             LinearLayout linearLayout = new LinearLayout(mContext);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setLayoutParams(layoutParams);
             linearLayout.setPadding(0, 0, padding, 0);
-            //linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+
             linearLayout.removeAllViews();
 
-//            TextView keyTextView = new TextView(mContext);
-//            keyTextView.setText(entry.getKey());
-//            keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
-//            keyTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-//            linearLayout.addView(keyTextView);
+            if(!mIsColumn){
+                TextView keyTextView = new TextView(mContext);
+                keyTextView.setText(entry.getKey());
+                linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+                linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+                keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
+                keyTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
+                linearLayout.addView(keyTextView);
+            }
 
             if(!entry.getKey().equalsIgnoreCase("id")){
                 TextView valueTextView = new TextView(mContext);
                 valueTextView.setText(entry.getValue());
                 valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
-                valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                if(!mIsColumn){
+                    valueTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f));
+                } else {
+                    valueTextView.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                }
+
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
                 linearLayout.addView(valueTextView);
                 rootLayout.addView(linearLayout);
             }
-
-
 
         }
 
@@ -115,6 +138,11 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
     public void setItems(List<HashMap<String, String>> items){
         mItems = items;
+        notifyDataSetChanged();
+    }
+
+    public void setColumn(boolean isColumn){
+        mIsColumn = isColumn;
         notifyDataSetChanged();
     }
 

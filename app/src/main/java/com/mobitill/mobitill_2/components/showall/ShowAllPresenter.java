@@ -98,7 +98,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                                    List<HashMap<String, String>> emptyItems = new ArrayList<HashMap<String, String>>();
                                    mView.show(emptyItems);
                                 } else {
-                                    mView.showHeader(items.get(0));
+                                    mView.showHeader(items.get(0), true);
                                     mView.show(items);
                                     mView.showEmpty(false);
                                 }
@@ -156,7 +156,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                                     List<HashMap<String, String>> emptyItems = new ArrayList<HashMap<String, String>>();
                                     mView.show(emptyItems);
                                 } else {
-                                    mView.showHeader(items.get(0));
+                                    mView.showHeader(items.get(0), true);
                                     mView.show(items);
                                     mView.showEmpty(false);
 

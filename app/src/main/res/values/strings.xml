@@ -36,6 +36,7 @@
     <string name="sync_account_type">mobitill.com</string>
     <string name="content_authority">com.mobitill.mobitill_2</string>
     <string name="date">Date</string>
+    <string name="menu_list">List</string>
 
 
 </resources>

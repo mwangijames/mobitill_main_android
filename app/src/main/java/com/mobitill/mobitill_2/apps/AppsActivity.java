@@ -79,4 +79,3 @@ public class AppsActivity extends AppCompatActivity {
     }
 
 }
-
