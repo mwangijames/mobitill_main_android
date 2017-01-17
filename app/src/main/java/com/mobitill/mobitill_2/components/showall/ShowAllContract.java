@@ -23,7 +23,7 @@ public interface ShowAllContract {
         void showItemDeleted(HashMap<String, String> item);
         void showItemDeleteFailed();
         void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item);
-        void showHeader(HashMap<String, String> item, boolean show);
+        void showHeader(HashMap<String, String> item);
     }
 
     interface Presenter extends BasePresenter{

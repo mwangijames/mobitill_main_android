@@ -54,6 +54,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     private static final String TAG = ShowAllFragment.class.getSimpleName();
     private static final String ARGS_SHOW_ALL_UTILS = "args_show_all_utils";
+    private static final String ARGS_IS_COLUMN = "args_is_column";
 
     private ShowAllUtils mShowAllUtils;
     private Unbinder mUnbinder;
@@ -81,7 +82,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     }
 
     public static ShowAllFragment newInstance(ShowAllUtils showAllUtils) {
-
         Bundle args = new Bundle();
         args.putSerializable(ARGS_SHOW_ALL_UTILS, showAllUtils);
         ShowAllFragment fragment = new ShowAllFragment();
@@ -95,8 +95,10 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
         setHasOptionsMenu(true);
         if(savedInstanceState == null){
             mShowAllUtils = (ShowAllUtils) getArguments().getSerializable(ARGS_SHOW_ALL_UTILS);
+            mIsColumnView = getArguments().getBoolean(ARGS_IS_COLUMN);
         } else {
             mShowAllUtils = (ShowAllUtils) savedInstanceState.getSerializable(ARGS_SHOW_ALL_UTILS);
+            mIsColumnView = savedInstanceState.getBoolean(ARGS_IS_COLUMN);
         }
         mIsColumnView = true;
         mIsInventory = mShowAllUtils.getModel().equalsIgnoreCase("inventory");
@@ -106,6 +108,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(ARGS_SHOW_ALL_UTILS, mShowAllUtils);
+        outState.putSerializable(ARGS_IS_COLUMN, mIsColumnView);
         super.onSaveInstanceState(outState);
     }
 
@@ -182,13 +185,13 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 Toast.makeText(getActivity(), "Show Vertical", Toast.LENGTH_SHORT).show();
                 mIsColumnView = false;
                 mShowAllAdapter.setColumn(mIsColumnView);
-                showHeader(mItems.get(0), false);
+                showHeader(mItems.get(0));
                 break;
             case R.id.action_column:
                 Toast.makeText(getActivity(), "Show Horizontal", Toast.LENGTH_SHORT).show();
                 mIsColumnView = true;
                 mShowAllAdapter.setColumn(mIsColumnView);
-                showHeader(mItems.get(0), mIsColumnView);
+                showHeader(mItems.get(0));
                 break;
 
         }
@@ -292,8 +295,8 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     }
 
     @Override
-    public void showHeader(HashMap<String, String> item, boolean show) {
-        if(show){
+    public void showHeader(HashMap<String, String> item) {
+        if(mIsColumnView){
             ViewGroup.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
 
