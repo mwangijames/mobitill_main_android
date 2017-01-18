@@ -27,7 +27,7 @@ public class MobitillApplication extends SugarApp {
 
         mInstance = this;
 
-        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Roboto-Condensed.ttf");
+        FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Roboto-Regular.ttf");
 
 
         mBaseComponent = DaggerBaseComponent.builder()

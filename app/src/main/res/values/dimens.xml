@@ -36,5 +36,6 @@
     <integer name="num_columns">2</integer>
 
     <dimen name="column_width">120dp</dimen>
+    <dimen name="elevation_2dp">2dp</dimen>
 
 </resources>

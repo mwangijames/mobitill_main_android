@@ -67,7 +67,6 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             rootLayout.setOrientation(LinearLayout.VERTICAL);
         }
         rootLayout.setLayoutParams(linLayoutParams);
-
         holder.mRootLayout.removeAllViews();
         for(HashMap.Entry<String, String> entry : item.entrySet()){
 
@@ -107,7 +106,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             if(!entry.getKey().equalsIgnoreCase("id")){
                 TextView valueTextView = new TextView(mContext);
                 valueTextView.setText(entry.getValue());
-                valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
+                valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDarker));
 
                 if(!mIsColumn){
                     valueTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f));
@@ -116,6 +115,9 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
                 }
 
                 valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+
+
+
                 linearLayout.addView(valueTextView);
                 rootLayout.addView(linearLayout);
             }

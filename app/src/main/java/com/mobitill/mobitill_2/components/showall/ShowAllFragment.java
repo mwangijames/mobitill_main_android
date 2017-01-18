@@ -248,8 +248,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     }
 
-
-
     @Override
     public void showItemDeleted(HashMap<String, String> item) {
         Toast.makeText(getActivity(), R.string.delete_success, Toast.LENGTH_SHORT).show();
@@ -277,7 +275,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             int padding = getActivity().getResources().getDimensionPixelOffset(R.dimen.padding_8dp);
             mHeaderLayout.setVisibility(View.VISIBLE);
             mHeaderLayout.setLayoutParams(layoutParams);
-            mHeaderLayout.setPadding(0, 0, padding, 0);
+            mHeaderLayout.setPadding(padding, padding, padding, 0);
             mHeaderLayout.removeAllViews();
 
             for(HashMap.Entry<String, String> entry : item.entrySet()){
@@ -285,11 +283,11 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                     TextView keyTextView = new TextView(getActivity());
                     keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
                     // keyTextView.setPadding(padding, 0, 0, 0);
-                    keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextBlack));
+                    keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextDark));
                     //keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
                     // running tests
                     keyTextView.setLayoutParams(new TableRow.LayoutParams(Math.round(getActivity().getResources().getDimension(R.dimen.column_width)), ViewGroup.LayoutParams.WRAP_CONTENT));
-                    keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                    keyTextView.setPaintFlags(keyTextView.getPaintFlags()| Paint.FAKE_BOLD_TEXT_FLAG);
                     keyTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
                     mHeaderLayout.addView(keyTextView);
                 }
@@ -364,7 +362,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
     @Override
     public void delete() {
         SparseBooleanArray selected = mShowAllAdapter.getSelectedIds();
-
         // loop all selected items
         for(int i = (selected.size() -1); i>=0; i--){
             if(selected.valueAt(i)){

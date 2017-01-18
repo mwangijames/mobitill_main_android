@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:paddingTop="@dimen/padding_8dp"
+             android:background="@color/colorBackground"
              xmlns:card_view="http://schemas.android.com/apk/res-auto"
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
     <TextView
@@ -39,42 +39,64 @@
             android:text="@string/error"/>
     </LinearLayout>
 
+
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
         android:fillViewport="true"
         >
-            <LinearLayout
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_8dp"
-                android:paddingRight="@dimen/padding_8dp"
-                >
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_8dp"
+                android:layout_marginRight="@dimen/margin_16dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:cardElevation="@dimen/elevation_16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/header_layout"
-                    android:orientation="horizontal"
-                    />
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/padding_8dp"
+                    android:paddingRight="@dimen/padding_8dp"
+                    >
 
-                <!--<View-->
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/header_layout"
+                        android:orientation="horizontal"
+                        />
+
+                    <!--<View-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="1dp"-->
                     <!--android:background="@color/colorTextDark"/>-->
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/recycler_view"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"/>
-            </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/recycler_view"
+                        android:scrollbarStyle="insideInset"
+                        android:scrollbars="vertical"/>
 
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </FrameLayout>
 
     </HorizontalScrollView>
+
+
+
 
     <ProgressBar
         android:id="@+id/progress_bar"
