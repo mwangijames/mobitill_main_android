@@ -90,7 +90,8 @@ public class AddEditActivity extends AppCompatActivity {
         if(mShowAllUtils != null){
             if(mSharedPreferences != null ){
                 String title = mSharedPreferences.getString(mConstants.APPNAME, null);
-                actionBar.setTitle(title + ": " + mShowAllUtils.getModel().toUpperCase());
+                actionBar.setTitle(mShowAllUtils.getModel().toUpperCase());
+                actionBar.setSubtitle(title);
             }
         } else {
             if(mSharedPreferences != null){

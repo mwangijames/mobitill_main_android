@@ -28,11 +28,9 @@ import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 import com.mobitill.mobitill_2.components.addedit.AddEditActivity;
-import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.RecyclerClickListener;
 import com.mobitill.mobitill_2.utils.RecyclerTouchListener;
-import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -140,47 +138,24 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        if(!mMenuIsInflated){
-            inflater.inflate(R.menu.show_all_menu, menu);
-            hideLogItem(menu);
-            mMenuIsInflated = true;
-        } else {
-            inflater.inflate(R.menu.show_all_menu, menu);
-        }
-
+        inflater.inflate(R.menu.show_all_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void hideLogItem(Menu menu) {
-        SettingsHelper settingsHelper = new SettingsHelper();
-        MenuItem menuItem = menu.findItem(R.id.action_logs);
-        if(!mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
-            getActivity().invalidateOptionsMenu();
-            menuItem.setVisible(false);
-        }
-
-
-    }
+//    private void hideLogItem(Menu menu) {
+//        SettingsHelper settingsHelper = new SettingsHelper();
+//        MenuItem menuItem = menu.findItem(R.id.action_logs);
+//        if(!mShowAllUtils.getModel().equalsIgnoreCase("inventory")){
+//            getActivity().invalidateOptionsMenu();
+//            menuItem.setVisible(false);
+//        }
+//
+//
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()){
-            case R.id.action_logs:
-                Actions actions = new Actions();
-                if (item.isChecked()) {
-                    mPresenter.fetch();
-                    item.setChecked(false);
-//                    item.setIcon(R.drawable.ic_logs);
-                    item.setTitle(R.string.action_logs);
-                } else {
-                    mPresenter.fetch(actions.LOG);
-                    item.setChecked(true);
-//                    item.setIcon(R.drawable.ic_list);
-                    item.setTitle(R.string.action_list);
-                }
-                break;
             case R.id.action_list:
                 Toast.makeText(getActivity(), "Show Vertical", Toast.LENGTH_SHORT).show();
                 mIsColumnView = false;
@@ -193,7 +168,6 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                 mShowAllAdapter.setColumn(mIsColumnView);
                 showHeader(mItems.get(0));
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);

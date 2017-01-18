@@ -49,9 +49,6 @@ public class ShowAllActivity extends AppCompatActivity {
     public static final String EXTRA_APP_SETTINGS = "extra_app_settings";
     public static final String ARGS_APP_SETTINGS= "args_app_settings";
 
-
-
-
     private SharedPreferences mSharedPreferences;
     private Constants mConstants;
     private ShowAllUtils mShowAllUtils;
@@ -111,7 +108,8 @@ public class ShowAllActivity extends AppCompatActivity {
         if(mShowAllUtils != null){
             if(mSharedPreferences != null ){
                 String title = mSharedPreferences.getString(mConstants.APPNAME, null);
-                actionBar.setTitle(title + ": " + mShowAllUtils.getModel().toUpperCase());
+                actionBar.setTitle(mShowAllUtils.getModel().toUpperCase());
+                actionBar.setSubtitle(title);
             }
         } else {
             if(mSharedPreferences != null){

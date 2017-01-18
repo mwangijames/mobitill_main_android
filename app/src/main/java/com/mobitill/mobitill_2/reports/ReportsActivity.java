@@ -111,7 +111,8 @@ public class ReportsActivity extends AppCompatActivity {
 
         if(mSharedPreferences != null){
             String title = mSharedPreferences.getString(mConstants.APPNAME, null);
-            ab.setTitle(title + ": Reports");
+            ab.setSubtitle(title);
+            ab.setTitle("Reports");
         } else {
             ab.setTitle("Reports");
         }
