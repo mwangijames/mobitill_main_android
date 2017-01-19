@@ -1,5 +1,6 @@
 package com.mobitill.mobitill_2.components.showall;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.components.ShowAllUtils;
@@ -7,6 +8,7 @@ import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
+import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
     private final Payload mPayload;
     private final SettingsHelper mSettingsHelper;
     private final Actions mActions;
+    private final Context mContext;
 
     @Inject
     ShowAllPresenter(ShowAllContract.View view,
@@ -36,13 +39,15 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                      GenericRepository genericRepository,
                      Payload payload,
                      SettingsHelper settingsHelper,
-                     Actions actions){
+                     Actions actions,
+                     Context context){
         mView = view;
         mShowAllUtils = showAllUtils;
         mGenericRepository = genericRepository;
         mPayload = payload;
         mSettingsHelper = settingsHelper;
         mActions = actions;
+        mContext = context;
     }
 
     /**
@@ -201,6 +206,7 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                                     @Override
                                     public void onDataLoaded(String data) {
                                         mView.showItemDeleted(item);
+                                        MobitillSyncAdapter.syncImmediately(mContext);
                                     }
 
                                     @Override

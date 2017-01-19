@@ -1,5 +1,6 @@
 package com.mobitill.mobitill_2.components.addedit;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -8,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
+import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import org.json.JSONException;
@@ -31,6 +33,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     private final Payload mPayload;
     private final SettingsHelper mSettingsHelper;
     private final Actions mActions;
+    private final Context mContext;
     @Nullable private final HashMap<String, String> mItem;
 
     @Inject
@@ -41,7 +44,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             Payload payload,
             SettingsHelper settingsHelper,
             Actions actions,
-            @Nullable HashMap<String, String> item
+            @Nullable HashMap<String, String> item,
+            Context context
     ){
         mView = view;
         mShowAllUtils = showAllUtils;
@@ -50,6 +54,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
         mSettingsHelper = settingsHelper;
         mActions = actions;
         mItem = item;
+        mContext = context;
     }
 
 
@@ -95,6 +100,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                                     public void onDataLoaded(String data) {
                                         mView.showSuccess(true);
                                         mView.showLoading(false);
+                                        MobitillSyncAdapter.syncImmediately(mContext);
                                         openShowAll();
                                     }
 
@@ -226,6 +232,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                                     public void onDataLoaded(String data) {
                                         mView.showSuccess(true);
                                         mView.showLoading(false);
+                                        MobitillSyncAdapter.syncImmediately(mContext);
                                         openShowAll();
                                     }
 

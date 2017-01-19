@@ -8,12 +8,23 @@
                 >
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_8dp"
-        android:id="@+id/root"
-        />
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_8dp"
+            android:id="@+id/root"
+            />
+
+    </LinearLayout>
+
+
 
     <View
         android:layout_width="match_parent"

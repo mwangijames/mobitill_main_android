@@ -2,13 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/action_column"
+          android:title="Column"
+          android:icon="@drawable/ic_view_column"
+          app:showAsAction="always"/>
+
     <item android:id="@+id/action_list"
           android:title="@string/menu_list"
           android:icon="@drawable/ic_view_list"
           app:showAsAction="always"/>
 
-    <item android:id="@+id/action_column"
-          android:title="Column"
-          android:icon="@drawable/ic_view_column"
-          app:showAsAction="always"/>
 </menu>

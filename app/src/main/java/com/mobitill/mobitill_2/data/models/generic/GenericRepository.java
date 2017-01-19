@@ -37,18 +37,34 @@ public class GenericRepository implements GenericDataSource {
         if(payload.getModel().equalsIgnoreCase("transactions")){
             getDataFromRemoteDataSource(payload, callBack);
         } else {
-            // query the local data source if available, if not query the remote data source
-            mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
-                @Override
-                public void onDataLoaded(String data) {
-                    callBack.onDataLoaded(data);
-                }
+            Actions actions = new Actions();
+            if(payload.getAction().equalsIgnoreCase(actions.FETCH)){
+                // query the local data source if available, if not query the remote data source
+                mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
+                    @Override
+                    public void onDataLoaded(String data) {
+                        callBack.onDataLoaded(data);
+                    }
 
-                @Override
-                public void onDataNotLoaded() {
-                    getDataFromRemoteDataSource(payload, callBack);
-                }
-            });
+                    @Override
+                    public void onDataNotLoaded() {
+                        getDataFromRemoteDataSource(payload, callBack);
+                    }
+                });
+            } else {
+                mGenericDataRemoteDataSource.postData(payload, new LoadDataCallBack() {
+                    @Override
+                    public void onDataLoaded(String data) {
+                        callBack.onDataLoaded(data);
+                    }
+
+                    @Override
+                    public void onDataNotLoaded() {
+                        callBack.onDataNotLoaded();
+                    }
+                });
+            }
+
         }
 
     }

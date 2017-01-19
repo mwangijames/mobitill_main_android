@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.mobitill.mobitill_2.R;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -95,7 +97,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
 
             if(!mIsColumn){
                 TextView keyTextView = new TextView(mContext);
-                keyTextView.setText(entry.getKey());
+                keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
                 keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
