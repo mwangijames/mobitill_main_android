@@ -100,7 +100,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
                 keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
                 linearLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-                keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack));
+                keyTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextLight_2));
                 keyTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
                 linearLayout.addView(keyTextView);
             }
@@ -108,7 +108,7 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
             if(!entry.getKey().equalsIgnoreCase("id")){
                 TextView valueTextView = new TextView(mContext);
                 valueTextView.setText(entry.getValue());
-                valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextDarker));
+                valueTextView.setTextColor(mContext.getResources().getColor(R.color.colorTextLight));
 
                 if(!mIsColumn){
                     valueTextView.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 2.0f));

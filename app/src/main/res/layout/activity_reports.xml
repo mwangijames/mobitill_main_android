@@ -46,7 +46,7 @@
         android:layout_width="@dimen/drawer_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/colorBackground"
+        android:background="@color/colorPrimaryDark"
         android:elevation="@dimen/z_drawer">
 
         <LinearLayout
@@ -66,6 +66,7 @@
                 android:textAppearance="?android:textAppearanceListItem"
                 android:id="@+id/drawer_button_apps"
                 android:text="@string/applications"
+                android:textColor="@color/colorTextLight_2"
                 android:background="?attr/selectableItemBackground"/>
 
             <Button
@@ -77,6 +78,7 @@
                 android:textAppearance="?android:textAppearanceListItem"
                 android:id="@+id/drawer_button_reports"
                 android:text="@string/reports"
+                android:textColor="@color/colorTextLight_2"
                 android:background="?attr/selectableItemBackground"/>
 
             <Button
@@ -88,6 +90,7 @@
                 android:textAppearance="?android:textAppearanceListItem"
                 android:id="@+id/drawer_button_inventory"
                 android:text="@string/inventory"
+                android:textColor="@color/colorTextLight_2"
                 android:background="?attr/selectableItemBackground"/>
 
             <!-- Navigation Drawer -->
@@ -95,7 +98,6 @@
                 android:id="@+id/drawer_recycler_view"
                 android:layout_width="@dimen/drawer_width"
                 android:layout_height="match_parent"
-                android:paddingBottom="@dimen/spacing_normal"
                 android:background="@color/colorBackground"
                 android:clipToPadding="false"
                 android:fitsSystemWindows="true"

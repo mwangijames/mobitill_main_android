@@ -7,7 +7,7 @@
                 android:gravity="center"
               android:paddingTop="@dimen/padding_app_item"
               android:paddingBottom="@dimen/padding_app_item"
-              android:layout_margin="@dimen/margin_1dp"
+              android:layout_margin="@dimen/margin_2dp"
 
 
     >

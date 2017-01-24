@@ -283,7 +283,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
                     TextView keyTextView = new TextView(getActivity());
                     keyTextView.setText(WordUtils.capitalizeFully(entry.getKey()));
                     // keyTextView.setPadding(padding, 0, 0, 0);
-                    keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextDark));
+                    keyTextView.setTextColor(getActivity().getResources().getColor(R.color.colorTextLight));
                     //keyTextView.setLayoutParams(new TableRow.LayoutParams(DpPixelsConversion.pxToDp(1400), ViewGroup.LayoutParams.WRAP_CONTENT));
                     // running tests
                     keyTextView.setLayoutParams(new TableRow.LayoutParams(Math.round(getActivity().getResources().getDimension(R.dimen.column_width)), ViewGroup.LayoutParams.WRAP_CONTENT));

@@ -3,15 +3,16 @@
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#69F0AE</color>
-    <color name="colorBackground">#FFFFFF</color>
-    <color name="colorTextLight">#FAFAFA</color>
+    <color name="colorBackground">#673AB7</color>
+    <color name="colorTextLight">#F5F5F5</color>
+    <color name="colorTextLighter">#FAFAFA</color>
+    <color name="colorTextLight_2">#EEEEEE</color>
     <color name="colorTextBlack">#212121</color>
     <color name="colorTextDark">#757575</color>
     <color name="colorTextDarker">#616161</color>
-    <color name="colorBackgroundSelector">#CCCCCC</color>
-
-    <color name="colorLine">#CFD8DC</color>
+    <color name="colorBackgroundSelector">#5E35B1</color>
+    <color name="colorLine">#5969F0AE</color>
     <color name="colorPressed">#E0E0E0</color>
     <color name="colorNavHeader">#EEEEEE</color>
-
+    <color name="colorCardBackground">#673AB7</color>
 </resources>
