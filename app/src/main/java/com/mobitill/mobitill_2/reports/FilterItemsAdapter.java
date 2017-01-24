@@ -1,7 +1,6 @@
 package com.mobitill.mobitill_2.reports;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class FilterItemsAdapter extends ArrayAdapter<FilterItem> {
         // create a dynamic textview
         TextView label = new TextView(mContext);
         label.setPadding(30, 30, 30 ,30);
-        label.setTextColor(mContext.getResources().getColor(R.color.colorTextDark));
+        label.setTextColor(mContext.getResources().getColor(R.color.colorTextLight));
         label.setText(mFilterItems.get(position).getName());
         return label;
     }
