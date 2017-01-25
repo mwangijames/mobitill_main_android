@@ -35,12 +35,24 @@ public class GenericRepository implements GenericDataSource {
     public void postData(final Payload payload, @NonNull final LoadDataCallBack callBack) {
 
         if(payload.getModel().equalsIgnoreCase("transactions")){
-            getDataFromRemoteDataSource(payload, callBack);
+
+            mGenericDataRemoteDataSource.postData(payload, new LoadDataCallBack() {
+                @Override
+                public void onDataLoaded(String data) {
+
+                    callBack.onDataLoaded(data);
+                }
+
+                @Override
+                public void onDataNotLoaded() {
+                    callBack.onDataNotLoaded();
+                }
+            });
         } else {
             Actions actions = new Actions();
             if(payload.getAction().equalsIgnoreCase(actions.FETCH)){
-                // query the local data source if available, if not query the remote data source
-                mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
+                // query the remote data source if available, if not query the local data source
+                mGenericDataRemoteDataSource.postData(payload, new LoadDataCallBack() {
                     @Override
                     public void onDataLoaded(String data) {
                         callBack.onDataLoaded(data);
@@ -48,7 +60,7 @@ public class GenericRepository implements GenericDataSource {
 
                     @Override
                     public void onDataNotLoaded() {
-                        getDataFromRemoteDataSource(payload, callBack);
+                        getDataFromLocalDataSource(payload, callBack);
                     }
                 });
             } else {
@@ -69,11 +81,10 @@ public class GenericRepository implements GenericDataSource {
 
     }
 
-    private void getDataFromRemoteDataSource(final Payload payload, final LoadDataCallBack callBack) {
-        mGenericDataRemoteDataSource.postData(payload, new LoadDataCallBack() {
+    private void getDataFromLocalDataSource(final Payload payload, final LoadDataCallBack callBack) {
+        mGenericLocalDataSource.postData(payload, new LoadDataCallBack() {
             @Override
             public void onDataLoaded(String data) {
-                refreshLocalDataSource(payload, data);
                 callBack.onDataLoaded(data);
             }
 

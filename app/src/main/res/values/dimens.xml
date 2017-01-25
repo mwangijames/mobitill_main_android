@@ -37,5 +37,6 @@
 
     <dimen name="column_width">136dp</dimen>
     <dimen name="elevation_2dp">2dp</dimen>
+    <dimen name="margin_32dp">32dp</dimen>
 
 </resources>

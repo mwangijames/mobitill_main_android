@@ -191,10 +191,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FilterDialogFragment filterDialogFragment = FilterDialogFragment.newInstance(mFilterModels);
                 filterDialogFragment.setTargetFragment(ReportsFragment.this, REQUEST_FILTER_DATA);
-                if(mIsLargeLayout){
-                    // the device is showing  a large layout so show the dialog as a dialog
-                    filterDialogFragment.show(fm, "fragment_filter");
-                } else {
+
                     // the device is smaller, so show the fragment fullscreen
                     FragmentTransaction  transaction = fm.beginTransaction();
                     // for a little polish specify the transition animation
@@ -203,7 +200,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
                     // for the fragment, which is always the root for the activity
                     transaction.add(android.R.id.content, filterDialogFragment)
                             .addToBackStack(null).commit();
-                }
+
 
                 return true;
         }
