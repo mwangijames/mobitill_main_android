@@ -21,6 +21,7 @@
         android:id="@+id/no_products"
         android:gravity="center"
         android:visibility="gone"
+        android:textColor="@color/colorTextLight"
         android:text="@string/no_products"/>
 
     <TextView
@@ -29,6 +30,7 @@
         android:id="@+id/no_network"
         android:gravity="center"
         android:visibility="gone"
+        android:textColor="@color/colorTextLight"
         android:text="No Network. Check Your Connection"/>
 
     <android.support.v7.widget.RecyclerView

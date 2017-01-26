@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.mobitill.mobitill_2.R;
 
-import org.w3c.dom.Text;
+import org.apache.commons.lang3.text.WordUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +28,6 @@ public class DrawerHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindView(String model){
-        mTextView.setText(model);
+        mTextView.setText(WordUtils.capitalizeFully(model));
     }
 }

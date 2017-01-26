@@ -49,6 +49,7 @@ public class AppsRepository implements AppsDataSource{
             @Override
             public void onRemoteAppsLoaded(List<Datum> apps) {
                 //callback.onRemoteAppsLoaded(apps);
+                refreshLocalDataSource(apps);
             }
 
             @Override

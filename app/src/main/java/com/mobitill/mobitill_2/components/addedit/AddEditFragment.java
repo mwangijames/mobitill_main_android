@@ -360,7 +360,9 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
 
     @Override
     public void showNetworkAvailable(boolean show) {
-        Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+        if(!show) {
+            Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -122,7 +122,13 @@ public class ReportsActivity extends AppCompatActivity {
 //            //setupDrawerContent();
 //        }
 
-        mDrawerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mDrawerRecyclerView.setLayoutManager(linearLayoutManager);
 
         showMenuItems();
         implementRecyclerViewClickListeners();
