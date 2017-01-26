@@ -8,14 +8,7 @@
              tools:context="com.mobitill.mobitill_2.components.showall.ShowAllFragment">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/no_products"
-        android:gravity="center"
-        android:layout_gravity="top"
-        android:visibility="gone"
-        android:text="@string/no_products"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,15 +26,7 @@
             android:textColor="@color/colorTextLight"
             android:text="@string/no_network"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/error"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:textColor="@color/colorTextLight"
-            android:text="@string/error"/>
+
     </LinearLayout>
 
 
@@ -72,7 +57,24 @@
                 card_view:cardBackgroundColor="@color/colorCardBackground"
                 card_view:cardElevation="@dimen/elevation_16dp">
 
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/no_products"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:textColor="@color/colorTextLight"
+                    android:text="@string/no_products"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/error"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:textColor="@color/colorTextLight"
+                    android:text="@string/error"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

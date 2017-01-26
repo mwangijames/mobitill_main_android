@@ -13,6 +13,7 @@ import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
+import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import java.util.Date;
@@ -35,7 +36,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
     private final Actions mActions;
     private final SettingsHelper mSettingsHelper;
     private double mTotal = 0;
-
+    private final ConnectivityReceiver mConnectivityReceiver;
 
     private boolean mfirstLoad = true;
 
@@ -43,7 +44,8 @@ public final class AppsPresenter implements AppsContract.Presenter{
     public AppsPresenter(AppsContract.View appsView, AppsRepository appsRepository,
                          SharedPreferences sharedPreferences, Constants constants,
                          GenericRepository genericRepository, Payload payload,
-                         Actions actions, SettingsHelper settingsHelper) {
+                         Actions actions, SettingsHelper settingsHelper,
+                         ConnectivityReceiver connectivityReceiver) {
         mAppsView = appsView;
         mAppsRepository = appsRepository;
         mSharedPreferences = sharedPreferences;
@@ -52,6 +54,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
         mPayload = payload;
         mActions = actions;
         mSettingsHelper = settingsHelper;
+        mConnectivityReceiver = connectivityReceiver;
     }
 
     @Override
@@ -115,7 +118,8 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 mAppsView.showLocalApps(apps);
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(false);
-                // TODO: 1/9/2017 resume from calculate totals 
+                // TODO: 1/9/2017 resume from calculate totals
+                mAppsView.showNetworkAvailable(mConnectivityReceiver.isConnected());
             }
 
             @Override
@@ -123,7 +127,6 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 mAppsView.showRemoteApps(apps);
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(false);
-
             }
 
             @Override
@@ -131,6 +134,7 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 Log.i(TAG, "onDataNotAvailable: " + "No data retrieved");
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(true);
+                mAppsView.showNetworkAvailable(mConnectivityReceiver.isConnected());
             }
         });
     }

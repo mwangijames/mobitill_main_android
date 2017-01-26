@@ -8,8 +8,6 @@ import android.net.NetworkInfo;
 
 import com.mobitill.mobitill_2.MobitillApplication;
 
-import javax.inject.Inject;
-
 /**
  * Created by james on 9/22/2016.
  */
@@ -37,7 +35,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
 
     }
 
-    public static boolean isConnected(){
+    public  boolean isConnected(){
         ConnectivityManager cm =
                 (ConnectivityManager) MobitillApplication.getInstance().getApplicationContext()
                         .getSystemService(Context.CONNECTIVITY_SERVICE);

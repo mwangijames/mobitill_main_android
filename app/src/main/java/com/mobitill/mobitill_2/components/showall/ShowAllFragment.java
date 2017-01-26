@@ -234,6 +234,7 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public void showNetworkError(boolean show) {
+
         if(mNetworkTextView!=null){
             mNetworkTextView.setVisibility(show ? View.VISIBLE : View.GONE);
         }
@@ -296,6 +297,13 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
             mHeaderLayout.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void showNetworkAvailable(boolean show) {
+        if(!show){
+            Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void implementRecyclerViewClickListeners(){

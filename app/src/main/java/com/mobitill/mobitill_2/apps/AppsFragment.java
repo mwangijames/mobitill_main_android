@@ -190,6 +190,11 @@ public class AppsFragment extends Fragment implements AppsContract.View,
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void showNetworkAvailable(boolean show) {
+        Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public boolean isActive() {

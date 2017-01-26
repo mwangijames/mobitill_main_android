@@ -27,6 +27,7 @@ public class AppsContract {
         void showTransactions(int transactions);
         void showTotal(double total);
         void showLoadingIndicator(boolean show);
+        void showNetworkAvailable(boolean show);
         boolean isActive();
     }
 

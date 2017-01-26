@@ -24,6 +24,7 @@ public interface ShowAllContract {
         void showItemDeleteFailed();
         void showEdit(ShowAllUtils showAllUtils, HashMap<String ,String> item);
         void showHeader(HashMap<String, String> item);
+        void showNetworkAvailable(boolean show);
     }
 
     interface Presenter extends BasePresenter{
@@ -31,6 +32,8 @@ public interface ShowAllContract {
         void delete(HashMap<String, String> item);
         void openEdit(HashMap<String ,String> item);
         void fetch(String action);
+        boolean isNetworkAvailable();
+
     }
 
 }

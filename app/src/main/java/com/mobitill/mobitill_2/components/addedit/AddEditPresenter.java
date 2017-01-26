@@ -9,6 +9,7 @@ import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
+import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.sync.MobitillSyncAdapter;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
@@ -34,6 +35,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
     private final SettingsHelper mSettingsHelper;
     private final Actions mActions;
     private final Context mContext;
+    private final ConnectivityReceiver mConnectivityReceiver;
     @Nullable private final HashMap<String, String> mItem;
 
     @Inject
@@ -45,7 +47,8 @@ public class AddEditPresenter implements AddEditContract.Presenter {
             SettingsHelper settingsHelper,
             Actions actions,
             @Nullable HashMap<String, String> item,
-            Context context
+            Context context,
+            ConnectivityReceiver connectivityReceiver
     ){
         mView = view;
         mShowAllUtils = showAllUtils;
@@ -55,6 +58,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
         mActions = actions;
         mItem = item;
         mContext = context;
+        mConnectivityReceiver = connectivityReceiver;
     }
 
 
@@ -108,6 +112,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                                     public void onDataNotLoaded() {
                                         mView.showFail(true);
                                         mView.showLoading(false);
+                                        mView.showNetworkAvailable(mConnectivityReceiver.isConnected());
                                     }
                                 });
                             }
@@ -151,6 +156,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                                 Log.i(TAG, "onDataNotLoaded: addStock: getProducts");
                                 mView.showFail(true);
                                 mView.showLoading(false);
+                                mView.showNetworkAvailable(mConnectivityReceiver.isConnected());
                             }
                         });
                     }
@@ -182,6 +188,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                 public void onDataNotLoaded() {
                     mView.showFail(true);
                     mView.showLoading(false);
+                    mView.showNetworkAvailable(mConnectivityReceiver.isConnected());
                 }
             });
         }
@@ -240,6 +247,7 @@ public class AddEditPresenter implements AddEditContract.Presenter {
                                     public void onDataNotLoaded() {
                                         mView.showFail(true);
                                         mView.showLoading(false);
+                                        mView.showNetworkAvailable(mConnectivityReceiver.isConnected());
                                     }
                                 });
                                 Log.i(TAG, "edit: " + payload);

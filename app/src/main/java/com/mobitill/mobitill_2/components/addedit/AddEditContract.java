@@ -4,10 +4,7 @@ import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 import com.mobitill.mobitill_2.components.ShowAllUtils;
 
-import org.json.JSONException;
-
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by james on 11/4/2016.
@@ -25,7 +22,7 @@ public interface AddEditContract {
         void showNetworkError(boolean show);
         void showDataError(boolean show);
         void showAll(ShowAllUtils showAllUtils);
-
+        void showNetworkAvailable(boolean show);
         void showInvalidIdentifier();
     }
 

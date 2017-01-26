@@ -1,6 +1,8 @@
 package com.mobitill.mobitill_2.components.showall;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.mobitill.mobitill_2.components.ShowAllUtils;
@@ -108,13 +110,16 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
                                     mView.showEmpty(false);
                                 }
                                 mView.showDataError(false);
-                                mView.showNetworkError(false);
+                                //mView.showNetworkError(isNetworkAvailable());
+                                mView.showNetworkAvailable(isNetworkAvailable());
                             }
 
                             @Override
                             public void onDataNotLoaded() {
                                 mView.showLoading(false);
                                 mView.showDataError(true);
+                               // mView.showNetworkError(isNetworkAvailable());
+                                mView.showNetworkAvailable(isNetworkAvailable());
                                 Log.i(TAG, "onDataNotLoaded: No data");
                             }
                         });
@@ -167,13 +172,14 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
 
                                 }
                                 mView.showDataError(false);
-                                mView.showNetworkError(false);
+                                mView.showNetworkError(isNetworkAvailable());
                             }
 
                             @Override
                             public void onDataNotLoaded() {
                                 mView.showLoading(false);
                                 mView.showDataError(true);
+                                mView.showNetworkError(isNetworkAvailable());
                                 Log.i(TAG, "onDataNotLoaded: No data");
                             }
                         });
@@ -182,6 +188,15 @@ public class ShowAllPresenter implements ShowAllContract.Presenter {
             }
         }
     }
+
+    @Override
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 
     @Override
     public void delete(final HashMap<String, String> item) {
