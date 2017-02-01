@@ -50,7 +50,6 @@ public class ShowAllAdapter extends RecyclerView.Adapter<ShowAllHolder> {
     @Override
     public void onBindViewHolder(ShowAllHolder holder, int position) {
 
-        // TODO: 1/13/2017 resume from switching between layouts 
         HashMap<String, String> item = mItems.get(position);
 
         //LinearLayout mLinearLayout = new LinearLayout(mContext);

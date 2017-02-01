@@ -1,5 +1,7 @@
 package com.mobitill.mobitill_2.reports;
 
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.mobitill.mobitill_2.BasePresenter;
 import com.mobitill.mobitill_2.BaseView;
 
@@ -24,6 +26,7 @@ public interface ReportsContract {
         void showQuantity(int quantity);
         void showMenuItems(List<String> models);
         void setUpFilterView(HashMap<String, List<HashMap<String, String>>> filterItems);
+        void createChart(String title, PieDataSet pieDataSet, PieData pieData);
     }
 
     interface Presenter extends BasePresenter{

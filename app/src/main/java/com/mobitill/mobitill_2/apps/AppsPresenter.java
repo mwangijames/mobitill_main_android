@@ -118,7 +118,6 @@ public final class AppsPresenter implements AppsContract.Presenter{
                 mAppsView.showLocalApps(apps);
                 mAppsView.showLoadingIndicator(false);
                 mAppsView.showNoApps(false);
-                // TODO: 1/9/2017 resume from calculate totals
                 mAppsView.showNetworkAvailable(mConnectivityReceiver.isConnected());
             }
 

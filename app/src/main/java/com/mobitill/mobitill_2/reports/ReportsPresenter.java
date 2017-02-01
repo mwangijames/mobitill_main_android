@@ -1,18 +1,23 @@
 package com.mobitill.mobitill_2.reports;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
 import com.mobitill.mobitill_2.data.models.generic.Payload;
-
 import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -43,6 +48,9 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private final Actions mActions;
     private final Context mContext;
 
+    //private List<HashMap<String, String>>
+    private HashMap<String, List<HashMap<String, String>>> mFilterItems;
+
     @Inject
     public ReportsPresenter(ReportsContract.View view,
                             @Nullable String appId, MenuAppSettings menuAppSettings,
@@ -60,6 +68,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         mGenericRepository = genericRepository;
         mActions = actions;
         mContext = context;
+        mFilterItems = new HashMap<String, List<HashMap<String, String>>>();
     }
 
     @Override
@@ -109,7 +118,13 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                                // Log.i(TAG, "onDataLoaded: " + mSettingsHelper.getList(data));
                                 List<HashMap<String, String>> report = mSettingsHelper.getList(data);
                                 mView.showQuantity(report.size());
+
                                 getTotal(report);
+
+                                if(!report.isEmpty()){
+                                    createCharts(report);
+                                }
+
                             }
 
                             @Override
@@ -122,6 +137,92 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                 }
             }
         }
+    }
+
+    /**
+     * Creates charts
+     * @param  report for the report that is going to be used to generate the report
+     * */
+    private void createCharts(List<HashMap<String, String>> report) {
+
+        //List<String> items = mSettingsHelper.getReportFilterItems(mMenuAppSettings.getSettings());
+
+        // loop through through each filter category e.g cashiers, products
+        // for each category create a chart
+        for(HashMap.Entry<String, List<HashMap<String, String>>> item: mFilterItems.entrySet()){
+
+
+            List<String> xData  = new ArrayList<>();
+            List<Float> yData = new ArrayList<>();
+
+            // loop through each item inside the category
+            List<HashMap<String, String>> itemList = item.getValue();
+            for(HashMap<String, String> listItem : itemList){
+                // create the x data
+                xData.add(listItem.get("name"));
+                yData.add(calculateTotal(listItem.get("id"), report));
+
+
+            }
+
+            addData(StringUtils.capitalize(item.getKey()),xData, yData);
+            // mView.createChart(StringUtils.capitalize(item.getKey()), /*pie data comes here*/);
+        }
+
+    }
+
+
+    private void addData(String chartTitle, List<String> xData, List<Float> yData) {
+        ArrayList<PieEntry> yVals1 = new ArrayList<>();
+
+        for(int i = 0; i < yData.size(); i++){
+            yVals1.add(new PieEntry(yData.get(i), xData.get(i)));
+        }
+
+        ArrayList<String> xVals = new ArrayList<>();
+        for(int i = 0; i < xData.size(); i++){
+            xVals.add(xData.get(i));
+        }
+
+        // create a pie data set
+        PieDataSet dataSet = new PieDataSet(yVals1, chartTitle);
+
+
+        PieData data = new PieData(dataSet);
+
+        //data.setValueFormatter(new DefaultValueFormatter());
+        data.setValueTextSize(11f);
+        data.setValueTextColor(Color.DKGRAY);
+
+
+
+        mView.createChart(chartTitle, dataSet, data);
+
+    }
+
+    /**
+     * Returns total for each entry in PieChart
+     *
+     * @param id the id of the item
+     *
+     * @param report List of HashMap of each transaction item
+     * @return  total for each id
+     * */
+    private float calculateTotal(String id, List<HashMap<String, String>> report) {
+
+        float total = 0;
+
+        for(HashMap<String, String> item: report){
+            if(item.containsValue(id)){
+                for(HashMap.Entry<String, String> entry: item.entrySet()){
+                    if(entry.getKey().equalsIgnoreCase("total")){
+                        float value = Float.parseFloat(entry.getValue());
+                        total = total + value;
+                    }
+                }
+            }
+        }
+        return total;
     }
 
 
@@ -157,7 +258,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     }
 
 
-
     @Inject
     void setUpListeners(){
         mView.setPresenter(this);
@@ -179,7 +279,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     private void setUpFilter() {
         List<String> items = mSettingsHelper.getReportFilterItems(mMenuAppSettings.getSettings());
 
-        final HashMap<String, List<HashMap<String, String>>> filterItems = new HashMap<>();
+        mFilterItems = new HashMap<>();
 
         for(final String item: items){
             if(mPayload != null && mSettingsHelper != null){
@@ -192,7 +292,8 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                     mGenericRepository.postData(mPayload, new GenericDataSource.LoadDataCallBack() {
                         @Override
                         public void onDataLoaded(String data) {
-                            filterItems.put(item, mSettingsHelper.getList(data));
+                            mFilterItems.put(item, mSettingsHelper.getList(data));
+                            Log.i(TAG, "onDataLoaded: " + data);
                         }
 
                         @Override
@@ -204,8 +305,16 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
             }
         }
 
-        mView.setUpFilterView(filterItems);
+        mView.setUpFilterView(mFilterItems);
     }
+
+    //==========================================================================================
+    //CHARTS
+    //=========================================================================================
+
+    //==========================================================================================
+    //END CHARTS
+    //=========================================================================================
 
     private class CalculateTotal extends AsyncTask<List<HashMap<String, String>>, Void, Double>{
 

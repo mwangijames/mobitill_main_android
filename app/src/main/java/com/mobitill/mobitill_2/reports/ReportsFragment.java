@@ -1,13 +1,16 @@
 package com.mobitill.mobitill_2.reports;
 
 
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -24,6 +27,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
@@ -78,6 +86,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.from) TextView mFromTextView;
     @BindView(R.id.to) TextView mToTextView;
     @BindView(R.id.filter_items) LinearLayout mFilterItemsLinearLayout;
+    @BindView(R.id.chart_layout) LinearLayout mChartsLinearLayout;
 
     // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
@@ -233,6 +242,74 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @Override
     public void setUpFilterView(HashMap<String, List<HashMap<String, String>>> filterItems) {
         mFilterModels = filterItems;
+    }
+
+    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void createChart(String title, PieDataSet pieDataSet, PieData pieData) {
+
+        // Add many colors
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        for(int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+
+        colors.add(ColorTemplate.getHoloBlue());
+        pieDataSet.setColors(colors);
+
+        PieChart pieChart = new PieChart(getActivity());
+        pieChart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(getResources().getDimension(R.dimen.piechart_height))));
+        pieChart.setData(pieData);
+
+        pieChart.setDrawSliceText(false);
+        pieChart.setCenterText(title);
+//        pieChart.setHoleColor(getResources().getColor(R.color.colorCardBackground));
+//        pieChart.setCenterTextColor(getResources().getColor(R.color.colorTextLight));
+
+        // undo all highlights
+        pieChart.highlightValues(null);
+
+        // update pie chart
+        pieChart.invalidate();
+
+
+        // Legends to show on bottom of the graph
+        Legend l = pieChart.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+        l.setTextSize(11f);
+        l.setXEntrySpace(7);
+        l.setYEntrySpace(5);
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setTextColor(Color.WHITE);
+        l.setFormSize(12f);
+        l.setForm(Legend.LegendForm.CIRCLE);
+
+        CardView cardView = new CardView(getActivity());
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCardBackground));
+        cardView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        cardView.setCardElevation(Math.round(getResources().getDimension(R.dimen.cardview_default_elevation)));
+        cardView.setUseCompatPadding(true);
+        cardView.setContentPadding(0, 0, 0, Math.round(getResources().getDimension(R.dimen.padding_8dp)));
+        cardView.addView(pieChart);
+
+
+
+        mChartsLinearLayout.addView(cardView);
+
     }
 
 
