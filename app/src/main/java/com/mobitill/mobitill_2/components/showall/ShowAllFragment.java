@@ -155,23 +155,21 @@ public class ShowAllFragment extends Fragment implements ShowAllContract.View, C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_list:
-                Toast.makeText(getActivity(), "Show Vertical", Toast.LENGTH_SHORT).show();
-                mIsColumnView = false;
-                mShowAllAdapter.setColumn(mIsColumnView);
-                showHeader(mItems.get(0));
-                break;
-            case R.id.action_column:
-                Toast.makeText(getActivity(), "Show Horizontal", Toast.LENGTH_SHORT).show();
-                mIsColumnView = true;
-                mShowAllAdapter.setColumn(mIsColumnView);
-                showHeader(mItems.get(0));
-                break;
+        if(mShowAllAdapter != null){
+            switch (item.getItemId()){
+                case R.id.action_list:
+                    mIsColumnView = false;
+                    mShowAllAdapter.setColumn(mIsColumnView);
+                    showHeader(mItems.get(0));
+                    break;
+                case R.id.action_column:
+                    mIsColumnView = true;
+                    mShowAllAdapter.setColumn(mIsColumnView);
+                    showHeader(mItems.get(0));
+                    break;
+            }
         }
-
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override

@@ -7,9 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
@@ -122,6 +122,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                                 getTotal(report);
 
                                 if(!report.isEmpty()){
+                                    mView.removeChartLayoutViews();
                                     createCharts(report);
                                 }
 
@@ -173,10 +174,10 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
 
 
     private void addData(String chartTitle, List<String> xData, List<Float> yData) {
-        ArrayList<PieEntry> yVals1 = new ArrayList<>();
+        ArrayList<BarEntry> yVals1 = new ArrayList<>();
 
         for(int i = 0; i < yData.size(); i++){
-            yVals1.add(new PieEntry(yData.get(i), xData.get(i)));
+            yVals1.add(new BarEntry(i, yData.get(i)));
         }
 
         ArrayList<String> xVals = new ArrayList<>();
@@ -185,18 +186,16 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
 
         // create a pie data set
-        PieDataSet dataSet = new PieDataSet(yVals1, chartTitle);
+        BarDataSet dataSet = new BarDataSet(yVals1, chartTitle);
 
-
-        PieData data = new PieData(dataSet);
+        BarData data = new BarData(dataSet);
 
         //data.setValueFormatter(new DefaultValueFormatter());
         data.setValueTextSize(11f);
-        data.setValueTextColor(Color.DKGRAY);
+        data.setValueTextColor(Color.LTGRAY);
+        data.setBarWidth(0.9f);
 
-
-
-        mView.createChart(chartTitle, dataSet, data);
+        mView.createChart(chartTitle, dataSet, data, xVals);
 
     }
 

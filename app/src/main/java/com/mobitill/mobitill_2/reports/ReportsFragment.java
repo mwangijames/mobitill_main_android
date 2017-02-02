@@ -3,7 +3,6 @@ package com.mobitill.mobitill_2.reports;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,14 +26,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
+import com.mobitill.mobitill_2.utils.LabelFormatter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -244,9 +247,8 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         mFilterModels = filterItems;
     }
 
-    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void createChart(String title, PieDataSet pieDataSet, PieData pieData) {
+    public void createChart(String title, BarDataSet barDataSet, BarData barData, ArrayList<String> labels) {
 
         // Add many colors
         ArrayList<Integer> colors = new ArrayList<Integer>();
@@ -268,48 +270,80 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
 
         colors.add(ColorTemplate.getHoloBlue());
-        pieDataSet.setColors(colors);
+        barDataSet.setColors(colors);
 
-        PieChart pieChart = new PieChart(getActivity());
-        pieChart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(getResources().getDimension(R.dimen.piechart_height))));
-        pieChart.setData(pieData);
+        if(getActivity() != null){
+            BarChart barChart = new BarChart(getActivity());
+            barChart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Math.round(getActivity().getResources().getDimension(R.dimen.piechart_height))));
+            barChart.setData(barData);
+            barChart.setFitBars(true);
+            barChart.setHorizontalScrollBarEnabled(true);
 
-        pieChart.setDrawSliceText(false);
-        pieChart.setCenterText(title);
-//        pieChart.setHoleColor(getResources().getColor(R.color.colorCardBackground));
+
+
+            // set labels
+            barChart.getXAxis().setValueFormatter(new LabelFormatter(labels));
+            XAxis xAxis = barChart.getXAxis();
+            xAxis.setGranularity(1f);
+            xAxis.setGranularityEnabled(true);
+            xAxis.setLabelRotationAngle(270f);
+            xAxis.setTextColor(Color.LTGRAY);
+            xAxis.setLabelCount(labels.size());
+            xAxis.setDrawGridLines(false);
+            xAxis.setPosition();
+
+            YAxis leftYAxis = barChart.getAxisLeft();
+            leftYAxis.setTextColor(Color.LTGRAY);
+
+            YAxis rightYAxis = barChart.getAxisRight();
+            rightYAxis.setTextColor(Color.LTGRAY);
+            rightYAxis.setDrawLabels(false);
+
+
+
+            Description description = new Description();
+            description.setText(title);
+            barChart.setDescription(description);
+
+//        barChart.setCenterText(title);
+//        pieChart.setHoleColor(getResources().getColor(R.color.colorCardBackground));`
 //        pieChart.setCenterTextColor(getResources().getColor(R.color.colorTextLight));
 
-        // undo all highlights
-        pieChart.highlightValues(null);
+            // undo all highlights
+            barChart.highlightValues(null);
 
-        // update pie chart
-        pieChart.invalidate();
+            // update pie chart
+            barChart.invalidate();
 
+            // Legends to show on bottom of the graph
+            Legend l = barChart.getLegend();
+            l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
+            l.setTextSize(11f);
+            l.setXEntrySpace(7);
+            l.setYEntrySpace(6);
+            l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+            l.setTextColor(Color.LTGRAY);
+            l.setFormSize(12f);
+            l.setForm(Legend.LegendForm.CIRCLE);
 
-        // Legends to show on bottom of the graph
-        Legend l = pieChart.getLegend();
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
-        l.setTextSize(11f);
-        l.setXEntrySpace(7);
-        l.setYEntrySpace(5);
-        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setTextColor(Color.WHITE);
-        l.setFormSize(12f);
-        l.setForm(Legend.LegendForm.CIRCLE);
+            CardView cardView = new CardView(getActivity());
+            cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCardBackground));
+            cardView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            cardView.setCardElevation(Math.round(getResources().getDimension(R.dimen.cardview_default_elevation)));
+            cardView.setUseCompatPadding(true);
+            cardView.setContentPadding(0, 0, 0, Math.round(getResources().getDimension(R.dimen.padding_8dp)));
+            cardView.addView(barChart);
 
-        CardView cardView = new CardView(getActivity());
-        cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCardBackground));
-        cardView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        cardView.setCardElevation(Math.round(getResources().getDimension(R.dimen.cardview_default_elevation)));
-        cardView.setUseCompatPadding(true);
-        cardView.setContentPadding(0, 0, 0, Math.round(getResources().getDimension(R.dimen.padding_8dp)));
-        cardView.addView(pieChart);
+            mChartsLinearLayout.addView(cardView);
+        }
 
+    }
 
-
-        mChartsLinearLayout.addView(cardView);
-
+    @Override
+    public void removeChartLayoutViews() {
+        if(mChartsLinearLayout!=null){
+            mChartsLinearLayout.removeAllViews();
+        }
     }
 
 
@@ -424,6 +458,5 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         }
 
     }
-
 
 }
