@@ -290,7 +290,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             xAxis.setTextColor(Color.LTGRAY);
             xAxis.setLabelCount(labels.size());
             xAxis.setDrawGridLines(false);
-            xAxis.setPosition();
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
             YAxis leftYAxis = barChart.getAxisLeft();
             leftYAxis.setTextColor(Color.LTGRAY);
