@@ -28,7 +28,7 @@
         </activity>
         <activity android:name=".apps.AppsActivity">
         </activity>
-        <activity android:name=".reports.ReportsActivity">
+        <activity android:name=".reports.ReportsActivity"  android:configChanges="orientation|screenSize|keyboard">
         </activity>
         <activity android:name=".components.showall.ShowAllActivity">
         </activity>

@@ -266,7 +266,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     public void start() {
 
         setUpFilter();
-
         List<Long> dates = new ArrayList<Long>();
         dates.add(getMidnight().getTime().getTime());
         dates.add(new Date().getTime());

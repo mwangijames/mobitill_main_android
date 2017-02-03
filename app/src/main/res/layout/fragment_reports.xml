@@ -240,7 +240,8 @@
         android:id="@+id/progress_bar"
         android:visibility="gone"
         android:paddingTop="@dimen/padding_8dp"
-        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_32dp"
+        android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"/>

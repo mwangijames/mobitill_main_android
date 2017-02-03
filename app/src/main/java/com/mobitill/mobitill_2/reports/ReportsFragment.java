@@ -121,6 +121,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         mAppId = getArguments().getString(ARG_APPID);
 
         mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
@@ -278,7 +279,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             barChart.setData(barData);
             barChart.setFitBars(true);
             barChart.setHorizontalScrollBarEnabled(true);
-
+            barChart.animateXY(3000, 3000);
 
 
             // set labels

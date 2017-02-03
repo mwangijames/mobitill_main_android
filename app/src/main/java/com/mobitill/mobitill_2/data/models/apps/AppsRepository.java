@@ -77,7 +77,6 @@ public class AppsRepository implements AppsDataSource{
             public void onLocalAppsLoaded(List<RealmApp> apps) {
                 //callback.onLocalAppsLoaded(apps);
             }
-
             @Override
             public void onRemoteAppsLoaded(List<Datum> apps) {
                 refreshLocalDataSource(apps);
