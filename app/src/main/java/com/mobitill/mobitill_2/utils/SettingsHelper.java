@@ -187,7 +187,7 @@ public class SettingsHelper {
             JSONObject dataObject = new JSONObject(data);
             if(dataObject.has("data")){
                 JSONArray jsonArray = dataObject.getJSONArray("data");
-                //loop through each json array to create  a hashmap
+                //loop through json array to create  a hashmap
                 for(int i = 0; i < jsonArray.length(); i++){
                     JSONObject item;
                     if(jsonArray.get(i) instanceof String){

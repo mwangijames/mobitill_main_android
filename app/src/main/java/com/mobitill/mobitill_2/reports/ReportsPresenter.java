@@ -22,12 +22,15 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
@@ -124,6 +127,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                                 if(!report.isEmpty()){
                                     mView.removeChartLayoutViews();
                                     createCharts(report);
+                                    drawLineChart(report);
                                 }
 
                             }
@@ -138,6 +142,51 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                 }
             }
         }
+    }
+
+    private void drawLineChart(List<HashMap<String, String>> report) {
+        HashMap<String, Float> totals = getDayAndTotal(report);
+        Log.i(TAG, "drawLineChart: " + totals.toString());
+    }
+
+    @NonNull
+    private HashMap<String, Float> getDayAndTotal(List<HashMap<String, String>> report) {
+        String[] daysOfWeek =   {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
+        HashMap<String, Float> totals = new HashMap<>();
+        // fill map with each day of week
+        for(String day: daysOfWeek){
+            totals.put(day, 0f);
+        }
+
+        for(HashMap<String, String> item: report){
+            if(item.containsKey("timestamp")){
+                String dateString = item.get("timestamp");
+                SimpleDateFormat formatter  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                try {
+
+                    Date date = formatter.parse(dateString);
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE");
+                    String day = simpleDateFormat.format(date).toLowerCase();
+
+                    if(totals.containsKey(day)){
+                        float total = 0f;
+                        total = totals.get(day);
+                        if(item.containsKey("total")){
+                            //Log.i(TAG, "drawLineChart: " + totals.get(day));
+                            total = totals.get(day.toLowerCase()) + Float.parseFloat(item.get("total"));
+                            totals.put(day, total);
+                        }
+
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return totals;
     }
 
     /**
@@ -177,7 +226,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
 
         for(int i = 0; i < yData.size(); i++){
-            yVals1.add(new BarEntry(i, yData.get(i)));
+            yVals1.add(new BarEntry((float)i, yData.get(i)));
         }
 
         ArrayList<String> xVals = new ArrayList<>();

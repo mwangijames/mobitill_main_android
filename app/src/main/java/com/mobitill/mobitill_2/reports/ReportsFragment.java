@@ -300,8 +300,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             rightYAxis.setTextColor(Color.LTGRAY);
             rightYAxis.setDrawLabels(false);
 
-
-
             Description description = new Description();
             description.setText(title);
             barChart.setDescription(description);
