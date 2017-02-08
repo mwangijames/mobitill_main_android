@@ -1,5 +1,6 @@
 package com.mobitill.mobitill_2;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.mobitill.mobitill_2.data.RealmModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsModule;
 import com.mobitill.mobitill_2.data.models.apps.AppsRepositoryComponent;
@@ -28,6 +29,7 @@ public class MobitillApplication extends SugarApp {
         mInstance = this;
 
         FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Roboto-Regular.ttf");
+        AndroidThreeTen.init(this);
 
 
         mBaseComponent = DaggerBaseComponent.builder()

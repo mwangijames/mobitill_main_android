@@ -10,6 +10,9 @@ import android.util.Log;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.mobitill.mobitill_2.data.models.generic.Actions;
 import com.mobitill.mobitill_2.data.models.generic.GenericDataSource;
 import com.mobitill.mobitill_2.data.models.generic.GenericRepository;
@@ -18,6 +21,10 @@ import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.utils.SettingsHelper;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+import org.threeten.bp.Instant;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.ZoneId;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -98,8 +105,11 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
     }
 
+
+
+
     @Override
-    public void fetchReport(List<Long> range, HashMap<String, String> items) {
+    public void fetchReport(final List<Long> range, HashMap<String, String> items) {
         if(mMenuAppSettings!=null && mMenuAppSettings.getSettings() != null){
             if(mPayload!=null){
                 if(mSettingsHelper != null){
@@ -127,7 +137,8 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                                 if(!report.isEmpty()){
                                     mView.removeChartLayoutViews();
                                     createCharts(report);
-                                    drawLineChart(report);
+                                    drawDayPieChart(report);
+                                    createDateChart(range, report);
                                 }
 
                             }
@@ -144,9 +155,41 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
     }
 
-    private void drawLineChart(List<HashMap<String, String>> report) {
-        HashMap<String, Float> totals = getDayAndTotal(report);
-        Log.i(TAG, "drawLineChart: " + totals.toString());
+    @Override
+    public void createDateChart(List<Long> range, List<HashMap<String, String>> report) {
+
+
+        HashMap<LocalDate, Float> totals = new HashMap<>();
+        LocalDate startDate = Instant.ofEpochMilli(new Date(range.get(0)).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate stopDate = Instant.ofEpochMilli(new Date(range.get(1)).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+
+
+        for(LocalDate date = startDate; date.isBefore(stopDate);  date = date.plusDays(1)){
+            totals.put(date, 0F);
+        }
+
+        for(HashMap<String, String> item: report){
+            if(item.containsKey("timestamp")){
+                String dateString = item.get("timestamp");
+                SimpleDateFormat formatter  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                try {
+                    Date date = formatter.parse(dateString);
+                    LocalDate day = Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
+                    if(totals.containsKey(day)){
+                        float total = 0f;
+                        total = totals.get(day);
+                        total = totals.get(day) + Float.parseFloat(item.get("total"));
+                        totals.put(day, total);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        Log.i(TAG, "createDateChart: " + totals.toString());
+
     }
 
     @NonNull
@@ -173,7 +216,7 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                         float total = 0f;
                         total = totals.get(day);
                         if(item.containsKey("total")){
-                            //Log.i(TAG, "drawLineChart: " + totals.get(day));
+                            //Log.i(TAG, "drawDayPieChart: " + totals.get(day));
                             total = totals.get(day.toLowerCase()) + Float.parseFloat(item.get("total"));
                             totals.put(day, total);
                         }
@@ -188,6 +231,34 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
         return totals;
     }
+
+    private void drawDayPieChart(List<HashMap<String, String>> report) {
+        HashMap<String, Float> totals = getDayAndTotal(report);
+
+        List<PieEntry> chartEntries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        float i = 0;
+        for(HashMap.Entry<String, Float> entry: totals.entrySet()){
+            if(entry.getValue() != null){
+                chartEntries.add(new PieEntry(entry.getValue(), WordUtils.capitalize(entry.getKey()), i));
+                labels.add(entry.getKey());
+                i++;
+            }
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(chartEntries, "Total per day of week");
+
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setValueTextColor(Color.DKGRAY);
+        pieData.setValueTextSize(9f);
+        pieData.setHighlightEnabled(true);
+
+        mView.createDayChart("Total per day", pieDataSet, pieData, labels);
+
+    }
+
+
 
     /**
      * Creates charts

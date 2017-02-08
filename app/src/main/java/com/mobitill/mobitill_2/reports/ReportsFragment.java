@@ -27,12 +27,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
@@ -90,6 +95,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.to) TextView mToTextView;
     @BindView(R.id.filter_items) LinearLayout mFilterItemsLinearLayout;
     @BindView(R.id.chart_layout) LinearLayout mChartsLinearLayout;
+    @BindView(R.id.line_chart_layout) LinearLayout mLineChartLayout;
 
     // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
@@ -279,7 +285,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
             barChart.setData(barData);
             barChart.setFitBars(true);
             barChart.setHorizontalScrollBarEnabled(true);
-            barChart.animateXY(3000, 3000);
+            barChart.animateXY(2000, 2000);
 
 
             // set labels
@@ -339,11 +345,87 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     }
 
     @Override
+    public void createDayChart(String title, PieDataSet pieDataSet, PieData pieData, ArrayList<String> labels) {
+
+        // Add many colors
+        ArrayList<Integer> colors = new ArrayList<Integer>();
+
+        for (int c : ColorTemplate.JOYFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.PASTEL_COLORS)
+            colors.add(c);
+
+        for(int c : ColorTemplate.VORDIPLOM_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.COLORFUL_COLORS)
+            colors.add(c);
+
+        for (int c : ColorTemplate.LIBERTY_COLORS)
+            colors.add(c);
+
+
+        colors.add(ColorTemplate.getHoloBlue());
+        pieDataSet.setColors(colors);
+
+        PieChart pieChart = new PieChart(getActivity());
+
+        pieChart.setLayoutParams(new ViewGroup.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT,
+                        Math.round(getActivity().getResources().getDimension(R.dimen.piechart_height))));
+        pieChart.setData(pieData);
+        pieChart.animateXY(2000, 2000);
+        //pieChart.setDrawSliceText(true);
+        pieChart.setDrawEntryLabels(true);
+        pieChart.setEntryLabelTextSize(8f);
+        pieChart.setEntryLabelColor(Color.DKGRAY);
+
+        Description description = new Description();
+        description.setText(title);
+        pieChart.setDescription(description);
+
+        pieChart.invalidate();
+
+        // Legends to show on bottom of the graph
+        Legend l = pieChart.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        l.setTextSize(11f);
+        l.setXEntrySpace(7);
+        l.setYEntrySpace(6);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+        l.setTextColor(Color.LTGRAY);
+        l.setFormSize(12f);
+        l.setForm(Legend.LegendForm.CIRCLE);
+
+
+        CardView cardView = new CardView(getActivity());
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCardBackground));
+        cardView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        cardView.setCardElevation(Math.round(getResources().getDimension(R.dimen.cardview_default_elevation)));
+        cardView.setUseCompatPadding(true);
+        cardView.setContentPadding(0, 0, 0, Math.round(getResources().getDimension(R.dimen.padding_8dp)));
+        cardView.addView(pieChart);
+
+        mLineChartLayout.addView(cardView);
+    }
+
+    @Override
+    public void showDateChart(String Title, LineDataSet lineDataSet, LineData lineData, ArrayList<String> labels) {
+
+    }
+
+
+    @Override
     public void removeChartLayoutViews() {
         if(mChartsLinearLayout!=null){
             mChartsLinearLayout.removeAllViews();
         }
+        if(mLineChartLayout!=null){
+            mLineChartLayout.removeAllViews();
+        }
     }
+
 
 
     @Override
