@@ -35,6 +35,7 @@ public interface ReportsContract {
         void removeChartLayoutViews();
         void createDayChart(String title, PieDataSet pieDataSet, PieData pieData, ArrayList<String> labels);
         void showDateChart(String Title, LineDataSet lineDataSet, LineData lineData,ArrayList<String> labels);
+        void showFetchReportFailed();
     }
 
     interface Presenter extends BasePresenter{

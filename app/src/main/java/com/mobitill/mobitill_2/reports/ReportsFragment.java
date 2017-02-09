@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -96,6 +97,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.filter_items) LinearLayout mFilterItemsLinearLayout;
     @BindView(R.id.chart_layout) LinearLayout mChartsLinearLayout;
     @BindView(R.id.line_chart_layout) LinearLayout mLineChartLayout;
+    @BindView(R.id.chart_daily_layout) LinearLayout mDailyChartLayout;
 
     // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
@@ -412,7 +414,46 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
 
     @Override
     public void showDateChart(String Title, LineDataSet lineDataSet, LineData lineData, ArrayList<String> labels) {
+        LineChart lineChart = new LineChart(getActivity());
+        lineChart.setLayoutParams(new ViewGroup.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT,
+                        Math.round(getActivity().getResources().getDimension(R.dimen.piechart_height))));
+        lineChart.setData(lineData);
+        lineChart.animateXY(2000, 2000);
 
+        lineChart.invalidate();
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new LabelFormatter(labels));
+        xAxis.setLabelRotationAngle(270f);
+        xAxis.setTextColor(Color.LTGRAY);
+        xAxis.setLabelCount(labels.size());
+        xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+
+        lineChart.getAxisLeft().setTextColor(Color.LTGRAY);
+        lineChart.getAxisRight().setTextColor(Color.LTGRAY);
+
+        Description description = new Description();
+        description.setText("Totals per day");
+        lineChart.setDescription(description);
+
+        CardView cardView = new CardView(getActivity());
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.colorCardBackground));
+        cardView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        cardView.setCardElevation(Math.round(getResources().getDimension(R.dimen.cardview_default_elevation)));
+        cardView.setUseCompatPadding(true);
+        cardView.setContentPadding(0, 0, 0, Math.round(getResources().getDimension(R.dimen.padding_8dp)));
+        cardView.addView(lineChart);
+
+        mDailyChartLayout.addView(cardView);
+    }
+
+    @Override
+    public void showFetchReportFailed() {
+        Toast.makeText(getActivity(), R.string.report_failed, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -423,6 +464,9 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         }
         if(mLineChartLayout!=null){
             mLineChartLayout.removeAllViews();
+        }
+        if(mDailyChartLayout != null){
+            mDailyChartLayout.removeAllViews();
         }
     }
 

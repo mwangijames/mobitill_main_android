@@ -1,6 +1,7 @@
 package com.mobitill.mobitill_2.components.addedit;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -26,7 +28,9 @@ import com.mobitill.mobitill_2.menu.MenuAppSettings;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -204,11 +208,27 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
 
     @Override
     public void showUI(HashMap<String, String[]> schema) {
+
+        final EditText[] dateEditText = {new EditText(getActivity())};
+        final Calendar calendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateText(dateEditText[0], calendar);
+            }
+
+
+        };
+
         mLinearLayout.removeAllViews();
         int index = 0;
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
-            EditText editText;
+            final EditText editText = new EditText(getActivity());
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -216,7 +236,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
             //mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
@@ -225,7 +244,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.NUMBER:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
@@ -234,16 +252,26 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.DATE:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
                     editText.setInputType(InputType.TYPE_CLASS_DATETIME);
+                    editText.setFocusable(false);
                     //editText.setId(Integer.parseInt(entry.getKey()));
+                    editText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dateEditText[0] = editText;
+                            new DatePickerDialog(getActivity(), date, calendar.get(Calendar.YEAR),
+                                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                        }
+                    });
+
+
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.TEXTAREA:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
@@ -254,7 +282,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 default:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setHint(entry.getKey());
@@ -266,19 +293,44 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                 editText.setTag(entry.getKey());
                 editText.setId(index);
             }
+
             Log.i(TAG, "showUI: " + Integer.toString(index));
             index++;
 
         }
     }
 
+    private void updateText(EditText editText, Calendar calendar) {
+        String myFormat = "MM/dd/yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+        editText.setText(sdf.format(calendar.getTime()));
+    }
+
     @Override
     public void showAndPopulateUI(HashMap<String, String[]> schema, HashMap<String, String> item) {
+
+
+        final EditText[] dateEditText = {new EditText(getActivity())};
+        final Calendar calendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateText(dateEditText[0], calendar);
+            }
+
+
+        };
+
+
         mLinearLayout.removeAllViews();
         int index = 0;
         for(HashMap.Entry<String, String[]> entry : schema.entrySet()){
             Log.i(TAG, "generateUI: " + entry.getKey() + " : " + Arrays.toString(entry.getValue()));
-            EditText editText;
+            final EditText editText = new EditText(getActivity());
             TextView textView = new TextView(getActivity());
             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -286,7 +338,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
             mLinearLayout.addView(textView);
             switch (entry.getValue()[0]){
                 case SchemaTypes.TEXT:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setText(item.get(entry.getKey()));
@@ -295,7 +346,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.NUMBER:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setText(item.get(entry.getKey()));
@@ -304,16 +354,25 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.DATE:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setText(item.get(entry.getKey()));
                     editText.setInputType(InputType.TYPE_CLASS_DATETIME);
                     //editText.setId(Integer.parseInt(entry.getKey()));
+                    editText.setFocusable(false);
+                    //editText.setId(Integer.parseInt(entry.getKey()));
+                    editText.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dateEditText[0] = editText;
+                            new DatePickerDialog(getActivity(), date, calendar.get(Calendar.YEAR),
+                                    calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                        }
+                    });
                     mLinearLayout.addView(editText);
                     break;
                 case SchemaTypes.TEXTAREA:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setText(item.get(entry.getKey()));
@@ -324,7 +383,6 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
                     mLinearLayout.addView(editText);
                     break;
                 default:
-                    editText = new EditText(getActivity());
                     editText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT));
                     editText.setText(item.get(entry.getKey()));

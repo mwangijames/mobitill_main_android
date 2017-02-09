@@ -7,9 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -25,6 +29,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.threeten.bp.Instant;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.ZoneId;
+import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -36,6 +41,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -140,13 +146,12 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                                     drawDayPieChart(report);
                                     createDateChart(range, report);
                                 }
-
                             }
 
                             @Override
                             public void onDataNotLoaded() {
                                 mView.setLoadingIndicator(false);
-                                Log.i(TAG, "onDataNotLoaded: fetchReport");
+                                mView.showFetchReportFailed();
                             }
                         });
                     }
@@ -158,11 +163,41 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
     @Override
     public void createDateChart(List<Long> range, List<HashMap<String, String>> report) {
 
+        HashMap<LocalDate, Float> totals = getDateFloatHashMap(range, report);
+        List<Entry> yVals = new ArrayList<>();
+        ArrayList<String> xVals = new ArrayList<>();
 
-        HashMap<LocalDate, Float> totals = new HashMap<>();
+        float i = 0;
+        for(HashMap.Entry<LocalDate, Float> chartEntry: totals.entrySet()){
+            if(chartEntry.getValue() != null){
+                yVals.add(new Entry(i, chartEntry.getValue()));
+                xVals.add(chartEntry.getKey().format(DateTimeFormatter.ofPattern("dd-MMM-yy")));
+                i++;
+            }
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(yVals, "Totals per day");
+        lineDataSet.setFillAlpha(110);
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataSet.setValueTextColor(Color.LTGRAY);
+        lineDataSet.setValueTextSize(10f);
+
+        LineData lineData = new LineData(lineDataSet);
+
+
+
+        if(!totals.isEmpty()){
+            mView.showDateChart("Totals per day", lineDataSet, lineData, xVals);
+        }
+
+        Log.i(TAG, "createDateChart: " + totals.toString());
+    }
+
+    @NonNull
+    private HashMap<LocalDate, Float> getDateFloatHashMap(List<Long> range, List<HashMap<String, String>> report) {
+        LinkedHashMap<LocalDate, Float> totals = new LinkedHashMap<>();
         LocalDate startDate = Instant.ofEpochMilli(new Date(range.get(0)).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate stopDate = Instant.ofEpochMilli(new Date(range.get(1)).getTime()).atZone(ZoneId.systemDefault()).toLocalDate();
-
 
         for(LocalDate date = startDate; date.isBefore(stopDate);  date = date.plusDays(1)){
             totals.put(date, 0F);
@@ -187,15 +222,38 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
                 }
             }
         }
+        return totals;
+    }
 
-        Log.i(TAG, "createDateChart: " + totals.toString());
+    private void drawDayPieChart(List<HashMap<String, String>> report) {
+        HashMap<String, Float> totals = getDayAndTotal(report);
+
+        List<PieEntry> chartEntries = new ArrayList<>();
+        ArrayList<String> labels = new ArrayList<>();
+
+        float i = 0;
+        for(HashMap.Entry<String, Float> entry: totals.entrySet()){
+            if(entry.getValue() != null){
+                chartEntries.add(new PieEntry(entry.getValue(), WordUtils.capitalize(entry.getKey()), i));
+                labels.add(entry.getKey());
+                i++;
+            }
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(chartEntries, "Total per day of week");
+
+        PieData pieData = new PieData(pieDataSet);
+        pieData.setValueTextColor(Color.DKGRAY);
+        pieData.setValueTextSize(9f);
+        pieData.setHighlightEnabled(true);
+        mView.createDayChart("Total per day", pieDataSet, pieData, labels);
 
     }
 
     @NonNull
     private HashMap<String, Float> getDayAndTotal(List<HashMap<String, String>> report) {
         String[] daysOfWeek =   {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"};
-        HashMap<String, Float> totals = new HashMap<>();
+        LinkedHashMap<String, Float> totals = new LinkedHashMap<>();
         // fill map with each day of week
         for(String day: daysOfWeek){
             totals.put(day, 0f);
@@ -231,33 +289,6 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         }
         return totals;
     }
-
-    private void drawDayPieChart(List<HashMap<String, String>> report) {
-        HashMap<String, Float> totals = getDayAndTotal(report);
-
-        List<PieEntry> chartEntries = new ArrayList<>();
-        ArrayList<String> labels = new ArrayList<>();
-
-        float i = 0;
-        for(HashMap.Entry<String, Float> entry: totals.entrySet()){
-            if(entry.getValue() != null){
-                chartEntries.add(new PieEntry(entry.getValue(), WordUtils.capitalize(entry.getKey()), i));
-                labels.add(entry.getKey());
-                i++;
-            }
-        }
-
-        PieDataSet pieDataSet = new PieDataSet(chartEntries, "Total per day of week");
-
-        PieData pieData = new PieData(pieDataSet);
-        pieData.setValueTextColor(Color.DKGRAY);
-        pieData.setValueTextSize(9f);
-        pieData.setHighlightEnabled(true);
-
-        mView.createDayChart("Total per day", pieDataSet, pieData, labels);
-
-    }
-
 
 
     /**

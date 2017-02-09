@@ -218,6 +218,17 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!--Start daily line chart-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                android:orientation="vertical"
+                android:id="@+id/chart_daily_layout"/>
+            <!--End daily line chart-->
+
             <!--Start pie charts-->
             <LinearLayout
                 android:layout_width="match_parent"

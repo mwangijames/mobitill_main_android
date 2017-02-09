@@ -37,6 +37,7 @@
     <string name="content_authority">com.mobitill.mobitill_2</string>
     <string name="date">Date</string>
     <string name="menu_list">List</string>
+    <string name="report_failed">Fetch Report Failed</string>
 
 
 </resources>
