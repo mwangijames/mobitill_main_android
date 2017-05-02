@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by DI on 8/10/2016.
  */
-public class AppsContract {
+public interface AppsContract {
     interface View extends BaseView<Presenter> {
         void setLoadingIndicator(boolean active);
         void showRemoteApps(List<Datum> apps);
