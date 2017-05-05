@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.mobitill.mobitill_2.Constants;
 import com.mobitill.mobitill_2.MobitillApplication;
@@ -55,7 +57,6 @@ public class ReportsActivity extends AppCompatActivity {
     @BindView(R.id.drawer_button_reports) Button mReportsButton;
     @BindView(R.id.drawer_button_inventory) Button mInventoryButton;
 
-
     private List<String> mModels;
     private DrawerAdapter mDrawerAdapter;
 
@@ -88,6 +89,7 @@ public class ReportsActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if(savedInstanceState == null){
+
             mAppId = getIntent().getStringExtra(EXTRA_APP_ID);
             if(mAppId == null){
                 mAppId = mSharedPreferences.getString(mConstants.APPID, null);
@@ -152,9 +154,11 @@ public class ReportsActivity extends AppCompatActivity {
 
     private void hideInventory() {
 
-        mInventoryButton.setVisibility(
-                mSettingsHelper.isInventory(
-                        mMenuAppSettings.getSettings()) ? View.VISIBLE : View.GONE);
+        if(mMenuAppSettings!=null){
+
+        }
+
+
 
     }
 

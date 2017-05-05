@@ -117,7 +117,7 @@ public class AddEditFragment extends Fragment implements AddEditContract.View,
             public void onClick(View v) {
                 if(mItem == null){
                     HashMap<String, String> data = new HashMap<>();
-                    for(int index = 0; index<mLinearLayout.getChildCount(); index++){
+                    for(int index = 0; index < mLinearLayout.getChildCount(); index++){
                         EditText nextChild = (EditText) mLinearLayout.getChildAt(index);
                         data.put((String)nextChild.getTag(), nextChild.getText().toString());
                     }
