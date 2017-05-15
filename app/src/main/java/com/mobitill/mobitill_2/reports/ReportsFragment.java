@@ -105,9 +105,7 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     CardView mTransactionsCardView;
 
 
-    //TODO setOnclickListener for Transactions cardView
-
-    // create new spinnerList to pass to FilterDialogFragment
+      // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
 
     private List<String> mModels;
