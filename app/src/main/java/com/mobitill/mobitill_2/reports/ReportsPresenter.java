@@ -375,6 +375,18 @@ public final class ReportsPresenter implements ReportsContract.Presenter {
         return total;
     }
 
+    private class CalculateChartTotal extends AsyncTask<HashMap<String, String>, Void, Float>{
+
+        @Override
+        protected Float doInBackground(HashMap<String, String>... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Float aFloat) {
+            super.onPostExecute(aFloat);
+        }
+    }
 
     @NonNull
     @Override
