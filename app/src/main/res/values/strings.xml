@@ -39,5 +39,8 @@
     <string name="menu_list">List</string>
     <string name="report_failed">Fetch Report Failed</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="display_list">List of Transactions</string>
+
 
 </resources>

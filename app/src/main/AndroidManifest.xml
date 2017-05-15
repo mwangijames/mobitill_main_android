@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.mobitill.mobitill_2">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mobitill.mobitill_2">
 
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MobitillApplication"
@@ -21,26 +21,23 @@
             android:name=".login.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".apps.AppsActivity">
-        </activity>
-        <activity android:name=".reports.ReportsActivity"  android:configChanges="orientation|screenSize|keyboard">
-        </activity>
-        <activity android:name=".components.showall.ShowAllActivity">
-        </activity>
-        <activity android:name=".components.addedit.AddEditActivity">
-        </activity>
-
+        <activity android:name=".apps.AppsActivity"></activity>
+        <activity
+            android:name=".reports.ReportsActivity"
+            android:configChanges="orientation|screenSize|keyboard"></activity>
+        <activity android:name=".components.showall.ShowAllActivity"></activity>
+        <activity android:name=".components.addedit.AddEditActivity"></activity>
 
         <receiver
             android:name=".net.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
@@ -48,15 +45,14 @@
             android:name=".sync.MobitillStubProvider"
             android:authorities="@string/content_authority"
             android:exported="false"
-            android:syncable="true"/>
+            android:syncable="true" />
 
         <!-- SyncAdapter's dummy authentication service -->
-        <service
-            android:name=".sync.MobitillAuthenticatorService"
-            >
+        <service android:name=".sync.MobitillAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
@@ -65,20 +61,31 @@
         <!-- The SyncAdapter service -->
         <service
             android:name=".sync.MobitillSyncService"
-            android:exported="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
+
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
 
-        <meta-data android:name="DATABASE" android:value="mobitill.db" />
-        <meta-data android:name="VERSION" android:value="2" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.mobitill.mobitill_2"/>
+        <meta-data
+            android:name="DATABASE"
+            android:value="mobitill.db" />
+        <meta-data
+            android:name="VERSION"
+            android:value="2" />
+        <meta-data
+            android:name="QUERY_LOG"
+            android:value="true" />
+        <meta-data
+            android:name="DOMAIN_PACKAGE_NAME"
+            android:value="com.mobitill.mobitill_2" />
+
+        <activity android:name=".components.transactions.TransactionsActivity"
+            android:parentActivityName=".reports.ReportsActivity"></activity>
     </application>
 
 </manifest>

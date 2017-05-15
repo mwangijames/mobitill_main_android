@@ -1,6 +1,7 @@
 package com.mobitill.mobitill_2.reports;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.mobitill.mobitill_2.MobitillApplication;
 import com.mobitill.mobitill_2.R;
+import com.mobitill.mobitill_2.components.transactions.TransactionsActivity;
 import com.mobitill.mobitill_2.net.ConnectivityReceiver;
 import com.mobitill.mobitill_2.utils.LabelFormatter;
 
@@ -54,6 +56,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -98,8 +101,11 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
     @BindView(R.id.chart_layout) LinearLayout mChartsLinearLayout;
     @BindView(R.id.line_chart_layout) LinearLayout mLineChartLayout;
     @BindView(R.id.chart_daily_layout) LinearLayout mDailyChartLayout;
+    @BindView(R.id.cv_reports_transactions)
+    CardView mTransactionsCardView;
 
-    // create new spinnerList to pass to FilterDialogFragment
+
+      // create new spinnerList to pass to FilterDialogFragment
     List<Spinner> mFilterSpinners = new ArrayList<>();
 
     private List<String> mModels;
@@ -170,6 +176,12 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         return view;
     }
 
+    @OnClick (R.id.cv_reports_transactions)
+    public void onClick(){
+       // Toast.makeText(getActivity(), "Transactions Clicked", Toast.LENGTH_SHORT).show();
+        startActivity(TransactionsActivity.newIntent(getActivity()));
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -203,7 +215,6 @@ public class ReportsFragment extends Fragment implements ReportsContract.View, C
         super.onCreateOptionsMenu(menu, inflater);
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
